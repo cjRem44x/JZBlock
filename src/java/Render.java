@@ -1,6 +1,5 @@
 // AUTHOR: cjRem44x //
 //
-
 import java.awt.*;
 
 public class Render {

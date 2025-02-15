@@ -39,7 +39,7 @@ public class Main {
             if(SET.fps > 0) {
                 if (fps_steps >= (int)(1000.0/SET.fps)) {
                     WIN.ref();
-                    System.out.println("winref @"+fps_steps);
+                    // System.out.println("winref @"+fps_steps);
                     fps_steps = 0;
                 }
             } else {WIN.ref();}
