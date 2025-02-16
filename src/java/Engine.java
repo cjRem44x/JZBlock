@@ -21,17 +21,26 @@ public class Engine {
         this.p = p;
     }
 
+    // START //
+    //
+    // start player
     private void init_player() {
         p.size = p_size;
         p.body_color = p_color;
     }
+    //
+    // start zombs
     private void init_zombs() {
         for (Zomb z : zombs) {
             z.size = z_size;
             z.body_color = z_color;
         }
     }
+    
 
+    // MOVEMENT //
+    //
+    // zombs chase
     private void chase() {
         if (!zombs.isEmpty()) {
             for (Zomb z : zombs) {
