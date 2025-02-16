@@ -39,20 +39,18 @@ public class Input implements KeyListener, WindowListener {
     public void keyPressed(KeyEvent e) {
         int n = e.getKeyCode();
 
-        switch (n) {
-            case W -> {
-                move("up");
-            }
-            case S -> {
-                move("down");
-            }
-            case A -> {
-                move("left");
-            }
-            case D -> {
-                move("right");
-            }
-            default -> {}
+        // two way
+        if (n == W && n == D) {
+            move("up");
+            move("right");
+        } else if (n==W) {
+            move("up");
+        } else if (n==S) {
+            move("down");
+        } else if (n==A) {
+            move("left");
+        } else if (n==D) {
+            move("right");
         }
     }
 

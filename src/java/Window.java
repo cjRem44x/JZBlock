@@ -42,6 +42,8 @@ public class Window extends JPanel {
         f.pack();
         f.setVisible(true);
         f.setLocationRelativeTo(null);
+        f.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        f.setResizable(false);
     }
     //
     // set size
