@@ -6,6 +6,7 @@ public class Input implements KeyListener, WindowListener {
     // FIELDS //
     //
     private Window win;
+    private Player player;
 
     // ACCESS //
     //
@@ -14,7 +15,12 @@ public class Input implements KeyListener, WindowListener {
         this.win = win;
         this.win.get().addKeyListener(this);
         this.win.get().addWindowListener(this);
-    } 
+    }
+    //
+    // get player
+    public void player(Player player) {
+        this.player = player;
+    }
 
     // INPUTS //
     //

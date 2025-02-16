@@ -3,10 +3,12 @@
 public class Main {
     // FIELDS //
     //
-    static final Window    WIN  = new Window();
-    static final Input     INP  = new Input();
-    static final Render    REND = new Render();
-    static final Settings  SET = new Settings();
+    static final Window    WIN     = new Window();
+    static final Input     INP     = new Input();
+    static final Render    REND    = new Render();
+    static final Settings  SET     = new Settings();
+    static final Engine    ENGINE  = new Engine();
+    static final Player    PLAYER  = new Player();
 
     // DRIVER //
     //
@@ -21,6 +23,8 @@ public class Main {
     // game init
     static void init() {
         INP.win(WIN);
+        INP.player(PLAYER);
+        ENGINE.player(PLAYER);
         WIN.rend(REND);
         WIN.size(800, 600);
         WIN.build();
