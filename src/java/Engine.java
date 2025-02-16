@@ -7,11 +7,13 @@ import java.util.ArrayList;
 public class Engine {
     // FIELDS //
     //
-    private int p_size = 32, z_size = 32;
-    private Color p_color = new Color(0,0,255);
-    private Color z_color = new Color(255, 0, 0);
-    private Player     p;
-    private List<Zomb> zombs  = new ArrayList<>();
+    protected int        z_throt = 500;
+    private   int        z_num   = 1, p_size  = 32, z_size = 32;
+    private   double     p_speed = 16.0, z_speed = 10.0;
+    private   Color      p_color = new Color(0,0,255);
+    private   Color      z_color = new Color(255, 0, 0);
+    private   Player     p;
+    protected List<Zomb> zombs   = new ArrayList<>();
 
 
     // ACCESS //
@@ -21,19 +23,39 @@ public class Engine {
         this.p = p;
     }
 
+
+    // ENGINE //
+    //
+    // start engine
+    public void start() {
+        init_player();
+        init_zombs();
+    }
+    //
+    // update engine
+    public void update() {
+    }
+
+
     // START //
     //
     // start player
     private void init_player() {
         p.size = p_size;
         p.body_color = p_color;
+        p.speed = p_speed;
     }
     //
     // start zombs
     private void init_zombs() {
+        for (int i=0; i<z_num; i++) {
+            Zomb z = new Zomb();
+            zombs.add(z);
+        }
         for (Zomb z : zombs) {
             z.size = z_size;
             z.body_color = z_color;
+            z.speed = z_speed;
         }
     }
     
@@ -41,7 +63,7 @@ public class Engine {
     // MOVEMENT //
     //
     // zombs chase
-    private void chase() {
+    protected void chase() {
         if (!zombs.isEmpty()) {
             for (Zomb z : zombs) {
                 // directions
@@ -53,7 +75,7 @@ public class Engine {
 
                 double ux = dx/L;
                 double uy = dy/L;
-                
+               
                 double  xval = ux*z.speed,
                         yval = uy*z.speed;
                 z.x += (int)xval;

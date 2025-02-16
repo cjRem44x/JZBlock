@@ -5,8 +5,12 @@ import java.awt.event.*;
 public class Input implements KeyListener, WindowListener {
     // FIELDS //
     //
-    private Window win;
-    private Player player;
+    private       Window win;
+    private       Player player;
+    private final int    W = KeyEvent.VK_W,
+                         A = KeyEvent.VK_A,
+                         S = KeyEvent.VK_S,
+                         D = KeyEvent.VK_D;
 
     // ACCESS //
     //
@@ -33,7 +37,43 @@ public class Input implements KeyListener, WindowListener {
     // keyboard input
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("keys");
+        int n = e.getKeyCode();
+
+        switch (n) {
+            case W -> {
+                move("up");
+            }
+            case S -> {
+                move("down");
+            }
+            case A -> {
+                move("left");
+            }
+            case D -> {
+                move("right");
+            }
+            default -> {}
+        }
+    }
+
+
+    // MOVE //
+    //
+    private void move(String s) {
+        switch (s) {
+            case "up" -> {
+                player.y -= player.speed;
+            }
+            case "down" -> {
+                player.y += player.speed;
+            }
+            case "left" -> {
+                player.x -= player.speed;
+            }
+            case "right" -> {
+                player.x += player.speed;
+            }
+        }
     }
 
 
