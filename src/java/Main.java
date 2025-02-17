@@ -23,7 +23,7 @@ public class Main {
     // game init
     static void init() {
         INP.win(WIN);
-        INP.player(PLAYER);
+        INP.engine(ENGINE);
         REND.player(PLAYER);
         REND.zombs(ENGINE.zombs);
         ENGINE.player(PLAYER);

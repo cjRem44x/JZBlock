@@ -7,13 +7,14 @@ import java.util.ArrayList;
 public class Engine {
     // FIELDS //
     //
-    protected int        z_throt = 500;
-    private   int        z_num   = 1, p_size  = 32, z_size = 32;
-    private   double     p_speed = 16.0, z_speed = 10.0;
-    private   Color      p_color = new Color(0,0,255);
-    private   Color      z_color = new Color(255, 0, 0);
-    private   Player     p;
-    protected List<Zomb> zombs   = new ArrayList<>();
+    protected int         z_throt = 500, p_throt = 120;
+    private   int         z_num   = 1, p_size  = 32, z_size = 32;
+    private   double      p_speed = 6.0, z_speed = 10.0;
+    private   Color       p_color = new Color(0,0,255);
+    private   Color       z_color = new Color(255, 0, 0);
+    protected Player      p;
+    protected List<Zomb>  zombs   = new ArrayList<>();
+    protected List<Lazar> lazars  = new ArrayList<>();
 
 
     // ACCESS //
