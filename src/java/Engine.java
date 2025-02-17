@@ -59,6 +59,18 @@ public class Engine {
             z.speed = z_speed;
         }
     }
+
+
+    // BLASTER //
+    //
+    protected void blast(String d) {
+        switch (d) {
+            case "right" -> {}
+            case "left" -> {}
+            case "up" -> {}
+            case "down" -> {}
+        }
+    }
     
 
     // MOVEMENT //

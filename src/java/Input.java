@@ -13,7 +13,11 @@ public class Input implements KeyListener, WindowListener {
                       A     = KeyEvent.VK_A,
                       S     = KeyEvent.VK_S,
                       D     = KeyEvent.VK_D,
-                      SPACE = KeyEvent.VK_SPACE;
+                      SPACE = KeyEvent.VK_SPACE,
+                      RARR  = KeyEvent.VK_RIGHT,
+                      LARR  = KeyEvent.VK_LEFT,
+                      UARR  = KeyEvent.VK_UP,
+                      DARR  = KeyEvent.VK_DOWN;
     //
     // Key states
     private boolean up_press    = false,
@@ -21,7 +25,11 @@ public class Input implements KeyListener, WindowListener {
                     right_press = false,
                     left_press  = false,
                     space_press = false,
-                    speed_boost = false; 
+                    speed_boost = false,
+                    rarr_press  = false,
+                    larr_pres   = false,
+                    uarr_press  = false,
+                    darr_press  = false; 
 
 
     // ACCESS //
@@ -49,6 +57,11 @@ public class Input implements KeyListener, WindowListener {
         if (n == A) left_press    = true;
         if (n == D) right_press   = true;
         if (n == SPACE) space_press = true;
+
+        if (n == RARR) rarr_press = true;
+        if (n == LARR) larr_pres = true;
+        if (n == UARR) uarr_press = true;
+        if (n == DARR) darr_press = true;
     }
     //
     // Handle key releases
@@ -60,6 +73,12 @@ public class Input implements KeyListener, WindowListener {
         if (n == A) left_press    = false;
         if (n == D) right_press   = false;
         if (n == SPACE) space_press = false;
+
+        
+        if (n == RARR) rarr_press = false;
+        if (n == LARR) larr_pres = false;
+        if (n == UARR) uarr_press = false;
+        if (n == DARR) darr_press = false;
     }
     //
     // Continuous movement loop
@@ -67,10 +86,15 @@ public class Input implements KeyListener, WindowListener {
         new javax.swing.Timer(e.p_throt, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                if (up_press) e.p.y -= e.p.speed;
-                if (dwn_press) e.p.y += e.p.speed;
-                if (left_press) e.p.x -= e.p.speed;
+                if (up_press)    e.p.y -= e.p.speed;
+                if (dwn_press)   e.p.y += e.p.speed;
+                if (left_press)  e.p.x -= e.p.speed;
                 if (right_press) e.p.x += e.p.speed;
+
+                if (rarr_press) e.blast("right");
+                if (larr_pres)  e.blast("left");
+                if (uarr_press) e.blast("up");
+                if (darr_press) e.blast("down");
                 
                 if (space_press && !speed_boost) {
                     e.p.speed *= 2;
