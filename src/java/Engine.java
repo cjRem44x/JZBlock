@@ -3,18 +3,24 @@
 import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.swing.Timer;
 
 public class Engine {
     // FIELDS //
     //
     protected int         z_throt = 200, p_throt = 120;
-    private   int         z_num   = 1, p_size  = 32, z_size = 32;
-    private   double      p_speed = 10.0, z_speed = 10.0;
-    private   Color       p_color = new Color(0,0,255);
-    private   Color       z_color = new Color(255, 0, 0);
+    private   int         z_num   = 1, p_size  = 32, z_size = 32, lazar_size = 5;
+    private   double      p_speed = 10.0, z_speed = 10.0, lazar_speed = 10.0;
+    private   Color       p_color     = new Color(0,0,255),
+                          z_color     = new Color(255, 0, 0),
+                          lazar_color = new Color(255, 255, 0);
     protected Player      p;
     protected List<Zomb>  zombs   = new ArrayList<>();
     protected List<Lazar> lazars  = new ArrayList<>();
+
+    protected int screen_width, screen_height;
 
 
     // ACCESS //
@@ -31,6 +37,8 @@ public class Engine {
     public void start() {
         init_player();
         init_zombs();
+
+        new Timer(120, e -> lazar_move()).start();
     }
     //
     // update engine
@@ -64,11 +72,37 @@ public class Engine {
     // BLASTER //
     //
     protected void blast(String d) {
-        switch (d) {
-            case "right" -> {}
-            case "left" -> {}
-            case "up" -> {}
-            case "down" -> {}
+        Lazar l = new Lazar();
+        l.speed = lazar_speed;
+        l.size = lazar_size;
+        l.body_color = lazar_color;
+        l.dir = d;
+        int x = p.x + (int)(p.size/2.00);
+        int y = p.y + (int)(p.size/2.00);
+        l.x = x;
+        l.y = y;
+        lazars.add(l);
+    }
+    //
+    // lazar movement
+    public void lazar_move() {
+        Iterator<Lazar> iterator = lazars.iterator();
+
+        while (iterator.hasNext()) {
+            Lazar l = iterator.next();
+    
+            // Move the lazar
+            switch (l.dir) {
+                case "right" -> l.x += l.speed;
+                case "left"  -> l.x -= l.speed;
+                case "up"    -> l.y -= l.speed;
+                case "down"  -> l.y += l.speed;
+            }
+    
+            // Remove lazar if out of bounds
+            if (l.x <= 0 || l.x >= screen_width || l.y <= 0 || l.y >= screen_height) {
+                iterator.remove(); // Safe removal
+            }
         }
     }
     

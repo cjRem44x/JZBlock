@@ -31,6 +31,15 @@ public class Window extends JPanel {
     public void ref() {
         this.repaint();
     }
+    //
+    //
+    public int width() {
+        return f.getContentPane().getWidth();
+    }
+    //
+    public int height() {
+        return f.getContentPane().getHeight();
+    }
 
 
     // INIT //
@@ -44,6 +53,9 @@ public class Window extends JPanel {
         f.setLocationRelativeTo(null);
         f.setExtendedState(JFrame.MAXIMIZED_BOTH);
         f.setResizable(false);
+
+        // temp color
+        this.setBackground( new Color(100, 100, 255) );
     }
     //
     // set size

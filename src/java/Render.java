@@ -7,20 +7,14 @@ import java.util.ArrayList;
 public class Render {
     // FIELDS //
     //
-    private Player     p;
-    private List<Zomb> zombs;
+    private Engine e;
 
 
     // ACCESS //
     //
-    // get player
-    public void player(Player p) {
-        this.p = p;
-    }
-    //
-    // get zombs
-    public void zombs(List<Zomb> zombs) {
-        this.zombs = zombs;
+    // get engine
+    public void engine(Engine e) {
+        this.e = e;
     }
     
     
@@ -28,13 +22,19 @@ public class Render {
     //
     public void update(Graphics g) {
         // draw player
-        g.setColor(p.body_color);
-        g.fillRect(p.x, p.y, p.size, p.size);
+        g.setColor(e.p.body_color);
+        g.fillRect(e.p.x, e.p.y, e.p.size, e.p.size);
         //
         // draw zombs
-        for (Zomb z : zombs) {
+        for (Zomb z : e.zombs) {
             g.setColor(z.body_color);
             g.fillRect(z.x, z.y, z.size, z.size);
+        }
+        //
+        // draw lazars
+        for (Lazar l : e.lazars) {
+            g.setColor(l.body_color);
+            g.fillRect(l.x, l.y, l.size, l.size);
         }
     }
 }

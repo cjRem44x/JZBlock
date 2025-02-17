@@ -24,8 +24,7 @@ public class Main {
     static void init() {
         INP.win(WIN);
         INP.engine(ENGINE);
-        REND.player(PLAYER);
-        REND.zombs(ENGINE.zombs);
+        REND.engine(ENGINE);
         ENGINE.player(PLAYER);
         WIN.rend(REND);
         WIN.size(800, 600);
@@ -41,6 +40,8 @@ public class Main {
         while (true) {
             // update engine
             ENGINE.update();
+            ENGINE.screen_width = WIN.width();
+            ENGINE.screen_height = WIN.height();
 
             // zomb chase
             z_prev = z_start;
