@@ -16,12 +16,12 @@ public class Input implements KeyListener, WindowListener {
                       SPACE = KeyEvent.VK_SPACE;
     //
     // Key states
-    private boolean upPressed    = false,
-                    downPressed  = false, 
-                    leftPressed  = false,
-                    rightPressed = false,
-                    spcPressed   = false,
-                    speedBoosted = false;
+    private boolean up_press    = false,
+                    dwn_press   = false,
+                    right_press = false,
+                    left_press  = false,
+                    space_press = false,
+                    speed_boost = false; 
 
 
     // ACCESS //
@@ -44,22 +44,22 @@ public class Input implements KeyListener, WindowListener {
     public void keyPressed(KeyEvent e) {
         int n = e.getKeyCode();
 
-        if (n == W) upPressed      = true;
-        if (n == S) downPressed    = true;
-        if (n == A) leftPressed    = true;
-        if (n == D) rightPressed   = true;
-        if (n == SPACE) spcPressed = true;
+        if (n == W) up_press      = true;
+        if (n == S) dwn_press    = true;
+        if (n == A) left_press    = true;
+        if (n == D) right_press   = true;
+        if (n == SPACE) space_press = true;
     }
     //
     // Handle key releases
     @Override
     public void keyReleased(KeyEvent e) {
         int n = e.getKeyCode();
-        if (n == W) upPressed      = false;
-        if (n == S) downPressed    = false;
-        if (n == A) leftPressed    = false;
-        if (n == D) rightPressed   = false;
-        if (n == SPACE) spcPressed = false;
+        if (n == W) up_press      = false;
+        if (n == S) dwn_press    = false;
+        if (n == A) left_press    = false;
+        if (n == D) right_press   = false;
+        if (n == SPACE) space_press = false;
     }
     //
     // Continuous movement loop
@@ -67,18 +67,18 @@ public class Input implements KeyListener, WindowListener {
         new javax.swing.Timer(e.p_throt, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                if (upPressed) e.p.y -= e.p.speed;
-                if (downPressed) e.p.y += e.p.speed;
-                if (leftPressed) e.p.x -= e.p.speed;
-                if (rightPressed) e.p.x += e.p.speed;
+                if (up_press) e.p.y -= e.p.speed;
+                if (dwn_press) e.p.y += e.p.speed;
+                if (left_press) e.p.x -= e.p.speed;
+                if (right_press) e.p.x += e.p.speed;
                 
-                if (spcPressed && !speedBoosted) {
+                if (space_press && !speed_boost) {
                     e.p.speed *= 2;
-                    speedBoosted = true;
+                    speed_boost = true;
                 }
-                if (!spcPressed && speedBoosted) {
+                if (!space_press && speed_boost) {
                     e.p.speed /= 2;
-                    speedBoosted = false;
+                    speed_boost = false;
                 }
             }
         }).start();
