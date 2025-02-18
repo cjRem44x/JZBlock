@@ -33,6 +33,10 @@ public class Render {
         //
         // draw lazars
         for (Lazar l : e.lazars) {
+            // Draw shadow first to appear behind lazar
+            g.setColor(l.shadow_color);
+            g.fillRect(l.x + 3, l.y, l.size+2, l.size);  // Shadow offset can be adjusted
+
             g.setColor(l.body_color);
             g.fillRect(l.x, l.y, l.size, l.size);
         }

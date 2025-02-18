@@ -52,6 +52,11 @@ public class Input implements KeyListener, WindowListener {
     public void keyPressed(KeyEvent e) {
         int n = e.getKeyCode();
 
+        if (n == KeyEvent.VK_R && !this.e.is_p_alive) {
+            this.e.restart();
+            this.win.clear();
+        }
+
         if (n == W) up_press      = true;
         if (n == S) dwn_press    = true;
         if (n == A) left_press    = true;

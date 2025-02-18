@@ -40,22 +40,12 @@ public class Main {
     // game loop
     static void loop() {
         long fps_start = 0, fps_prev, fps_steps = 0;
-        long z_start = 0, z_prev, z_steps = 0;
         
         while (true) {
             // update engine
             ENGINE.update();
             ENGINE.screen_width = WIN.width();
             ENGINE.screen_height = WIN.height();
-
-            // zomb chase
-            z_prev = z_start;
-            z_start = System.currentTimeMillis();
-            z_steps += (z_start-z_prev);
-            if (z_steps >= ENGINE.z_throt) {
-                ENGINE.chase();
-                z_steps = 0;
-            }
 
             // window refresh
             fps_prev = fps_start;
