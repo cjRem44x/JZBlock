@@ -12,8 +12,8 @@ public class Engine {
     // FIELDS //
     //
     protected int         z_throt = 200, p_throt = 120;
-    private   int         z_num   = 1, p_size  = 32, z_size = 32, lazar_size = 5;
-    private   double      p_speed = 10.0, z_speed = 10.0, lazar_speed = 10.0;
+    private   int         z_num   = 5, p_size  = 32, z_size = 32, lazar_size = 5;
+    private   double      p_speed = 10.0, z_speed = 10.0, lazar_speed = 20.0;
     private   Color       p_color     = new Color(0,0,255),
                           z_color     = new Color(255, 0, 0),
                           lazar_color = new Color(255, 255, 0),
@@ -135,7 +135,7 @@ public class Engine {
     }
     //
     public void blow_lazar(Lazar l) {
-        l.size *= 2;
+        if (l.size < 10) l.size *= 2;
         l.body_color = lazar_blow_color;
         l.is_hit = true;
     }
@@ -171,7 +171,23 @@ public class Engine {
                         yval = uy*z.speed;
                 z.x += (int)xval;
                 z.y += (int)yval;
+
+                // prevent zombies from bunching up
+                for (Zomb other : zombs) {
+                    if (other != z) {
+                        double distX = other.x - z.x;
+                        double distY = other.y - z.y;
+                        double dist = Math.sqrt(distX * distX + distY * distY);
+
+                        if (dist < z.size * 1.5) { // If too close, push away slightly
+                            z.x -= distX * 0.05;
+                            z.y -= distY * 0.05;
+                        }
+                    }
+                }
             }
         }
     }
-}
+
+
+} // class end
