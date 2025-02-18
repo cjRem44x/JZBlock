@@ -29,6 +29,10 @@ public class Main {
         WIN.rend(REND);
         WIN.size(800, 600);
         WIN.build();
+        WIN.engine(ENGINE);
+
+        ENGINE.screen_width = WIN.width();
+        ENGINE.screen_height = WIN.height();
         ENGINE.start();
     }
     //

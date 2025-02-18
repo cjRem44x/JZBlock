@@ -8,6 +8,7 @@ public class Window extends JPanel {
     //
     private JFrame f    = new JFrame();
     private Render rend = null;
+    private Engine e;
     
    
     // RENDER //
@@ -55,7 +56,7 @@ public class Window extends JPanel {
         f.setResizable(false);
 
         // temp color
-        this.setBackground( new Color(100, 100, 255) );
+        this.setBackground( new Color(0, 10, 20) );
     }
     //
     // set size
@@ -68,5 +69,9 @@ public class Window extends JPanel {
     // get frame
     protected JFrame get() {
         return this.f;
+    }
+    //
+    public void engine(Engine e) {
+        this.e = e;
     }
 }

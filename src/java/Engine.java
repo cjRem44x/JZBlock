@@ -2,6 +2,7 @@
 //
 import java.awt.*;
 import java.util.List;
+import java.util.Random;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -15,10 +16,13 @@ public class Engine {
     private   double      p_speed = 10.0, z_speed = 10.0, lazar_speed = 10.0;
     private   Color       p_color     = new Color(0,0,255),
                           z_color     = new Color(255, 0, 0),
-                          lazar_color = new Color(255, 255, 0);
+                          lazar_color = new Color(255, 255, 0),
+                          lazar_blow_color = new Color(255, 255, 255);
     protected Player      p;
     protected List<Zomb>  zombs   = new ArrayList<>();
     protected List<Lazar> lazars  = new ArrayList<>();
+    protected Timer       lazar_motion_t, lazar_collision_t, lazar_rem_t;
+    private   Random      rand    = new Random();
 
     protected int screen_width, screen_height;
 
@@ -38,7 +42,14 @@ public class Engine {
         init_player();
         init_zombs();
 
-        new Timer(120, e -> lazar_move()).start();
+        lazar_motion_t = new Timer(120, e -> lazar_move());
+        lazar_motion_t.start();
+
+        lazar_collision_t = new Timer(100, e -> lazar_hits());
+        lazar_collision_t.start();
+
+        lazar_rem_t = new Timer(200, e -> rem_hits());
+        lazar_rem_t.start();
     }
     //
     // update engine
@@ -50,6 +61,7 @@ public class Engine {
     //
     // start player
     private void init_player() {
+        p.health = 100;
         p.size = p_size;
         p.body_color = p_color;
         p.speed = p_speed;
@@ -65,6 +77,8 @@ public class Engine {
             z.size = z_size;
             z.body_color = z_color;
             z.speed = z_speed;
+            z.x = rand.nextInt(screen_width-z.size)+z.size;
+            z.y = rand.nextInt(screen_height-z.size)+z.size;
         }
     }
 
@@ -101,6 +115,36 @@ public class Engine {
     
             // Remove lazar if out of bounds
             if (l.x <= 0 || l.x >= screen_width || l.y <= 0 || l.y >= screen_height) {
+                iterator.remove(); // Safe removal
+            }
+        }
+    }
+    //
+    public void lazar_hits() {
+        for (Lazar l : lazars) {
+            Rectangle lazar_rect = new Rectangle(l.x, l.y, l.size, l.size);
+
+            for (Zomb z : zombs) {
+                Rectangle z_rect = new Rectangle(z.x, z.y, z.size, z.size);
+
+                if (lazar_rect.intersects(z_rect)) {
+                    blow_lazar(l);
+                }
+            }
+        }
+    }
+    //
+    public void blow_lazar(Lazar l) {
+        l.size *= 2;
+        l.body_color = lazar_blow_color;
+        l.is_hit = true;
+    }
+    //
+    public void rem_hits() {
+        Iterator<Lazar> iterator = lazars.iterator();
+        while (iterator.hasNext()) {
+            Lazar l = iterator.next();
+            if (l.is_hit) {
                 iterator.remove(); // Safe removal
             }
         }

@@ -7,4 +7,5 @@ public class Lazar {
     protected double speed;
     protected Color body_color;
     protected String dir = "up";
+    protected boolean is_hit = false;
 }
