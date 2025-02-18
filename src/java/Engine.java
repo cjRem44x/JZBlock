@@ -173,8 +173,11 @@ public class Engine {
         if (zombs.isEmpty() && is_respawn) {
             if (z_num >= max_z_num) {
                 z_num = max_z_num;
-            } else {
+            } 
+            if (z_num == 1){
                 z_num++;
+            } else {
+                z_num+=(int)(z_num/2.00);
             }
             z_wave++;
             init_zombs();

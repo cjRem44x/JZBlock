@@ -1,11 +1,14 @@
 //  AUTHOR: cjRem44x //
 //
 import java.awt.*;
+import java.security.SecureRandom;
+
 import javax.swing.*;
 
 public class Window extends JPanel {
     // FIELDS //
     //
+    private SecureRandom rand = new SecureRandom();
     private JFrame f    = new JFrame();
     private Render rend = null;
     private Engine e;
@@ -42,6 +45,12 @@ public class Window extends JPanel {
     public void ref() {
         disp_stats();
         this.repaint();
+
+        // RAINBOW //
+        int r = rng(0,255);
+        int g = rng(0, 255);
+        int b = rng(0, 255); 
+        zwave_lbl.setForeground( new Color(r,g,b) );
     }
     //
     //
@@ -175,7 +184,7 @@ public class Window extends JPanel {
         if (zwave_lbl != null) this.remove(zwave_lbl);
 
         zwave_lbl = new JLabel("000000");
-        zwave_lbl.setFont(new Font("Chiller", Font.PLAIN, 100));
+        zwave_lbl.setFont(new Font("Chiller", Font.PLAIN, 120));
         zwave_lbl.setOpaque(false);
         zwave_lbl.setForeground(zwave_color);
     
@@ -210,5 +219,9 @@ public class Window extends JPanel {
         reload_lbl.setBounds((int)((width()/2.00)-(width/2.00)), (int)((height()*0.75)-(height/2.00)), width, height);
 
         this.add(reload_lbl);
+    }
+
+    protected int rng(int min, int max) {
+        return rand.nextInt(max-min)+min;
     }
 }
