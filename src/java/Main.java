@@ -23,6 +23,8 @@ public class Main {
     //
     // game init
     static void init() {
+        // SET.switch_controls = true;
+
         INP.win(WIN);
         INP.engine(ENGINE);
         REND.engine(ENGINE);
@@ -31,6 +33,7 @@ public class Main {
         WIN.size(800, 600);
         WIN.build();
         WIN.engine(ENGINE);
+        INP.settings(SET);
 
         ENGINE.screen_width = WIN.width();
         ENGINE.screen_height = WIN.height();

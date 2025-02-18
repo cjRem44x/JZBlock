@@ -2,9 +2,7 @@
 //
 import java.awt.*;
 import java.security.SecureRandom;
-
 import javax.swing.*;
-
 public class Window extends JPanel {
     // FIELDS //
     //
@@ -22,7 +20,8 @@ public class Window extends JPanel {
     //
     // displaying stats
     private JLabel p_health_lbl, go_lbl, zkill_lbl, zwave_lbl, reload_lbl;
-    
+    //
+    private Timer rainbow_t;
    
     // RENDER //
     //
@@ -45,12 +44,6 @@ public class Window extends JPanel {
     public void ref() {
         disp_stats();
         this.repaint();
-
-        // RAINBOW //
-        int r = rng(0,255);
-        int g = rng(0, 255);
-        int b = rng(0, 255); 
-        zwave_lbl.setForeground( new Color(r,g,b) );
     }
     //
     //
@@ -73,6 +66,7 @@ public class Window extends JPanel {
         f.setVisible(true);
         f.setLocationRelativeTo(null);
         f.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        f.setMinimumSize( new Dimension(800, 800) );
         // f.setResizable(false);
 
         // temp color
@@ -161,7 +155,7 @@ public class Window extends JPanel {
     void z_kills() {
         if (zkill_lbl != null) this.remove(zkill_lbl);
 
-        zkill_lbl = new JLabel("000000");
+        zkill_lbl = new JLabel("000");
         zkill_lbl.setFont(new Font("Jokerman", Font.PLAIN, 50));
         zkill_lbl.setOpaque(false);
         zkill_lbl.setForeground(zkill_color);
@@ -183,10 +177,16 @@ public class Window extends JPanel {
     void zwave() {
         if (zwave_lbl != null) this.remove(zwave_lbl);
 
-        zwave_lbl = new JLabel("000000");
+        zwave_lbl = new JLabel("000");
         zwave_lbl.setFont(new Font("Chiller", Font.PLAIN, 120));
         zwave_lbl.setOpaque(false);
-        zwave_lbl.setForeground(zwave_color);
+        //zwave_lbl.setForeground(zwave_color);
+
+                // RAINBOW //
+        int r = rng(0,255);
+        int g = rng(0, 255);
+        int b = rng(0, 255); 
+        zwave_lbl.setForeground( new Color(r,g,b) );
     
         // Measure text size
         FontMetrics metrics = zwave_lbl.getFontMetrics(zwave_lbl.getFont());
@@ -205,7 +205,7 @@ public class Window extends JPanel {
         //
     // zombie kills
     void reload() {
-        reload_lbl = new JLabel("press 'R' to start over");
+        reload_lbl = new JLabel("press [R] to start over");
         reload_lbl.setFont(new Font("Monospacex", Font.PLAIN|Font.ITALIC, 50));
         reload_lbl.setOpaque(false);
         reload_lbl.setForeground(reload_color);

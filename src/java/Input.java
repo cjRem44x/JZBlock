@@ -2,14 +2,18 @@
 //
 import java.awt.event.*;
 
+import javax.swing.Timer;
+
 public class Input implements KeyListener, WindowListener {
     // FIELDS //
     //
     private Window win;
     private Engine e;
+    private Settings set;
+    protected Timer set_t;
     //
     // Movement keys
-    private final int W     = KeyEvent.VK_W,
+    private int       W     = KeyEvent.VK_W,
                       A     = KeyEvent.VK_A,
                       S     = KeyEvent.VK_S,
                       D     = KeyEvent.VK_D,
@@ -44,6 +48,22 @@ public class Input implements KeyListener, WindowListener {
         this.e = e;
         startMovementLoop();
     }
+    //
+    public void settings(Settings set) {
+        this.set = set;
+        if (set.switch_controls) {
+            UARR  = KeyEvent.VK_W;
+            LARR  = KeyEvent.VK_A;
+            DARR  = KeyEvent.VK_S;
+            RARR  = KeyEvent.VK_D;
+            SPACE = KeyEvent.VK_SPACE;
+            D     = KeyEvent.VK_RIGHT;
+            A     = KeyEvent.VK_LEFT;
+            W     = KeyEvent.VK_UP;
+            S     = KeyEvent.VK_DOWN;
+        }
+    }
+
 
     // MOVEMENT //
     //
