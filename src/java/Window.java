@@ -73,7 +73,7 @@ public class Window extends JPanel {
         f.setVisible(true);
         f.setLocationRelativeTo(null);
         f.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        f.setResizable(false);
+        // f.setResizable(false);
 
         // temp color
         this.setBackground(bg);
