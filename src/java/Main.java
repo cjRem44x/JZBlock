@@ -24,13 +24,14 @@ public class Main {
     // game init
     static void init() {
         // SET.switch_controls = true;
+        // SET.fps = 120;
 
         INP.win(WIN);
         INP.engine(ENGINE);
         REND.engine(ENGINE);
         ENGINE.player(PLAYER);
         WIN.rend(REND);
-        WIN.size(800, 600);
+        WIN.size(SET.screen_width, SET.screen_height);
         WIN.build();
         WIN.engine(ENGINE);
         INP.settings(SET);
