@@ -39,7 +39,9 @@ public class Engine {
     //
     private boolean is_respawn = false;
     //
-    protected int z_kills = 0, z_wave = 1, zwf = 5;
+    protected int z_kills = 0, z_wave = 1, zwf = 5,
+                  ZZZ = 0, ZZZ_unit = 44,
+                  lazar_uprice = 400, lazar_f = 1;
 
 
     // ACCESS //
@@ -94,6 +96,9 @@ public class Engine {
         p.size = p_size;
         p.body_color = p_color;
         p.speed = p_speed;
+
+        p.x = (int)((screen_width/2.00)-(p.size/2.00));
+        p.y = (int)((screen_height/2.00)-(p.size/2.00));
     }
     //
     // start zombs
@@ -158,6 +163,10 @@ public class Engine {
         z_num = 1;
         z_kills = 0;
         z_wave = 1;
+
+        ZZZ = 0;
+        lazar_f = 1;
+        lazar_uprice = 400;
         
         init_zombs(); // Restart zombies properly
     }
@@ -181,7 +190,14 @@ public class Engine {
             }
             z_wave++;
             init_zombs();
+            inc_z_health();
             // speed_inc();
+        }
+    }
+    //
+    void inc_z_health() {
+        for (Zomb z : zombs) {
+            z.health += 25;
         }
     }
 
@@ -258,7 +274,7 @@ public class Engine {
                 Rectangle z_rect = new Rectangle(z.x, z.y, z.size, z.size);
 
                 if (lazar_rect.intersects(z_rect)) {
-                    z.health -= l.stren;
+                    z.health -= (l.stren*lazar_f);
                     blow_lazar(l);
                 }
             }
@@ -289,8 +305,21 @@ public class Engine {
                 z.body_color = z_dead_color;
                 z.is_dead = true;
                 z_kills++;
+                ZZZ+=ZZZ_unit;
             }
         }
+    }
+    //
+    public void upgrade_blaster() {
+        if (ZZZ >= lazar_uprice) {
+            ZZZ -= lazar_uprice;
+            lazar_f *= 2;
+            lazar_uprice *= 2;
+        }
+    }
+    //
+    public int lazar_power() {
+        return 25*lazar_f;
     }
     
 
