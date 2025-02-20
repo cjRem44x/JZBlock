@@ -16,10 +16,13 @@ public class Window extends JPanel {
                   go_color = new Color(255, 0, 0),
                   zkill_color = new Color(179, 255, 0),
                   zwave_color = new Color(255, 119, 0),
-                  reload_color = new Color(43, 234, 244);
+                  reload_color = new Color(43, 234, 244),
+                  ZZZ_color = new Color(225, 205, 255),
+                  stats_color = new Color(255, 0, 255);
     //
     // displaying stats
-    private JLabel p_health_lbl, go_lbl, zkill_lbl, zwave_lbl, reload_lbl;
+    private JLabel p_health_lbl, go_lbl, zkill_lbl, zwave_lbl, reload_lbl,
+                   ZZZ_lbl, stats_lbl;
     //
     private Timer rainbow_t;
    
@@ -104,6 +107,8 @@ public class Window extends JPanel {
         p_health();
         z_kills();
         zwave();
+        ZZZ();
+        stats();
 
         if (!e.is_p_alive) {
             g_over();
@@ -173,7 +178,7 @@ public class Window extends JPanel {
         this.add(zkill_lbl);
     }
     //
-    // zombie kills
+    // current wave
     void zwave() {
         if (zwave_lbl != null) this.remove(zwave_lbl);
 
@@ -201,12 +206,10 @@ public class Window extends JPanel {
         this.add(zwave_lbl);
     }
     //
-    //
-        //
-    // zombie kills
+    // reload game
     void reload() {
         reload_lbl = new JLabel("press [R] to start over");
-        reload_lbl.setFont(new Font("Monospacex", Font.PLAIN|Font.ITALIC, 50));
+        reload_lbl.setFont(new Font("Monospace", Font.PLAIN|Font.ITALIC, 50));
         reload_lbl.setOpaque(false);
         reload_lbl.setForeground(reload_color);
     
@@ -219,6 +222,48 @@ public class Window extends JPanel {
         reload_lbl.setBounds((int)((width()/2.00)-(width/2.00)), (int)((height()*0.75)-(height/2.00)), width, height);
 
         this.add(reload_lbl);
+    }
+    //
+    // ZZZ 
+    void ZZZ() {
+        if (ZZZ_lbl != null) this.remove(ZZZ_lbl);
+        ZZZ_lbl = new JLabel("000000000");
+        ZZZ_lbl.setFont(new Font("Chiller", Font.PLAIN|Font.ITALIC, 50));
+        ZZZ_lbl.setOpaque(false);
+        ZZZ_lbl.setForeground(ZZZ_color);
+    
+        // Measure text size
+        FontMetrics metrics = ZZZ_lbl.getFontMetrics(ZZZ_lbl.getFont());
+        int width = metrics.stringWidth(ZZZ_lbl.getText());
+        int height = metrics.getHeight();
+    
+        ZZZ_lbl.setText("$"+Integer.toString(e.ZZZ));
+        // Set precise bounds
+        ZZZ_lbl.setBounds((int)(width()-width), (int)((height()-height)), width, height);
+
+        ZZZ_lbl.setBorder(BorderFactory.createLineBorder(ZZZ_color, 2));
+        this.add(ZZZ_lbl);
+    }
+    //
+    //
+    void stats() {
+        if (stats_lbl != null) this.remove(stats_lbl);
+
+        String s = "Power ("+Integer.toString(e.lazar_power())+") | Upgrade $"+e.lazar_uprice + ",     press [U] to upgrade";
+        stats_lbl = new JLabel(s);
+        stats_lbl.setFont(new Font("Chiller", Font.PLAIN|Font.ITALIC, 30));
+        stats_lbl.setOpaque(false);
+        stats_lbl.setForeground(stats_color);
+    
+        // Measure text size
+        FontMetrics metrics = stats_lbl.getFontMetrics(ZZZ_lbl.getFont());
+        int width = metrics.stringWidth(stats_lbl.getText());
+        int height = metrics.getHeight();
+    
+        // Set precise bounds
+        stats_lbl.setBounds(0, (int)((height()-height)), width, height);
+
+        this.add(stats_lbl);
     }
 
     protected int rng(int min, int max) {

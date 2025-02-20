@@ -21,7 +21,8 @@ public class Input implements KeyListener, WindowListener {
                       RARR  = KeyEvent.VK_RIGHT,
                       LARR  = KeyEvent.VK_LEFT,
                       UARR  = KeyEvent.VK_UP,
-                      DARR  = KeyEvent.VK_DOWN;
+                      DARR  = KeyEvent.VK_DOWN,
+                      U     = KeyEvent.VK_U;
     //
     // Key states
     private boolean up_press    = false,
@@ -75,6 +76,10 @@ public class Input implements KeyListener, WindowListener {
         if (n == KeyEvent.VK_R && !this.e.is_p_alive) {
             this.e.restart();
             this.win.clear();
+        }
+
+        if (n == U) {
+            this.e.upgrade_blaster();
         }
 
         if (n == W) up_press      = true;
