@@ -253,6 +253,9 @@ public class Engine {
     
             // Move the lazar
             switch (l.dir) {
+                // @NOTE: Ignore VSCode, this is
+                // a valid switch format for 
+                // JDK21 (Java 21)+.
                 case "right" -> l.x += l.speed;
                 case "left"  -> l.x -= l.speed;
                 case "up"    -> l.y -= l.speed;
@@ -281,6 +284,8 @@ public class Engine {
         }
     }
     //
+    // Blowup the lazar when target
+    // is hit.  
     public void blow_lazar(Lazar l) {
         if (l.size < 10) l.size *= 2;
         l.body_color = lazar_blow_color;
@@ -301,9 +306,11 @@ public class Engine {
     public void is_z_dead() {
         for (Zomb z : zombs) {
             if (z.health <= 0 && !z.is_dead) {
-                z.speed = 0;
-                z.body_color = z_dead_color;
-                z.is_dead = true;
+                z.speed = 0;                  // stop dead zomb
+                z.body_color = z_dead_color;  // set death color
+                z.is_dead = true;             // mark as dead
+
+                // reward player
                 z_kills++;
                 ZZZ+=ZZZ_unit;
             }
@@ -312,8 +319,10 @@ public class Engine {
     //
     public void upgrade_blaster() {
         if (ZZZ >= lazar_uprice) {
+            // player pays for upgrade
             ZZZ -= lazar_uprice;
-            lazar_f *= 2;
+            lazar_f *= 2;         // scale lazar power (lazar 
+                                  // power = 1 * lazar_f)
             lazar_uprice *= 2;
         }
     }
@@ -351,7 +360,8 @@ public class Engine {
         }
     }
     //
-    // zombs chase
+    // AI zombie movement; chase
+    // player without bunching
     protected void chase() {
         if (!zombs.isEmpty()) {
             for (Zomb z : zombs) {
