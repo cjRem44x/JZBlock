@@ -18,7 +18,7 @@ public class Engine {
     private   Color       p_color     = new Color(0,0,255),
                           z_color     = new Color(255, 0, 0),
                           z_dead_color = new Color(100, 0, 0),
-                          lazar_color = new Color(255, 255, 0),
+                          lazar_color = new Color(150, 255, 255),
                           lazar_shadow = new Color(50, 50, 0),
                           lazar_blow_color = new Color(255, 255, 255);
     protected Player      p;
