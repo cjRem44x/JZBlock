@@ -7,25 +7,32 @@ public class Window extends JPanel {
     // FIELDS //
     //
     private SecureRandom rand = new SecureRandom();
-    private JFrame f    = new JFrame();
-    private Render rend = null;
-    private Engine e;
-    private Color bg = new Color(0, 10, 20), 
-                  go_bg = new Color(38, 10, 0),
+    private JFrame       f    = new JFrame();
+    private Render       rend = null;
+    private Engine       e;
+    //
+    // colors
+    // @TODO: make separate 'Theme.java' for this 
+    private Color bg             = new Color(0, 10, 20), 
+                  go_bg          = new Color(38, 10, 0),
                   p_health_color = new Color(255, 70, 157),
-                  go_color = new Color(255, 0, 0),
-                  zkill_color = new Color(179, 255, 0),
-                  zwave_color = new Color(255, 119, 0),
-                  reload_color = new Color(43, 234, 244),
-                  ZZZ_color = new Color(225, 205, 255),
-                  stats_color = new Color(255, 0, 255);
+                  go_color       = new Color(255, 0, 0),
+                  zkill_color    = new Color(179, 255, 0),
+                  zwave_color    = new Color(255, 119, 0),
+                  reload_color   = new Color(43, 234, 244),
+                  ZZZ_color      = new Color(225, 205, 255),
+                  stats_color    = new Color(255, 0, 255);
     //
     // displaying stats
-    private JLabel p_health_lbl, go_lbl, zkill_lbl, zwave_lbl, reload_lbl,
-                   ZZZ_lbl, stats_lbl;
+    private JLabel p_health_lbl, go_lbl, 
+                   zkill_lbl, zwave_lbl, 
+                   reload_lbl, ZZZ_lbl, 
+                   stats_lbl;
     //
+    // timer to cycle through round_lbl colors
     private Timer rainbow_t;
-   
+  
+    
     // RENDER //
     //
     // paint
@@ -49,11 +56,12 @@ public class Window extends JPanel {
         this.repaint();
     }
     //
-    //
+    // access to screen width
     public int width() {
         return f.getContentPane().getWidth();
     }
     //
+    // access to screen height
     public int height() {
         return f.getContentPane().getHeight();
     }
@@ -72,7 +80,7 @@ public class Window extends JPanel {
         f.setMinimumSize( new Dimension(800, 800) );
         // f.setResizable(false);
 
-        // temp color
+        // background color
         this.setBackground(bg);
     }
     //
@@ -81,11 +89,12 @@ public class Window extends JPanel {
         this.setPreferredSize( new Dimension(x, y) );
     }
     //
-    //
+    // clear elems from screen
     public void clear() {
         this.removeAll();
         this.setBackground(bg);
     }
+
 
     // ACCESS //
     //
