@@ -1,8 +1,14 @@
 // AUTHOR: cjRem44x //
 //
-import java.awt.event.*;
+package input;
 
+import java.awt.event.*;
 import javax.swing.Timer;
+//
+import core.*;
+import dat.*;
+import graphics.*;
+import opt.*;
 
 public class Input implements KeyListener, WindowListener {
     // FIELDS //

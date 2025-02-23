@@ -1,18 +1,14 @@
-//  AUTHOR: cjRem44x //
-//
+package ui;
+
 import java.awt.*;
-import java.security.SecureRandom;
+import java.util.Random;
 import javax.swing.*;
-public class Window extends JPanel {
-    // FIELDS //
-    //
-    private SecureRandom rand = new SecureRandom();
-    private JFrame       f    = new JFrame();
-    private Render       rend = null;
-    private Engine       e;
-    //
-    // colors
-    // @TODO: make separate 'Theme.java' for this 
+//
+import core.Engine;
+import graphics.Window;
+
+public class UI {
+    private Random rand = new Random();
     private Color bg             = new Color(0, 10, 20), 
                   go_bg          = new Color(38, 10, 0),
                   p_health_color = new Color(255, 70, 157),
@@ -22,97 +18,28 @@ public class Window extends JPanel {
                   reload_color   = new Color(43, 234, 244),
                   ZZZ_color      = new Color(225, 205, 255),
                   stats_color    = new Color(255, 0, 255);
-    //
+   
     // displaying stats
     private JLabel p_health_lbl, go_lbl, 
-                   zkill_lbl, zwave_lbl, 
-                   reload_lbl, ZZZ_lbl, 
-                   stats_lbl;
-    //
-    // timer to cycle through round_lbl colors
-    private Timer rainbow_t;
-  
-    
-    // RENDER //
-    //
-    // paint
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    zkill_lbl, zwave_lbl, 
+    reload_lbl, ZZZ_lbl, 
+    stats_lbl;
 
-        // render graphics
-        if (rend != null) rend.update(g);
-        else System.out.println("RENDER is NULL");
-    }
-    //
-    // add render
-    public void rend(Render rend) {
-        this.rend = rend;
-    }
-    //
-    // window refresh
-    public void ref() {
-        disp_stats();
-        this.repaint();
-    }
-    //
-    // access to screen width
-    public int width() {
-        return f.getContentPane().getWidth();
-    }
-    //
-    // access to screen height
-    public int height() {
-        return f.getContentPane().getHeight();
+    private Window win;
+    private Engine e;
+
+    public void window(Window win) {
+        this.win = win;
     }
 
-
-    // INIT //
-    //
-    // build window
-    public void build() {
-        this.setLayout(null);
-        f.add(this);
-        f.pack();
-        f.setVisible(true);
-        f.setLocationRelativeTo(null);
-        f.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        f.setMinimumSize( new Dimension(800, 800) );
-        // f.setResizable(false);
-
-        // background color
-        this.setBackground(bg);
-    }
-    //
-    // set size
-    public void size(int x, int y) {
-        this.setPreferredSize( new Dimension(x, y) );
-    }
-    //
-    // clear elems from screen
-    public void clear() {
-        this.removeAll();
-        this.setBackground(bg);
-    }
-
-
-    // ACCESS //
-    //
-    // get frame
-    protected JFrame get() {
-        return this.f;
-    }
-    //
     public void engine(Engine e) {
         this.e = e;
-        e.screen_color = bg;
     }
-
-
-    // DISPLAY //
+    
+    // DISPLAY UI //
     //
     // display
-    public void disp_stats() {
+    public void update() {
         p_health();
         z_kills();
         zwave();
@@ -127,7 +54,7 @@ public class Window extends JPanel {
     //
     // player health
     void p_health() {
-        if (p_health_lbl != null) this.remove(p_health_lbl);
+        if (p_health_lbl != null) win.remove(p_health_lbl);
         
         p_health_lbl = new JLabel(Integer.toString(e.p.health));
         p_health_lbl.setFont(new Font("Jokerman", Font.PLAIN, 50));
@@ -142,7 +69,7 @@ public class Window extends JPanel {
         // Set precise bounds
         p_health_lbl.setBounds(0, 0, width, height);
     
-        this.add(p_health_lbl);
+        win.add(p_health_lbl);
     }
     //
     // game over title
@@ -159,15 +86,15 @@ public class Window extends JPanel {
         int height = metrics.getHeight();
     
         // Set precise bounds
-        go_lbl.setBounds((int)((width()/2.00)-(width/2.00)), (int)((height()/2.00)-(height/2.00)), width, height);
-        this.setBackground(go_bg);
+        go_lbl.setBounds((int)((win.width()/2.00)-(width/2.00)), (int)((win.height()/2.00)-(height/2.00)), width, height);
+        win.setBackground(go_bg);
 
-        this.add(go_lbl);
+        win.add(go_lbl);
     }
     //
     // zombie kills
     void z_kills() {
-        if (zkill_lbl != null) this.remove(zkill_lbl);
+        if (zkill_lbl != null) win.remove(zkill_lbl);
 
         zkill_lbl = new JLabel("000");
         zkill_lbl.setFont(new Font("Jokerman", Font.PLAIN, 50));
@@ -182,21 +109,21 @@ public class Window extends JPanel {
         zkill_lbl.setText(Integer.toString(e.z_kills));
     
         // Set precise bounds
-        zkill_lbl.setBounds((int)((width()-width*2.00)), (int)(height/2.00), width, height);
+        zkill_lbl.setBounds((int)((win.width()-width*2.00)), (int)(height/2.00), width, height);
 
-        this.add(zkill_lbl);
+        win.add(zkill_lbl);
     }
     //
     // current wave
     void zwave() {
-        if (zwave_lbl != null) this.remove(zwave_lbl);
+        if (zwave_lbl != null) win.remove(zwave_lbl);
 
         zwave_lbl = new JLabel("000");
         zwave_lbl.setFont(new Font("Chiller", Font.PLAIN, 120));
         zwave_lbl.setOpaque(false);
         //zwave_lbl.setForeground(zwave_color);
 
-                // RAINBOW //
+        // RAINBOW //
         int r = rng(0,255);
         int g = rng(0, 255);
         int b = rng(0, 255); 
@@ -210,9 +137,9 @@ public class Window extends JPanel {
         zwave_lbl.setText(Integer.toString(e.z_wave));
     
         // Set precise bounds
-        zwave_lbl.setBounds((int)((width()/2.00)-(width/2.00)), height, width, height);
+        zwave_lbl.setBounds((int)((win.width()/2.00)-(width/2.00)), height, width, height);
 
-        this.add(zwave_lbl);
+        win.add(zwave_lbl);
     }
     //
     // reload game
@@ -228,14 +155,14 @@ public class Window extends JPanel {
         int height = metrics.getHeight();
     
         // Set precise bounds
-        reload_lbl.setBounds((int)((width()/2.00)-(width/2.00)), (int)((height()*0.75)-(height/2.00)), width, height);
+        reload_lbl.setBounds((int)((win.width()/2.00)-(width/2.00)), (int)((win.height()*0.75)-(height/2.00)), width, height);
 
-        this.add(reload_lbl);
+        win.add(reload_lbl);
     }
     //
     // ZZZ 
     void ZZZ() {
-        if (ZZZ_lbl != null) this.remove(ZZZ_lbl);
+        if (ZZZ_lbl != null) win.remove(ZZZ_lbl);
         ZZZ_lbl = new JLabel("000000000");
         ZZZ_lbl.setFont(new Font("Chiller", Font.PLAIN|Font.ITALIC, 50));
         ZZZ_lbl.setOpaque(false);
@@ -248,15 +175,15 @@ public class Window extends JPanel {
     
         ZZZ_lbl.setText("$"+Integer.toString(e.ZZZ));
         // Set precise bounds
-        ZZZ_lbl.setBounds((int)(width()-width), (int)((height()-height)), width, height);
+        ZZZ_lbl.setBounds((int)(win.width()-width), (int)((win.height()-height)), width, height);
 
         ZZZ_lbl.setBorder(BorderFactory.createLineBorder(ZZZ_color, 2));
-        this.add(ZZZ_lbl);
+        win.add(ZZZ_lbl);
     }
     //
     //
     void stats() {
-        if (stats_lbl != null) this.remove(stats_lbl);
+        if (stats_lbl != null) win.remove(stats_lbl);
 
         String s = "Power ("+Integer.toString(e.lazar_power())+") | Upgrade $"+e.lazar_uprice + ",     press [U] to upgrade";
         stats_lbl = new JLabel(s);
@@ -270,11 +197,11 @@ public class Window extends JPanel {
         int height = metrics.getHeight();
     
         // Set precise bounds
-        stats_lbl.setBounds(0, (int)((height()-height)), width, height);
+        stats_lbl.setBounds(0, (int)((win.height()-height)), width, height);
 
-        this.add(stats_lbl);
+        win.add(stats_lbl);
     }
-
+    
     protected int rng(int min, int max) {
         return rand.nextInt(max-min)+min;
     }

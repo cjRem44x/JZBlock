@@ -1,9 +1,18 @@
 // AUTHOR: cjRem44x //
 //
+
+import core.*;
+import graphics.*;
+import dat.*;
+import opt.*;
+import input.*;
+import ui.*;
+
 public class Main {
     // FIELDS //
     //
     static final Window    WIN     = new Window();
+    static final UI        UI      = new UI();
     static final Input     INP     = new Input();
     static final Render    REND    = new Render();
     static final Settings  SET     = new Settings();
@@ -39,6 +48,8 @@ public class Main {
         ENGINE.screen_width = WIN.width();
         ENGINE.screen_height = WIN.height();
         ENGINE.start();
+
+        WIN.ui(UI);
     }
     //
     // game loop
