@@ -9,7 +9,10 @@ import javax.swing.*;
 import core.Engine;
 import graphics.Window;
 
-public class UI {
+public class UI 
+{
+    // FIELDS //
+    //
     private Random rand = new Random();
     private Color bg             = new Color(0, 10, 20), 
                   go_bg          = new Color(38, 10, 0),
@@ -20,42 +23,54 @@ public class UI {
                   reload_color   = new Color(43, 234, 244),
                   ZZZ_color      = new Color(225, 205, 255),
                   stats_color    = new Color(255, 0, 255);
-   
     // displaying stats
     private JLabel p_health_lbl, go_lbl, 
     zkill_lbl, zwave_lbl, 
     reload_lbl, ZZZ_lbl, 
     stats_lbl;
-
+    //
     private Window win;
     private Engine e;
 
-    public void window(Window win) {
+
+    // ACCESS //
+    //
+    public 
+    void window(Window win) 
+    {
         this.win = win;
     }
-
-    public void engine(Engine e) {
+    //
+    public 
+    void engine(Engine e) 
+    {
         this.e = e;
     }
+
     
     // DISPLAY UI //
     //
     // display
-    public void update() {
+    public 
+    void update() 
+    {
         p_health();
         z_kills();
         zwave();
         ZZZ();
         stats();
 
-        if (!e.is_p_alive) {
+        if (!e.is_p_alive) 
+        {
             g_over();
             reload();
         }
     }
     //
     // player health
-    void p_health() {
+    private
+    void p_health() 
+    {
         if (p_health_lbl != null) win.remove(p_health_lbl);
         
         p_health_lbl = new JLabel(Integer.toString(e.p.health));
@@ -75,7 +90,9 @@ public class UI {
     }
     //
     // game over title
-    void g_over() {
+    private
+    void g_over() 
+    {
         zwave();
         go_lbl = new JLabel("Game Over");
         go_lbl.setFont(new Font("Jokerman", Font.PLAIN, 100));
@@ -95,7 +112,9 @@ public class UI {
     }
     //
     // zombie kills
-    void z_kills() {
+    private
+    void z_kills() 
+    {
         if (zkill_lbl != null) win.remove(zkill_lbl);
 
         zkill_lbl = new JLabel("000");
@@ -117,7 +136,9 @@ public class UI {
     }
     //
     // current wave
-    void zwave() {
+    private
+    void zwave() 
+    {
         if (zwave_lbl != null) win.remove(zwave_lbl);
 
         zwave_lbl = new JLabel("000");
@@ -145,7 +166,9 @@ public class UI {
     }
     //
     // reload game
-    void reload() {
+    private 
+    void reload() 
+    {
         reload_lbl = new JLabel("press [R] to start over");
         reload_lbl.setFont(new Font("Monospace", Font.PLAIN|Font.ITALIC, 50));
         reload_lbl.setOpaque(false);
@@ -163,7 +186,9 @@ public class UI {
     }
     //
     // ZZZ 
-    void ZZZ() {
+    private
+    void ZZZ() 
+    {
         if (ZZZ_lbl != null) win.remove(ZZZ_lbl);
         ZZZ_lbl = new JLabel("000000000");
         ZZZ_lbl.setFont(new Font("Chiller", Font.PLAIN|Font.ITALIC, 50));
@@ -184,8 +209,11 @@ public class UI {
     }
     //
     //
-    void stats() {
-        if (stats_lbl != null) win.remove(stats_lbl);
+    private
+    void stats() 
+    {
+        if (stats_lbl != null) 
+            win.remove(stats_lbl);
 
         String s = "Power ("+Integer.toString(e.lazar_power())+") | Upgrade $"+e.lazar_uprice + ",     press [U] to upgrade";
         stats_lbl = new JLabel(s);
@@ -204,7 +232,12 @@ public class UI {
         win.add(stats_lbl);
     }
     
-    protected int rng(int min, int max) {
+
+    // RANDOMS //
+    //
+    protected 
+    int rng(int min, int max) 
+    {
         return rand.nextInt(max-min)+min;
     }
 }

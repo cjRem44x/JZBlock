@@ -7,7 +7,8 @@ import opt.*;
 import input.*;
 import ui.*;
 
-public class Main {
+public class Main 
+{
     // FIELDS //
     //
     static final Window    WIN     = new Window();
@@ -21,7 +22,11 @@ public class Main {
 
     // DRIVER //
     //
-    public static void main(String[] args) {
+    public static 
+    void main(String[] args) 
+    {
+        // init game,
+        // then loop game.
         init();
         loop();
     }
@@ -30,7 +35,9 @@ public class Main {
     // GAME //
     //
     // game init
-    static void init() {
+    private static 
+    void init() 
+    {
         // SET.switch_controls = true;
         // SET.fps = 120;
 
@@ -52,27 +59,38 @@ public class Main {
     }
     //
     // game loop
-    static void loop() {
+    private static 
+    void loop() 
+    {
+        // vars to keep track of looping time
         long fps_start = 0, fps_prev, fps_steps = 0;
         
-        while (true) {
+        while (true) 
+        {
             // update engine
             ENGINE.update();
             ENGINE.screen_width = WIN.width();
             ENGINE.screen_height = WIN.height();
 
-            // window refresh
+            // window refresh;
+            // loop-time calculation
             fps_prev = fps_start;
             fps_start = System.currentTimeMillis();
             fps_steps += (fps_start-fps_prev);
-            if(SET.fps > 0) {
-                if (fps_steps >= (int)(1000.0/SET.fps)) {
+            
+            if (SET.fps > 0) 
+            {
+                if (fps_steps >= (int)(1000.0/SET.fps)) 
+                {
                     WIN.ref();
                     // System.out.println("winref @"+fps_steps);
                     fps_steps = 0;
                 }
             } else {WIN.ref();}
 
+
+            // let system brake to
+            // prevent resource eating.  
             brake();
         }
     }
@@ -80,13 +98,18 @@ public class Main {
 
     // SLEEP //
     //
-    static void brake() {
-        try {
+    private static 
+    void brake() 
+    {
+        try 
+        {
             Thread.sleep(1);
             // System.out.println("sleeping");
-        } catch (InterruptedException ex) {
+        } catch (InterruptedException ex) 
+        {
             ex.printStackTrace();
         }
     }
 
-}
+
+} // END CLASS //
