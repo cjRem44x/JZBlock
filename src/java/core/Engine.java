@@ -14,7 +14,7 @@ import dat.*;
 public class Engine {
     // FIELDS //
     //
-    public int         z_throt = 100, p_throt = 120;
+    public    int         z_throt = 100, p_throt = 120;
     private   int         max_z_num = 100, z_num   = 1, 
                           p_size  = 32, z_size = 32, lazar_size = 5;
     private   double      p_speed = 15.0, z_speed = 10.0, lazar_speed = 20.0;
@@ -50,7 +50,9 @@ public class Engine {
     // ACCESS //
     //
     // get player
-    public void player(Player p) {
+    public 
+    void player(Player p) 
+    {
         this.p = p;
     }
 
@@ -58,7 +60,9 @@ public class Engine {
     // ENGINE //
     //
     // start engine
-    public void start() {
+    public 
+    void start() 
+    {
         init_player();
         init_zombs();
 
@@ -82,7 +86,9 @@ public class Engine {
     }
     //
     // update engine
-    public void update() {
+    public 
+    void update() 
+    {
         keep_in_bounds();
         health_check();
         z_hits();
@@ -94,7 +100,9 @@ public class Engine {
     // START //
     //
     // start player
-    private void init_player() {
+    private 
+    void init_player() 
+    {
         p.health = 100;
         p.size = p_size;
         p.body_color = p_color;
@@ -105,12 +113,17 @@ public class Engine {
     }
     //
     // start zombs
-    private void init_zombs() {
-        for (int i=0; i<z_num; i++) {
+    private 
+    void init_zombs() 
+    {
+        for (int i=0; i<z_num; i++) 
+        {
             Zomb z = new Zomb();
             zombs.add(z);
         }
-        for (Zomb z : zombs) {
+
+        for (Zomb z : zombs) 
+        {
             z.size = z_size;
             z.body_color = z_color;
             z.speed = z_speed;
@@ -123,19 +136,27 @@ public class Engine {
 
     // PLAYER //
     //
-    public void health_check() {
-        if (p.health <= 0) {
+    public 
+    void health_check() 
+    {
+        if (p.health <= 0) 
+        {
             is_p_alive = false;
             p_dead();
         }
     }
     //
-    public void p_dead() {
+    public 
+    void p_dead() 
+    {
         p.speed = 0.0;
     }
     //
-    private void heal_p() {
-        if (p.health < 100) {
+    private 
+    void heal_p() 
+    {
+        if (p.health < 100) 
+        {
             p.health += 25;
         }
     }
@@ -143,12 +164,16 @@ public class Engine {
 
     // CLEAN UP //
     //
-    public void clean_up_z() {
+    public 
+    void clean_up_z() 
+    {
         Iterator<Zomb> iterator = zombs.iterator();
         
-        while (iterator.hasNext()) {
+        while (iterator.hasNext()) 
+        {
             Zomb z = iterator.next();
-            if (z.is_dead) {
+            if (z.is_dead) 
+            {
                 z.body_color = screen_color; // Optional visual effect
                 iterator.remove(); // Safe removal
             }
@@ -354,10 +379,13 @@ public class Engine {
     }
     //
     //
-    void speed_inc() {
-        if (z_wave >= zwf) {
+    void speed_inc() 
+    {
+        if (z_wave >= zwf) 
+        {
             p.speed += 0.3;
-            for (Zomb z : zombs) {
+            for (Zomb z : zombs) 
+            {
                 z.speed += 0.5;
             }
         }
@@ -365,8 +393,11 @@ public class Engine {
     //
     // AI zombie movement; chase
     // player without bunching
-    protected void chase() {
-        if (!zombs.isEmpty()) {
+    protected 
+    void chase() 
+    {
+        if (!zombs.isEmpty()) 
+        {
             for (Zomb z : zombs) {
                 // directions
                 double dx = (double)p.x-z.x;
@@ -384,15 +415,34 @@ public class Engine {
                 z.y += (int)yval;
 
                 // prevent zombies from bunching up
-                for (Zomb other : zombs) {
-                    if (other != z) {
+                for (Zomb other : zombs) 
+                {
+                    if (other != z) 
+                    {
                         double distX = other.x - z.x;
                         double distY = other.y - z.y;
                         double dist = Math.sqrt(distX * distX + distY * distY);
 
-                        if (dist < z.size * 1.5) { // If too close, push away slightly
+                        if (dist < z.size * 1.5) 
+                        { // If too close, push away slightly
                             z.x -= distX * 0.05;
                             z.y -= distY * 0.05;
+                        }
+
+                        if ( rng(1, 10) == 2) // 1/10 chance 
+                        { 
+                            // sporadically move zomb
+                            int n = rng(1,10);
+                            double fac = 0.55;
+                            if (n%2==0) 
+                            {
+                                z.x -= fac;
+                                z.y += fac;
+                            } else
+                            {
+                                z.x += fac;
+                                z.y -= fac;
+                            }
                         }
                     }
                 }
@@ -401,4 +451,37 @@ public class Engine {
     }
 
 
-} // class end
+    // PAUSE //
+    //
+    public
+    void pause_game() 
+    {
+        p.speed = 0.0;
+
+        for (Zomb z : zombs)
+        {
+            z.speed = 0.0;
+        }
+    }
+    //
+    public
+    void resume_game() 
+    {
+        p.speed = p_speed;
+
+        for (Zomb z : zombs)
+        {
+            z.speed = z_speed;
+        }
+    }
+    
+
+    // RANDOMS //
+    //
+    private
+    int rng(int min, int max) 
+    {
+        return rand.nextInt(max-min)+min;
+    }
+
+} // END CLASS //

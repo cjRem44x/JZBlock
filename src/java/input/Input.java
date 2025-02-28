@@ -10,7 +10,9 @@ import dat.*;
 import graphics.*;
 import opt.*;
 
-public class Input implements KeyListener, WindowListener {
+public class Input 
+implements KeyListener, WindowListener 
+{
     // FIELDS //
     //
     private Window win;
@@ -28,7 +30,8 @@ public class Input implements KeyListener, WindowListener {
                       LARR  = KeyEvent.VK_LEFT,
                       UARR  = KeyEvent.VK_UP,
                       DARR  = KeyEvent.VK_DOWN,
-                      U     = KeyEvent.VK_U;
+                      U     = KeyEvent.VK_U,
+                      ESC   = KeyEvent.VK_ESCAPE;
     //
     // Key states
     private boolean up_press    = false,
@@ -40,25 +43,30 @@ public class Input implements KeyListener, WindowListener {
                     rarr_press  = false,
                     larr_pres   = false,
                     uarr_press  = false,
-                    darr_press  = false; 
+                    darr_press  = false,
+                    is_paused   = false; 
 
 
     // ACCESS //
     //
-    public void win(Window win) {
+    public void win(Window win) 
+    {
         this.win = win;
         this.win.get().addKeyListener(this);
         this.win.get().addWindowListener(this);
     }
     //
-    public void engine(Engine e) {
+    public void engine(Engine e) 
+    {
         this.e = e;
         startMovementLoop();
     }
     //
-    public void settings(Settings set) {
+    public void settings(Settings set) 
+    {
         this.set = set;
-        if (set.switch_controls) {
+        if (set.switch_controls) 
+        {
             UARR  = KeyEvent.VK_W;
             LARR  = KeyEvent.VK_A;
             DARR  = KeyEvent.VK_S;
@@ -75,11 +83,27 @@ public class Input implements KeyListener, WindowListener {
     // MOVEMENT //
     //
     // Handle key presses
-    @Override
-    public void keyPressed(KeyEvent e) {
+    @Override public 
+    void keyPressed(KeyEvent e) 
+    {
         int n = e.getKeyCode();
 
-        if (n == KeyEvent.VK_R && !this.e.is_p_alive) {
+        if (n == ESC)
+        {
+            if (is_paused)
+            {
+                this.e.resume_game();
+                is_paused = false;
+            } else
+            {
+                this.e.pause_game();
+                is_paused = true;
+            }
+        }
+
+        if (n == KeyEvent.VK_R && 
+            !this.e.is_p_alive) 
+        {
             this.e.restart();
             this.win.clear();
         }
@@ -101,8 +125,9 @@ public class Input implements KeyListener, WindowListener {
     }
     //
     // Handle key releases
-    @Override
-    public void keyReleased(KeyEvent e) {
+    @Override public 
+    void keyReleased(KeyEvent e) 
+    {
         int n = e.getKeyCode();
         if (n == W) up_press      = false;
         if (n == S) dwn_press    = false;
@@ -118,7 +143,9 @@ public class Input implements KeyListener, WindowListener {
     }
     //
     // Continuous movement loop
-    private void startMovementLoop() {
+    private 
+    void startMovementLoop() 
+    {
         new javax.swing.Timer(e.p_throt, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -147,8 +174,9 @@ public class Input implements KeyListener, WindowListener {
 
     // WINDOW //
     //
-    @Override
-    public void windowClosing(WindowEvent e) {
+    @Override public 
+    void windowClosing(WindowEvent e) 
+    {
         System.exit(0);
     }
 
