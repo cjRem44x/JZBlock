@@ -22,12 +22,13 @@ public class UI
                   zwave_color    = new Color(255, 119, 0),
                   reload_color   = new Color(43, 234, 244),
                   ZZZ_color      = new Color(225, 205, 255),
-                  stats_color    = new Color(255, 0, 255);
+                  stats_color    = new Color(255, 0, 255),
+                  pause_color    = new Color(0, 244, 0);
     // displaying stats
     private JLabel p_health_lbl, go_lbl, 
     zkill_lbl, zwave_lbl, 
     reload_lbl, ZZZ_lbl, 
-    stats_lbl;
+    stats_lbl, pause_lbl;
     //
     private Window win;
     private Engine e;
@@ -59,6 +60,7 @@ public class UI
         zwave();
         ZZZ();
         stats();
+        pause();
 
         if (!e.is_p_alive) 
         {
@@ -222,7 +224,7 @@ public class UI
         stats_lbl.setForeground(stats_color);
     
         // Measure text size
-        FontMetrics metrics = stats_lbl.getFontMetrics(ZZZ_lbl.getFont());
+        FontMetrics metrics = stats_lbl.getFontMetrics(stats_lbl.getFont());
         int width = metrics.stringWidth(stats_lbl.getText());
         int height = metrics.getHeight();
     
@@ -230,6 +232,33 @@ public class UI
         stats_lbl.setBounds(0, (int)((win.height()-height)), width, height);
 
         win.add(stats_lbl);
+    }
+    //
+    //
+    private
+    void pause() 
+    {
+        if (pause_lbl != null)
+            win.remove(pause_lbl);
+
+        if (e.is_paused)
+        {
+            String s = "Game Paused: Hit [ESC] to Resume";
+            pause_lbl = new JLabel(s);
+            pause_lbl.setFont(new Font("Jokerman", Font.PLAIN|Font.ITALIC, 100));
+            pause_lbl.setOpaque(false);
+            pause_lbl.setForeground(pause_color);
+        
+            // Measure text size
+            FontMetrics metrics = pause_lbl.getFontMetrics(pause_lbl.getFont());
+            int width = metrics.stringWidth(pause_lbl.getText());
+            int height = metrics.getHeight();
+        
+            // Set precise bounds
+            pause_lbl.setBounds((int)((win.width()/2.00)-(width/2.00)), (int)((win.height()/2.00)-(height/2.00)), width, height);
+
+            win.add(pause_lbl);
+        }
     }
     
 

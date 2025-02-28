@@ -43,8 +43,7 @@ implements KeyListener, WindowListener
                     rarr_press  = false,
                     larr_pres   = false,
                     uarr_press  = false,
-                    darr_press  = false,
-                    is_paused   = false; 
+                    darr_press  = false;
 
 
     // ACCESS //
@@ -90,14 +89,14 @@ implements KeyListener, WindowListener
 
         if (n == ESC)
         {
-            if (is_paused)
+            if (this.e.is_paused)
             {
                 this.e.resume_game();
-                is_paused = false;
+                this.e.is_paused = false;
             } else
             {
                 this.e.pause_game();
-                is_paused = true;
+                this.e.is_paused = true;
             }
         }
 

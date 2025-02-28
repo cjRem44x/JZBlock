@@ -45,6 +45,7 @@ public class Engine {
     public int z_kills = 0, z_wave = 1, zwf = 5,
                   ZZZ = 0, ZZZ_unit = 44,
                   lazar_uprice = 400, lazar_f = 1;
+    public boolean is_paused = false;
 
 
     // ACCESS //
@@ -232,19 +233,26 @@ public class Engine {
 
     // ZOMB HITS //
     //
-    public void z_hits() {
-        Rectangle p_rect = new Rectangle(p.x, p.y, p.size, p.size);
-        long currentTime = System.currentTimeMillis();
-    
-        for (Zomb z : zombs) {
-            Rectangle z_rect = new Rectangle(z.x, z.y, z.size, z.size);
-    
-            if (p_rect.intersects(z_rect) && 
-                (currentTime - z.last_hit_t >= 1000) &&
-                !z.is_dead
-            ) {
-                z.last_hit_t = currentTime; // Update last hit time
-                p_dec();
+    public 
+    void z_hits() 
+    {
+        if (!is_paused) 
+        {
+            Rectangle p_rect = new Rectangle(p.x, p.y, p.size, p.size);
+            long currentTime = System.currentTimeMillis();
+        
+            for (Zomb z : zombs) 
+            {
+                Rectangle z_rect = new Rectangle(z.x, z.y, z.size, z.size);
+        
+                if (p_rect.intersects(z_rect) && 
+                    (currentTime - z.last_hit_t >= 1000) &&
+                    !z.is_dead
+                ) 
+                {
+                    z.last_hit_t = currentTime; // Update last hit time
+                    p_dec();
+                }
             }
         }
     }
@@ -258,18 +266,23 @@ public class Engine {
 
     // BLASTER //
     //
-    public void blast(String d) {
-        Lazar l = new Lazar();
-        l.speed = lazar_speed;
-        l.size = lazar_size;
-        l.body_color = lazar_color;
-        l.shadow_color = lazar_shadow;
-        l.dir = d;
-        int x = p.x + (int)(p.size/2.00);
-        int y = p.y + (int)(p.size/2.00);
-        l.x = x;
-        l.y = y;
-        lazars.add(l);
+    public 
+    void blast(String d) 
+    {
+        if (!is_paused)
+        {
+            Lazar l = new Lazar();
+            l.speed = lazar_speed;
+            l.size = lazar_size;
+            l.body_color = lazar_color;
+            l.shadow_color = lazar_shadow;
+            l.dir = d;
+            int x = p.x + (int)(p.size/2.00);
+            int y = p.y + (int)(p.size/2.00);
+            l.x = x;
+            l.y = y;
+            lazars.add(l);
+        }
     }
     //
     // lazar movement
@@ -462,6 +475,8 @@ public class Engine {
         {
             z.speed = 0.0;
         }
+
+        heal_t.stop();
     }
     //
     public
@@ -473,6 +488,8 @@ public class Engine {
         {
             z.speed = z_speed;
         }
+
+        heal_t.start();
     }
     
 
