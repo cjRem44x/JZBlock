@@ -23,12 +23,14 @@ public class UI
                   reload_color   = new Color(43, 234, 244),
                   ZZZ_color      = new Color(225, 205, 255),
                   stats_color    = new Color(255, 0, 255),
-                  pause_color    = new Color(0, 244, 0);
+                  pause_color    = new Color(0, 244, 0),
+                  lzammo_color   = new Color(255, 100, 0);
     // displaying stats
     private JLabel p_health_lbl, go_lbl, 
     zkill_lbl, zwave_lbl, 
     reload_lbl, ZZZ_lbl, 
-    stats_lbl, pause_lbl;
+    stats_lbl, pause_lbl,
+    lzammo_lbl, lzrel_lbl;
     //
     private Window win;
     private Engine e;
@@ -61,6 +63,7 @@ public class UI
         ZZZ();
         stats();
         pause();
+        lzammo();
 
         if (!e.is_p_alive) 
         {
@@ -258,6 +261,58 @@ public class UI
             pause_lbl.setBounds((int)((win.width()/2.00)-(width/2.00)), (int)((win.height()/2.00)-(height/2.00)), width, height);
 
             win.add(pause_lbl);
+        }
+    }
+    //
+    //
+    private
+    void lzammo() 
+    {
+        if (lzammo_lbl != null) 
+            win.remove(lzammo_lbl);
+
+        String s = "000000";
+        lzammo_lbl = new JLabel(s);
+        lzammo_lbl.setFont(new Font("Jokerman", Font.PLAIN|Font.ITALIC, 50));
+        lzammo_lbl.setOpaque(false);
+        lzammo_lbl.setForeground(lzammo_color);
+    
+        // Measure text size
+        FontMetrics metrics = lzammo_lbl.getFontMetrics(lzammo_lbl.getFont());
+        int width = metrics.stringWidth(lzammo_lbl.getText());
+        int height = metrics.getHeight();
+   
+        lzammo_lbl.setText(Integer.toString(e.lazar_mag));
+        // Set precise bounds
+        lzammo_lbl.setBounds((int)(win.width()-(width)), (int)((win.height()-(height*2))), width, height);
+
+        win.add(lzammo_lbl);
+        lazar_reload_prompt();
+    }
+    //
+    private
+    void lazar_reload_prompt() 
+    {
+        if (lzrel_lbl != null) 
+            win.remove(lzrel_lbl);
+
+        if (e.lazar_mag <= 0)
+        {
+        String s = "Reload with [CTRL]";
+        lzrel_lbl = new JLabel(s);
+        lzrel_lbl.setFont(new Font("Jokerman", Font.PLAIN|Font.ITALIC, 20));
+        lzrel_lbl.setOpaque(false);
+        lzrel_lbl.setForeground(lzammo_color);
+    
+        // Measure text size
+        FontMetrics metrics = lzrel_lbl.getFontMetrics(lzrel_lbl.getFont());
+        int width = metrics.stringWidth(lzrel_lbl.getText());
+        int height = metrics.getHeight();
+
+        // Set precise bounds
+        lzrel_lbl.setBounds((int)(win.width()-(width)), (int)((win.height()-(height*6))), width, height);
+
+        win.add(lzrel_lbl);
         }
     }
     

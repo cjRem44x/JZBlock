@@ -31,7 +31,8 @@ implements KeyListener, WindowListener
                       UARR  = KeyEvent.VK_UP,
                       DARR  = KeyEvent.VK_DOWN,
                       U     = KeyEvent.VK_U,
-                      ESC   = KeyEvent.VK_ESCAPE;
+                      ESC   = KeyEvent.VK_ESCAPE,
+                      CTRL  = KeyEvent.VK_CONTROL;
     //
     // Key states
     private boolean up_press    = false,
@@ -98,6 +99,11 @@ implements KeyListener, WindowListener
                 this.e.pause_game();
                 this.e.is_paused = true;
             }
+        }
+
+        if (n == CTRL)
+        {
+            this.e.reload_lazar();
         }
 
         if (n == KeyEvent.VK_R && 

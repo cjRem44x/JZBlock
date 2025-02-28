@@ -14,6 +14,9 @@ import dat.*;
 public class Engine {
     // FIELDS //
     //
+    public    int         lazar_ammo = 8, lazar_mag = lazar_ammo, 
+                          lazar_ammo_org = lazar_ammo, 
+                          lazar_reload_delay = 2000;
     public    int         z_throt = 100, p_throt = 120;
     private   int         max_z_num = 100, z_num   = 1, 
                           p_size  = 32, z_size = 32, lazar_size = 5;
@@ -196,6 +199,9 @@ public class Engine {
         ZZZ = 0;
         lazar_f = 1;
         lazar_uprice = 400;
+
+        lazar_ammo = lazar_ammo_org;
+        lazar_mag = lazar_ammo;
         
         init_zombs(); // Restart zombies properly
     }
@@ -269,7 +275,7 @@ public class Engine {
     public 
     void blast(String d) 
     {
-        if (!is_paused)
+        if (!is_paused && lazar_mag > 0)
         {
             Lazar l = new Lazar();
             l.speed = lazar_speed;
@@ -282,6 +288,7 @@ public class Engine {
             l.x = x;
             l.y = y;
             lazars.add(l);
+            lazar_mag--;
         }
     }
     //
@@ -309,6 +316,25 @@ public class Engine {
             }
         }
     }
+    //
+    //
+    public 
+    void reload_lazar() 
+    {
+        new Thread(() -> 
+        {
+            try 
+            {
+                Thread.sleep(lazar_reload_delay); // 2-second delay
+                lazar_mag = lazar_ammo;
+                // System.out.println("Lazar reloaded: " + lazar_mag);
+            } catch (InterruptedException e) 
+            {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+    
     //
     public void lazar_hits() {
         for (Lazar l : lazars) {
@@ -365,6 +391,7 @@ public class Engine {
             lazar_f *= 2;         // scale lazar power (lazar 
                                   // power = 1 * lazar_f)
             lazar_uprice *= 2;
+            lazar_ammo *= 2;
         }
     }
     //
