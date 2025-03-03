@@ -4,9 +4,11 @@ package dat;
 
 import java.awt.*;
 
-public class Player {
-    public int health;
-    public int x, y, size;
+public 
+class Player 
+{
+    public int    health;
+    public int    x, y, size;
     public double speed;
-    public Color body_color;
+    public Color  body_color;
 }

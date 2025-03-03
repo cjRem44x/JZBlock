@@ -11,44 +11,40 @@ import javax.swing.Timer;
 //
 import dat.*;
 
-public class Engine {
+public class Engine 
+{
     // FIELDS //
     //
-    public    int         lazar_ammo = 8, lazar_mag = lazar_ammo, 
-                          lazar_ammo_org = lazar_ammo, 
-                          lazar_reload_delay = 2000;
-    public    int         z_throt = 100, p_throt = 120;
-    private   int         max_z_num = 100, z_num   = 1, 
-                          p_size  = 32, z_size = 32, lazar_size = 5;
-    private   double      p_speed = 15.0, z_speed = 10.0, lazar_speed = 20.0;
-    private   Color       p_color     = new Color(0,0,255),
-                          z_color     = new Color(255, 0, 0),
-                          z_dead_color = new Color(100, 0, 0),
-                          lazar_color = new Color(150, 255, 255),
-                          lazar_shadow = new Color(50, 50, 0),
-                          lazar_blow_color = new Color(255, 255, 255);
-    public Player      p;
-    public List<Zomb>  zombs   = new ArrayList<>();
-    public List<Lazar> lazars  = new ArrayList<>();
-    public Timer       z_move_t, 
-                          lazar_motion_t, lazar_collision_t, lazar_rem_t,
-                          cleanup_t, heal_t;
-    private   Random      rand    = new Random();
-    //
-    public int screen_width, screen_height;
-    //
-    private   int z_hit_stren = 25;
-    //
-    public Color screen_color;
-    //
-    public boolean is_p_alive = true;
-    //
-    private boolean is_respawn = false;
-    //
-    public int z_kills = 0, z_wave = 1, zwf = 5,
-                  ZZZ = 0, ZZZ_unit = 44,
-                  lazar_uprice = 400, lazar_f = 1;
-    public boolean is_paused = false;
+    // lazar ammo and mag
+    public    int      lazar_ammo = 8, lazar_mag = lazar_ammo, 
+                       lazar_ammo_org = lazar_ammo, 
+                       lazar_reload_delay = 2000;
+    public    int      z_throt = 100, p_throt = 120;
+    private   int      max_z_num = 100, z_num   = 1, 
+                       p_size  = 32, z_size = 32, lazar_size = 5;
+    private   double   p_speed = 15.0, z_speed = 10.0, lazar_speed = 20.0;
+    private   Color    p_color     = new Color(0,0,255),
+                       z_color     = new Color(255, 0, 0),
+                       z_dead_color = new Color(100, 0, 0),
+                       lazar_color = new Color(150, 255, 255),
+                       lazar_shadow = new Color(50, 50, 0),
+                       lazar_blow_color = new Color(255, 255, 255);
+    public  Player      p;
+    public  List<Zomb>  zombs   = new ArrayList<>();
+    public  List<Lazar> lazars  = new ArrayList<>();
+    public  Timer       z_move_t, 
+                       lazar_motion_t, lazar_collision_t, lazar_rem_t,
+                       cleanup_t, heal_t;
+    private Random     rand    = new Random();
+    public  int        screen_width, screen_height;
+    private int        z_hit_stren = 25;
+    public Color       screen_color;
+    public boolean     is_p_alive = true;
+    private boolean    is_respawn = false;
+    public int         z_kills = 0, z_wave = 1, zwf = 5,
+                       ZZZ = 0, ZZZ_unit = 44,
+                       lazar_uprice = 400, lazar_f = 1;
+    public boolean     is_paused = false;
 
 
     // ACCESS //

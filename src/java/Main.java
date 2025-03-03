@@ -38,6 +38,8 @@ public class Main
     private static 
     void init() 
     {
+        // optional (start) settings:
+        //
         // SET.switch_controls = true;
         // SET.fps = 120;
 
@@ -65,6 +67,7 @@ public class Main
         // vars to keep track of looping time
         long fps_start = 0, fps_prev, fps_steps = 0;
         
+        // core game loop
         while (true) 
         {
             // update engine
