@@ -7,7 +7,8 @@ import opt.*;
 import input.*;
 import ui.*;
 
-public class Main 
+public 
+class Main 
 {
     // FIELDS //
     //
