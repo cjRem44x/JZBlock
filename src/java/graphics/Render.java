@@ -1,8 +1,13 @@
 // AUTHOR: cjRem44x //
 //
+package graphics;
+
 import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
+//
+import core.*;
+import dat.*;
 
 public class Render {
     // FIELDS //

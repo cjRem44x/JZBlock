@@ -1,53 +1,58 @@
 // AUTHOR: cjRem44x //
 //
+package core;
+
 import java.awt.*;
 import java.util.List;
 import java.util.Random;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import javax.swing.Timer;
+//
+import dat.*;
 
-public class Engine {
+public class Engine 
+{
     // FIELDS //
     //
-    protected int         z_throt = 100, p_throt = 120;
-    private   int         max_z_num = 100, z_num   = 1, 
-                          p_size  = 32, z_size = 32, lazar_size = 5;
-    private   double      p_speed = 15.0, z_speed = 10.0, lazar_speed = 20.0;
-    private   Color       p_color     = new Color(0,0,255),
-                          z_color     = new Color(255, 0, 0),
-                          z_dead_color = new Color(100, 0, 0),
-                          lazar_color = new Color(150, 255, 255),
-                          lazar_shadow = new Color(50, 50, 0),
-                          lazar_blow_color = new Color(255, 255, 255);
-    protected Player      p;
-    protected List<Zomb>  zombs   = new ArrayList<>();
-    protected List<Lazar> lazars  = new ArrayList<>();
-    protected Timer       z_move_t, 
-                          lazar_motion_t, lazar_collision_t, lazar_rem_t,
-                          cleanup_t, heal_t;
-    private   Random      rand    = new Random();
-    //
-    protected int screen_width, screen_height;
-    //
-    private   int z_hit_stren = 25;
-    //
-    protected Color screen_color;
-    //
-    protected boolean is_p_alive = true;
-    //
-    private boolean is_respawn = false;
-    //
-    protected int z_kills = 0, z_wave = 1, zwf = 5,
-                  ZZZ = 0, ZZZ_unit = 44,
-                  lazar_uprice = 400, lazar_f = 1;
+    // lazar ammo and mag
+    public    int      lazar_ammo = 8, lazar_mag = lazar_ammo, 
+                       lazar_ammo_org = lazar_ammo, 
+                       lazar_reload_delay = 2000;
+    public    int      z_throt = 100, p_throt = 120;
+    private   int      max_z_num = 100, z_num   = 1, 
+                       p_size  = 32, z_size = 32, lazar_size = 5;
+    private   double   p_speed = 15.0, z_speed = 10.0, lazar_speed = 20.0;
+    private   Color    p_color     = new Color(0,0,255),
+                       z_color     = new Color(255, 0, 0),
+                       z_dead_color = new Color(100, 0, 0),
+                       lazar_color = new Color(150, 255, 255),
+                       lazar_shadow = new Color(50, 50, 0),
+                       lazar_blow_color = new Color(255, 255, 255);
+    public  Player      p;
+    public  List<Zomb>  zombs   = new ArrayList<>();
+    public  List<Lazar> lazars  = new ArrayList<>();
+    public  Timer       z_move_t, 
+                       lazar_motion_t, lazar_collision_t, lazar_rem_t,
+                       cleanup_t, heal_t;
+    private Random     rand    = new Random();
+    public  int        screen_width, screen_height;
+    private int        z_hit_stren = 25;
+    public Color       screen_color;
+    public boolean     is_p_alive = true;
+    private boolean    is_respawn = false;
+    public int         z_kills = 0, z_wave = 1, zwf = 5,
+                       ZZZ = 0, ZZZ_unit = 44,
+                       lazar_uprice = 400, lazar_f = 1;
+    public boolean     is_paused = false;
 
 
     // ACCESS //
     //
     // get player
-    public void player(Player p) {
+    public 
+    void player(Player p) 
+    {
         this.p = p;
     }
 
@@ -55,7 +60,9 @@ public class Engine {
     // ENGINE //
     //
     // start engine
-    public void start() {
+    public 
+    void start() 
+    {
         init_player();
         init_zombs();
 
@@ -79,7 +86,9 @@ public class Engine {
     }
     //
     // update engine
-    public void update() {
+    public 
+    void update() 
+    {
         keep_in_bounds();
         health_check();
         z_hits();
@@ -91,7 +100,9 @@ public class Engine {
     // START //
     //
     // start player
-    private void init_player() {
+    private 
+    void init_player() 
+    {
         p.health = 100;
         p.size = p_size;
         p.body_color = p_color;
@@ -102,12 +113,17 @@ public class Engine {
     }
     //
     // start zombs
-    private void init_zombs() {
-        for (int i=0; i<z_num; i++) {
+    private 
+    void init_zombs() 
+    {
+        for (int i=0; i<z_num; i++) 
+        {
             Zomb z = new Zomb();
             zombs.add(z);
         }
-        for (Zomb z : zombs) {
+
+        for (Zomb z : zombs) 
+        {
             z.size = z_size;
             z.body_color = z_color;
             z.speed = z_speed;
@@ -120,19 +136,27 @@ public class Engine {
 
     // PLAYER //
     //
-    public void health_check() {
-        if (p.health <= 0) {
+    public 
+    void health_check() 
+    {
+        if (p.health <= 0) 
+        {
             is_p_alive = false;
             p_dead();
         }
     }
     //
-    public void p_dead() {
+    public 
+    void p_dead() 
+    {
         p.speed = 0.0;
     }
     //
-    private void heal_p() {
-        if (p.health < 100) {
+    private 
+    void heal_p() 
+    {
+        if (p.health < 100) 
+        {
             p.health += 25;
         }
     }
@@ -140,12 +164,16 @@ public class Engine {
 
     // CLEAN UP //
     //
-    public void clean_up_z() {
+    public 
+    void clean_up_z() 
+    {
         Iterator<Zomb> iterator = zombs.iterator();
         
-        while (iterator.hasNext()) {
+        while (iterator.hasNext()) 
+        {
             Zomb z = iterator.next();
-            if (z.is_dead) {
+            if (z.is_dead) 
+            {
                 z.body_color = screen_color; // Optional visual effect
                 iterator.remove(); // Safe removal
             }
@@ -167,6 +195,9 @@ public class Engine {
         ZZZ = 0;
         lazar_f = 1;
         lazar_uprice = 400;
+
+        lazar_ammo = lazar_ammo_org;
+        lazar_mag = lazar_ammo;
         
         init_zombs(); // Restart zombies properly
     }
@@ -204,19 +235,26 @@ public class Engine {
 
     // ZOMB HITS //
     //
-    public void z_hits() {
-        Rectangle p_rect = new Rectangle(p.x, p.y, p.size, p.size);
-        long currentTime = System.currentTimeMillis();
-    
-        for (Zomb z : zombs) {
-            Rectangle z_rect = new Rectangle(z.x, z.y, z.size, z.size);
-    
-            if (p_rect.intersects(z_rect) && 
-                (currentTime - z.last_hit_t >= 1000) &&
-                !z.is_dead
-            ) {
-                z.last_hit_t = currentTime; // Update last hit time
-                p_dec();
+    public 
+    void z_hits() 
+    {
+        if (!is_paused) 
+        {
+            Rectangle p_rect = new Rectangle(p.x, p.y, p.size, p.size);
+            long currentTime = System.currentTimeMillis();
+        
+            for (Zomb z : zombs) 
+            {
+                Rectangle z_rect = new Rectangle(z.x, z.y, z.size, z.size);
+        
+                if (p_rect.intersects(z_rect) && 
+                    (currentTime - z.last_hit_t >= 1000) &&
+                    !z.is_dead
+                ) 
+                {
+                    z.last_hit_t = currentTime; // Update last hit time
+                    p_dec();
+                }
             }
         }
     }
@@ -230,18 +268,24 @@ public class Engine {
 
     // BLASTER //
     //
-    protected void blast(String d) {
-        Lazar l = new Lazar();
-        l.speed = lazar_speed;
-        l.size = lazar_size;
-        l.body_color = lazar_color;
-        l.shadow_color = lazar_shadow;
-        l.dir = d;
-        int x = p.x + (int)(p.size/2.00);
-        int y = p.y + (int)(p.size/2.00);
-        l.x = x;
-        l.y = y;
-        lazars.add(l);
+    public 
+    void blast(String d) 
+    {
+        if (!is_paused && lazar_mag > 0)
+        {
+            Lazar l = new Lazar();
+            l.speed = lazar_speed;
+            l.size = lazar_size;
+            l.body_color = lazar_color;
+            l.shadow_color = lazar_shadow;
+            l.dir = d;
+            int x = p.x + (int)(p.size/2.00);
+            int y = p.y + (int)(p.size/2.00);
+            l.x = x;
+            l.y = y;
+            lazars.add(l);
+            lazar_mag--;
+        }
     }
     //
     // lazar movement
@@ -268,6 +312,25 @@ public class Engine {
             }
         }
     }
+    //
+    //
+    public 
+    void reload_lazar() 
+    {
+        new Thread(() -> 
+        {
+            try 
+            {
+                Thread.sleep(lazar_reload_delay); // 2-second delay
+                lazar_mag = lazar_ammo;
+                // System.out.println("Lazar reloaded: " + lazar_mag);
+            } catch (InterruptedException e) 
+            {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+    
     //
     public void lazar_hits() {
         for (Lazar l : lazars) {
@@ -324,6 +387,7 @@ public class Engine {
             lazar_f *= 2;         // scale lazar power (lazar 
                                   // power = 1 * lazar_f)
             lazar_uprice *= 2;
+            lazar_ammo *= 2;
         }
     }
     //
@@ -351,10 +415,13 @@ public class Engine {
     }
     //
     //
-    void speed_inc() {
-        if (z_wave >= zwf) {
+    void speed_inc() 
+    {
+        if (z_wave >= zwf) 
+        {
             p.speed += 0.3;
-            for (Zomb z : zombs) {
+            for (Zomb z : zombs) 
+            {
                 z.speed += 0.5;
             }
         }
@@ -362,8 +429,11 @@ public class Engine {
     //
     // AI zombie movement; chase
     // player without bunching
-    protected void chase() {
-        if (!zombs.isEmpty()) {
+    protected 
+    void chase() 
+    {
+        if (!zombs.isEmpty()) 
+        {
             for (Zomb z : zombs) {
                 // directions
                 double dx = (double)p.x-z.x;
@@ -381,15 +451,34 @@ public class Engine {
                 z.y += (int)yval;
 
                 // prevent zombies from bunching up
-                for (Zomb other : zombs) {
-                    if (other != z) {
+                for (Zomb other : zombs) 
+                {
+                    if (other != z) 
+                    {
                         double distX = other.x - z.x;
                         double distY = other.y - z.y;
                         double dist = Math.sqrt(distX * distX + distY * distY);
 
-                        if (dist < z.size * 1.5) { // If too close, push away slightly
+                        if (dist < z.size * 1.5) 
+                        { // If too close, push away slightly
                             z.x -= distX * 0.05;
                             z.y -= distY * 0.05;
+                        }
+
+                        if ( rng(1, 10) == 2) // 1/10 chance 
+                        { 
+                            // sporadically move zomb
+                            int n = rng(1,10);
+                            double fac = 0.55;
+                            if (n%2==0) 
+                            {
+                                z.x -= fac;
+                                z.y += fac;
+                            } else
+                            {
+                                z.x += fac;
+                                z.y -= fac;
+                            }
                         }
                     }
                 }
@@ -398,4 +487,41 @@ public class Engine {
     }
 
 
-} // class end
+    // PAUSE //
+    //
+    public
+    void pause_game() 
+    {
+        p.speed = 0.0;
+
+        for (Zomb z : zombs)
+        {
+            z.speed = 0.0;
+        }
+
+        heal_t.stop();
+    }
+    //
+    public
+    void resume_game() 
+    {
+        p.speed = p_speed;
+
+        for (Zomb z : zombs)
+        {
+            z.speed = z_speed;
+        }
+
+        heal_t.start();
+    }
+    
+
+    // RANDOMS //
+    //
+    private
+    int rng(int min, int max) 
+    {
+        return rand.nextInt(max-min)+min;
+    }
+
+} // END CLASS //
