@@ -4,8 +4,7 @@ package dat;
 
 import java.awt.*;
 
-public 
-class Lazar 
+public class Lazar 
 {
     public int     x, y, size;
     public double  speed;

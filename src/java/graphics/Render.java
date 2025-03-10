@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import core.*;
 import dat.*;
 
-public class Render {
+public class Render 
+{
     // FIELDS //
     //
     private Engine e;

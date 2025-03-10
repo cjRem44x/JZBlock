@@ -4,8 +4,7 @@ package dat;
 
 import java.awt.*;
 
-public 
-class Player 
+public class Player 
 {
     public int    health;
     public int    x, y, size;

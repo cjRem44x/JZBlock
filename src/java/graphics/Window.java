@@ -9,7 +9,9 @@ import javax.swing.*;
 import core.*;
 import ui.UI;
 
-public class Window extends JPanel {
+public class Window 
+extends JPanel 
+{
     // FIELDS //
     //
     private SecureRandom rand = new SecureRandom();

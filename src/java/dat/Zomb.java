@@ -4,8 +4,7 @@ package dat;
 
 import java.awt.*;
 
-public 
-class Zomb 
+public class Zomb 
 {
     public int     x, y, size;
     public long    last_hit_t = 0;
