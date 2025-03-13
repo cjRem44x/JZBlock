@@ -249,7 +249,7 @@ public class UI
         {
             String s = "Game Paused: Hit [ESC] to Resume";
             pause_lbl = new JLabel(s);
-            pause_lbl.setFont(new Font("Jokerman", Font.PLAIN|Font.ITALIC, 100));
+            pause_lbl.setFont(new Font("Jokerman", Font.PLAIN|Font.ITALIC, 75));
             pause_lbl.setOpaque(false);
             pause_lbl.setForeground(set.pause_color);
         
