@@ -9,22 +9,14 @@ import javax.swing.*;
 import core.Engine;
 import graphics.Window;
 
+import opt.Settings;
+
 public class UI 
 {
     // FIELDS //
     //
     private Random rand = new Random();
-    private Color bg             = new Color(0, 10, 20), 
-                  go_bg          = new Color(38, 10, 0),
-                  p_health_color = new Color(255, 70, 157),
-                  go_color       = new Color(255, 0, 0),
-                  zkill_color    = new Color(179, 255, 0),
-                  zwave_color    = new Color(255, 119, 0),
-                  reload_color   = new Color(43, 234, 244),
-                  ZZZ_color      = new Color(225, 205, 255),
-                  stats_color    = new Color(255, 0, 255),
-                  pause_color    = new Color(0, 244, 0),
-                  lzammo_color   = new Color(255, 100, 0);
+    private Settings set;
     // displaying stats
     private JLabel p_health_lbl, go_lbl, 
     zkill_lbl, zwave_lbl, 
@@ -49,6 +41,12 @@ public class UI
     {
         this.e = e;
     }
+    //
+    public 
+    void settings(Settings set) 
+    {
+        this.set = set;
+    }
 
     
     // DISPLAY UI //
@@ -69,6 +67,9 @@ public class UI
         {
             g_over();
             reload();
+        } else 
+        {
+            new_game();
         }
     }
     //
@@ -81,7 +82,7 @@ public class UI
         p_health_lbl = new JLabel(Integer.toString(e.p.health));
         p_health_lbl.setFont(new Font("Jokerman", Font.PLAIN, 50));
         p_health_lbl.setOpaque(false);
-        p_health_lbl.setForeground(p_health_color);
+        p_health_lbl.setForeground(set.p_health_color);
     
         // Measure text size
         FontMetrics metrics = p_health_lbl.getFontMetrics(p_health_lbl.getFont());
@@ -102,7 +103,7 @@ public class UI
         go_lbl = new JLabel("Game Over");
         go_lbl.setFont(new Font("Jokerman", Font.PLAIN, 100));
         go_lbl.setOpaque(false);
-        go_lbl.setForeground(go_color);
+        go_lbl.setForeground(set.go_color);
     
         // Measure text size
         FontMetrics metrics = go_lbl.getFontMetrics(go_lbl.getFont());
@@ -111,7 +112,7 @@ public class UI
     
         // Set precise bounds
         go_lbl.setBounds((int)((win.width()/2.00)-(width/2.00)), (int)((win.height()/2.00)-(height/2.00)), width, height);
-        win.setBackground(go_bg);
+        win.setBackground(set.go_bg);
 
         win.add(go_lbl);
     }
@@ -125,7 +126,7 @@ public class UI
         zkill_lbl = new JLabel("000");
         zkill_lbl.setFont(new Font("Jokerman", Font.PLAIN, 50));
         zkill_lbl.setOpaque(false);
-        zkill_lbl.setForeground(zkill_color);
+        zkill_lbl.setForeground(set.zkill_color);
     
         // Measure text size
         FontMetrics metrics = zkill_lbl.getFontMetrics(zkill_lbl.getFont());
@@ -177,7 +178,7 @@ public class UI
         reload_lbl = new JLabel("press [R] to start over");
         reload_lbl.setFont(new Font("Monospace", Font.PLAIN|Font.ITALIC, 50));
         reload_lbl.setOpaque(false);
-        reload_lbl.setForeground(reload_color);
+        reload_lbl.setForeground(set.reload_color);
     
         // Measure text size
         FontMetrics metrics = reload_lbl.getFontMetrics(reload_lbl.getFont());
@@ -198,7 +199,7 @@ public class UI
         ZZZ_lbl = new JLabel("000000000");
         ZZZ_lbl.setFont(new Font("Chiller", Font.PLAIN|Font.ITALIC, 50));
         ZZZ_lbl.setOpaque(false);
-        ZZZ_lbl.setForeground(ZZZ_color);
+        ZZZ_lbl.setForeground(set.ZZZ_color);
     
         // Measure text size
         FontMetrics metrics = ZZZ_lbl.getFontMetrics(ZZZ_lbl.getFont());
@@ -209,7 +210,7 @@ public class UI
         // Set precise bounds
         ZZZ_lbl.setBounds((int)(win.width()-width), (int)((win.height()-height)), width, height);
 
-        ZZZ_lbl.setBorder(BorderFactory.createLineBorder(ZZZ_color, 2));
+        ZZZ_lbl.setBorder(BorderFactory.createLineBorder(set.ZZZ_color, 2));
         win.add(ZZZ_lbl);
     }
     //
@@ -222,9 +223,9 @@ public class UI
 
         String s = "Power ("+Integer.toString(e.lazar_power())+") | Upgrade $"+e.lazar_uprice + ",     press [U] to upgrade";
         stats_lbl = new JLabel(s);
-        stats_lbl.setFont(new Font("Chiller", Font.PLAIN|Font.ITALIC, 30));
+        stats_lbl.setFont(new Font("Chiller", Font.PLAIN, 45));
         stats_lbl.setOpaque(false);
-        stats_lbl.setForeground(stats_color);
+        stats_lbl.setForeground(set.stats_color);
     
         // Measure text size
         FontMetrics metrics = stats_lbl.getFontMetrics(stats_lbl.getFont());
@@ -250,7 +251,7 @@ public class UI
             pause_lbl = new JLabel(s);
             pause_lbl.setFont(new Font("Jokerman", Font.PLAIN|Font.ITALIC, 100));
             pause_lbl.setOpaque(false);
-            pause_lbl.setForeground(pause_color);
+            pause_lbl.setForeground(set.pause_color);
         
             // Measure text size
             FontMetrics metrics = pause_lbl.getFontMetrics(pause_lbl.getFont());
@@ -275,7 +276,7 @@ public class UI
         lzammo_lbl = new JLabel(s);
         lzammo_lbl.setFont(new Font("Jokerman", Font.PLAIN|Font.ITALIC, 50));
         lzammo_lbl.setOpaque(false);
-        lzammo_lbl.setForeground(lzammo_color);
+        lzammo_lbl.setForeground(set.lzammo_color);
     
         // Measure text size
         FontMetrics metrics = lzammo_lbl.getFontMetrics(lzammo_lbl.getFont());
@@ -302,7 +303,7 @@ public class UI
         lzrel_lbl = new JLabel(s);
         lzrel_lbl.setFont(new Font("Jokerman", Font.PLAIN|Font.ITALIC, 20));
         lzrel_lbl.setOpaque(false);
-        lzrel_lbl.setForeground(lzammo_color);
+        lzrel_lbl.setForeground(set.lzammo_color);
     
         // Measure text size
         FontMetrics metrics = lzrel_lbl.getFontMetrics(lzrel_lbl.getFont());
@@ -314,6 +315,13 @@ public class UI
 
         win.add(lzrel_lbl);
         }
+    }
+
+
+    public 
+    void new_game() 
+    {
+        win.setBackground(set.window_bg);
     }
     
 

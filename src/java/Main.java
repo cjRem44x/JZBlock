@@ -47,6 +47,9 @@ public class Main
         INP.engine(ENGINE);
         REND.engine(ENGINE);
         ENGINE.player(PLAYER);
+        ENGINE.settings(SET);
+        UI.settings(SET);
+        WIN.settings(SET);
         WIN.rend(REND);
         WIN.size(SET.screen_width, SET.screen_height);
         WIN.build();
@@ -57,6 +60,7 @@ public class Main
         ENGINE.screen_height = WIN.height();
         ENGINE.start();
 
+        WIN.title(SET.GAME_TITLE);
         WIN.ui(UI);
     }
     //

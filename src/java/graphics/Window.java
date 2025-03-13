@@ -7,6 +7,7 @@ import java.security.SecureRandom;
 import javax.swing.*;
 //
 import core.*;
+import opt.Settings;
 import ui.UI;
 
 public class Window 
@@ -19,6 +20,7 @@ extends JPanel
     private Render       rend = null;
     private Engine       e;
     private UI           ui;
+    private Settings     set;
     //
     // colors
     // @TODO: make separate 'Theme.java' for this 
@@ -74,6 +76,13 @@ extends JPanel
     public int height() {
         return f.getContentPane().getHeight();
     }
+    //
+    // set title
+    public 
+    void title(String title)
+    {
+        f.setTitle(title);
+    }
 
 
     // INIT //
@@ -90,7 +99,7 @@ extends JPanel
         // f.setResizable(false);
 
         // background color
-        this.setBackground(bg);
+        this.setBackground(set.window_bg);
     }
     //
     // set size
@@ -121,5 +130,11 @@ extends JPanel
         this.ui = ui;
         ui.window(this);
         ui.engine(e);
+    }
+    //
+    public 
+    void settings(Settings set) 
+    {
+        this.set = set;
     } 
 }
