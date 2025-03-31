@@ -10,8 +10,8 @@ public class Settings
     //
     public final String GAME_TITLE = "JZBlock";
     //
-    public int     screen_width = 800, 
-                   screen_height = 800,
+    public int     screen_width = 1400, 
+                   screen_height = 1000,
                    fps = 60;
     public boolean switch_controls = false;
     public Color   p_color     = new Color(137,0,255),

@@ -94,9 +94,9 @@ extends JPanel
         f.pack();
         f.setVisible(true);
         f.setLocationRelativeTo(null);
-        f.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        // f.setExtendedState(JFrame.MAXIMIZED_BOTH);
         f.setMinimumSize( new Dimension(800, 800) );
-        // f.setResizable(false);
+        f.setResizable(false);
 
         // background color
         this.setBackground(set.window_bg);
