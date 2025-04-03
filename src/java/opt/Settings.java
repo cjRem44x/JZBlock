@@ -8,27 +8,30 @@ public class Settings
 {
     // FIELDS //
     //
-    public final String GAME_TITLE = "JZBlock";
+    public final String GAME_TITLE = "JZBlock"; // The title of the game window
     //
-    public int     screen_width = 1400, 
-                   screen_height = 1000,
-                   fps = 60;
-    public boolean switch_controls = false;
-    public Color   p_color     = new Color(137,0,255),
-                   z_color     = new Color(0, 255, 1),
-                   z_dead_color = new Color(0, 55, 1),
-                   lazar_color = new Color(255, 0, 159),
-                   lazar_shadow = new Color(252, 146, 212),
-                   lazar_blow_color = new Color(255, 255, 255);
-    public Color   window_bg = new Color(0, 7, 53);
-    public Color  go_bg          = new Color(38, 10, 0),
-                  p_health_color = new Color(255, 0 ,0),
-                  go_color       = new Color(255, 0, 0),
-                  zkill_color    = new Color(255, 0, 0),
-                  zwave_color    = new Color(255, 0, 0),
-                  reload_color   = new Color(255, 0, 0),
-                  ZZZ_color      = new Color(255, 0, 0),
-                  stats_color    = new Color(255, 0, 0),
-                  pause_color    = new Color(255, 0, 0),
-                  lzammo_color   = new Color(255, 0, 0);
+    public int     screen_width = 1550,  // Width of the game screen
+                   screen_height = 950, // Height of the game screen
+                   fps = 60;              // Frames per second
+    public boolean switch_controls = false; // Flag to switch control scheme
+    public Color   p_color     = new Color(137,0,255), // Player color
+                   z_color     = new Color(0, 255, 1),   // Zombie color
+                   z_dead_color = new Color(0, 55, 1),  // Zombie dead color
+                   lazar_color = new Color(255, 0, 159), // Lazar color
+                   lazar_shadow = new Color(252, 146, 212), // Lazar shadow color
+                   lazar_blow_color = new Color(255, 255, 255); // Lazar explosion color
+    public Color   window_bg = new Color(0, 7, 53); // Window background color
+    public Color  go_bg          = new Color(38, 10, 0),   // Game over background color
+                  p_health_color = new Color(255, 100 ,100), // Player health color
+                  go_color       = new Color(255, 0, 0),     // Game over text color
+                  zkill_color    = new Color(255, 135, 0),   // Zombie kill color
+                  zwave_color    = new Color(255, 0, 0),     // Zombie wave color
+                  reload_color   = new Color(255, 0, 0),    // Reload text color
+                  ZZZ_color      = new Color(255, 0, 240),   // ZZZ color
+                  stats_color    = new Color(255, 0, 0),    // Stats color
+                  pause_color    = new Color(255, 0, 0),    // Pause color
+                  lzammo_color   = new Color(255, 0, 200),   // Lazar ammo color
+                  keybinds_color = new Color(255, 233, 0), // Keybinds color
+                  reload_prompt_color = new Color(200, 255, 200), // Reload prompt color
+                  paused_bg_color = new Color(50, 50, 50); // Game over background color
 }

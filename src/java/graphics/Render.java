@@ -2,23 +2,23 @@
 //
 package graphics;
 
-import java.awt.*;
-import java.util.List;
-import java.util.ArrayList;
+import java.awt.*; // Import AWT library
+import java.util.List; // Import List
+import java.util.ArrayList; // Import ArrayList
 //
-import core.*;
-import dat.*;
+import core.*; // Import core package
+import dat.*; // Import dat package
 
 public class Render 
 {
     // FIELDS //
     //
-    private Engine e;
+    private Engine e; // Engine object
 
 
     // ACCESS //
     //
-    // get engine
+    // Method to set the engine object
     public 
     void engine(Engine e) 
     {
@@ -28,6 +28,7 @@ public class Render
     
     // RENDER //
     //
+    // Method to update the graphics by rendering player, zombies, and lazars
     public 
     void update(Graphics g) 
     {

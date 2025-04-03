@@ -2,334 +2,368 @@
 //
 package ui;
 
-import java.awt.*;
-import java.util.Random;
-import javax.swing.*;
+// Import necessary libraries for UI components and event handling.
+import java.awt.*; // Import AWT library
+import java.util.Random; // Import Random class
+import javax.swing.*; // Import Swing library
+import java.awt.event.*; // Import AWT event library
 //
-import core.Engine;
-import graphics.Window;
-
-import opt.Settings;
+import core.Engine; // Import Engine class
+import graphics.Window; // Import Window class
+import opt.Settings; // Import Settings class
 
 public class UI 
 {
     // FIELDS //
     //
-    private Random rand = new Random();
-    private Settings set;
-    // displaying stats
+    private Random rand = new Random(); // Random generator for dynamic UI effects.
+    private Settings set; // Game settings.
     private JLabel p_health_lbl, go_lbl, 
     zkill_lbl, zwave_lbl, 
     reload_lbl, ZZZ_lbl, 
     stats_lbl, pause_lbl,
-    lzammo_lbl, lzrel_lbl;
-    //
-    private Window win;
-    private Engine e;
+    lzammo_lbl, lzrel_lbl; // UI labels.
+    private JLabel[] keybinds_lbl; // Array for displaying keybinds.
+    private Timer tutorial_timer; // Timer for tutorial-related functionality.
+    private Window win; // Reference to the game window.
+    private Engine e; // Reference to the game engine.
 
 
     // ACCESS //
     //
-    public 
-    void window(Window win) 
-    {
-        this.win = win;
+    // Method to set the game window reference.
+    public void window(Window win) {
+        this.win = win; // Set the window
     }
     //
-    public 
-    void engine(Engine e) 
-    {
-        this.e = e;
+    // Method to set the game engine reference.
+    public void engine(Engine e) {
+        this.e = e; // Set the engine
     }
     //
-    public 
-    void settings(Settings set) 
-    {
-        this.set = set;
+    // Method to set the game settings reference.
+    public void settings(Settings set) {
+        this.set = set; // Set the settings
     }
 
     
     // DISPLAY UI //
     //
-    // display
-    public 
-    void update() 
-    {
-        p_health();
-        z_kills();
-        zwave();
-        ZZZ();
-        stats();
-        pause();
-        lzammo();
+    // Method to update all UI elements.
+    public void update() {
+        p_health(); // Update player health display.
+        z_kills();  // Update zombie kills display.
+        zwave();    // Update current wave display.
+        ZZZ();      // Update in-game currency display.
+        stats();    // Update player stats display.
+        pause();    // Handle pause state UI.
+        lzammo();   // Update lazar ammo display.
 
-        if (!e.is_p_alive) 
-        {
-            g_over();
-            reload();
-        } else 
-        {
-            new_game();
+        // Handle game-over and reload UI if the player is dead.
+        if (!e.is_p_alive) {
+            g_over(); // Show game over screen
+            reload(); // Show reload prompt
+        } else {
+            new_game(); // Reset UI for a new game.
         }
     }
     //
-    // player health
-    private
-    void p_health() 
-    {
-        if (p_health_lbl != null) win.remove(p_health_lbl);
+    // Method to display player health.
+    private void p_health() {
+        if (p_health_lbl != null) win.remove(p_health_lbl); // Remove old label if it exists.
         
-        p_health_lbl = new JLabel(Integer.toString(e.p.health));
-        p_health_lbl.setFont(new Font("Jokerman", Font.PLAIN, 50));
-        p_health_lbl.setOpaque(false);
-        p_health_lbl.setForeground(set.p_health_color);
+        // Create a new label with the player's current health.
+        p_health_lbl = new JLabel("  HE4LTH   =  "+Integer.toString(e.p.health)); // Create health label
+        p_health_lbl.setFont(new Font("Jokerman", Font.PLAIN|Font.ITALIC, 25)); // Set font style.
+        p_health_lbl.setOpaque(false); // Make the label background transparent.
+        p_health_lbl.setForeground(set.p_health_color); // Set text color.
     
-        // Measure text size
-        FontMetrics metrics = p_health_lbl.getFontMetrics(p_health_lbl.getFont());
-        int width = metrics.stringWidth(p_health_lbl.getText());
-        int height = metrics.getHeight();
+        // Measure text size for precise positioning.
+        FontMetrics metrics = p_health_lbl.getFontMetrics(p_health_lbl.getFont()); // Get font metrics
+        int width = metrics.stringWidth(p_health_lbl.getText()+5); // Get string width
+        int height = metrics.getHeight(); // Get font height
     
-        // Set precise bounds
+        // Set the label's bounds based on text size.
         p_health_lbl.setBounds(0, 0, width, height);
     
-        win.add(p_health_lbl);
+        win.add(p_health_lbl); // Add the label to the window.
     }
     //
-    // game over title
-    private
-    void g_over() 
-    {
-        zwave();
-        go_lbl = new JLabel("Game Over");
-        go_lbl.setFont(new Font("Jokerman", Font.PLAIN, 100));
-        go_lbl.setOpaque(false);
-        go_lbl.setForeground(set.go_color);
+    // Method to display the "Game Over" title.
+    private void g_over() {
+        zwave(); // Update the wave display.
+        go_lbl = new JLabel("Game Over"); // Create a new label for "Game Over".
+        go_lbl.setFont(new Font("Jokerman", Font.PLAIN, 100)); // Set font style.
+        go_lbl.setOpaque(false); // Make the label background transparent.
+        go_lbl.setForeground(set.go_color); // Set text color.
     
-        // Measure text size
+        // Measure text size for precise positioning.
         FontMetrics metrics = go_lbl.getFontMetrics(go_lbl.getFont());
         int width = metrics.stringWidth(go_lbl.getText());
         int height = metrics.getHeight();
     
-        // Set precise bounds
+        // Center the label on the screen.
         go_lbl.setBounds((int)((win.width()/2.00)-(width/2.00)), (int)((win.height()/2.00)-(height/2.00)), width, height);
-        win.setBackground(set.go_bg);
+        win.setBackground(set.go_bg); // Set the background color for the game-over screen.
 
-        win.add(go_lbl);
+        win.add(go_lbl); // Add the label to the window.
     }
     //
-    // zombie kills
-    private
-    void z_kills() 
-    {
-        if (zkill_lbl != null) win.remove(zkill_lbl);
+    // Method to display zombie kills.
+    private void z_kills() {
+        if (zkill_lbl != null) win.remove(zkill_lbl); // Remove old label if it exists.
 
-        zkill_lbl = new JLabel("000");
-        zkill_lbl.setFont(new Font("Jokerman", Font.PLAIN, 50));
-        zkill_lbl.setOpaque(false);
-        zkill_lbl.setForeground(set.zkill_color);
+        // Create a new label for zombie kills.
+        zkill_lbl = new JLabel("K1llZ [  000  ]");
+        zkill_lbl.setFont(new Font("Jokerman", Font.PLAIN, 25)); // Set font style.
+        zkill_lbl.setOpaque(false); // Make the label background transparent.
+        zkill_lbl.setForeground(set.zkill_color); // Set text color.
     
-        // Measure text size
+        // Measure text size for precise positioning.
         FontMetrics metrics = zkill_lbl.getFontMetrics(zkill_lbl.getFont());
         int width = metrics.stringWidth(zkill_lbl.getText());
         int height = metrics.getHeight();
 
-        zkill_lbl.setText(Integer.toString(e.z_kills));
+        // Update the label text with the current kill count.
+        zkill_lbl.setText("K1llZ [  "+Integer.toString(e.z_kills)+"  ]");
     
-        // Set precise bounds
+        // Position the label at the top-right corner.
         zkill_lbl.setBounds((int)((win.width()-width*2.00)), (int)(height/2.00), width, height);
 
-        win.add(zkill_lbl);
+        win.add(zkill_lbl); // Add the label to the window.
     }
     //
-    // current wave
-    private
-    void zwave() 
-    {
-        if (zwave_lbl != null) win.remove(zwave_lbl);
+    // Method to display the current wave.
+    private void zwave() {
+        if (zwave_lbl != null) win.remove(zwave_lbl); // Remove old label if it exists.
 
-        zwave_lbl = new JLabel("000");
-        zwave_lbl.setFont(new Font("Chiller", Font.PLAIN, 120));
-        zwave_lbl.setOpaque(false);
-        //zwave_lbl.setForeground(zwave_color);
+        // Create a new label for the current wave.
+        zwave_lbl = new JLabel("W4VE [ 000 ]");
+        zwave_lbl.setFont(new Font("Chiller", Font.PLAIN, 50)); // Set font style.
+        zwave_lbl.setOpaque(false); // Make the label background transparent.
 
-        // RAINBOW //
+        // Generate a random color for the text.
         int r = rng(0,255);
         int g = rng(0, 255);
         int b = rng(0, 255); 
         zwave_lbl.setForeground( new Color(r,g,b) );
     
-        // Measure text size
+        // Measure text size for precise positioning.
         FontMetrics metrics = zwave_lbl.getFontMetrics(zwave_lbl.getFont());
         int width = metrics.stringWidth(zwave_lbl.getText());
         int height = metrics.getHeight();
 
-        zwave_lbl.setText(Integer.toString(e.z_wave));
+        // Update the label text with the current wave number.
+        zwave_lbl.setText("W4VE [ "+Integer.toString(e.z_wave)+" ]");
     
-        // Set precise bounds
+        // Center the label at the top of the screen.
         zwave_lbl.setBounds((int)((win.width()/2.00)-(width/2.00)), height, width, height);
 
-        win.add(zwave_lbl);
+        win.add(zwave_lbl); // Add the label to the window.
     }
     //
-    // reload game
-    private 
-    void reload() 
-    {
-        reload_lbl = new JLabel("press [R] to start over");
-        reload_lbl.setFont(new Font("Monospace", Font.PLAIN|Font.ITALIC, 50));
-        reload_lbl.setOpaque(false);
-        reload_lbl.setForeground(set.reload_color);
+    // Method to display the reload prompt.
+    private void reload() {
+        reload_lbl = new JLabel("press [R] to start over"); // Create a new label for the reload prompt.
+        reload_lbl.setFont(new Font("Monospace", Font.PLAIN|Font.ITALIC, 50)); // Set font style.
+        reload_lbl.setOpaque(false); // Make the label background transparent.
+        reload_lbl.setForeground(set.reload_color); // Set text color.
     
-        // Measure text size
+        // Measure text size for precise positioning.
         FontMetrics metrics = reload_lbl.getFontMetrics(reload_lbl.getFont());
         int width = metrics.stringWidth(reload_lbl.getText());
         int height = metrics.getHeight();
     
-        // Set precise bounds
+        // Center the label at the bottom of the screen.
         reload_lbl.setBounds((int)((win.width()/2.00)-(width/2.00)), (int)((win.height()*0.75)-(height/2.00)), width, height);
 
-        win.add(reload_lbl);
+        win.add(reload_lbl); // Add the label to the window.
     }
     //
-    // ZZZ 
-    private
-    void ZZZ() 
-    {
-        if (ZZZ_lbl != null) win.remove(ZZZ_lbl);
-        ZZZ_lbl = new JLabel("000000000");
-        ZZZ_lbl.setFont(new Font("Chiller", Font.PLAIN|Font.ITALIC, 50));
-        ZZZ_lbl.setOpaque(false);
-        ZZZ_lbl.setForeground(set.ZZZ_color);
+    // Method to display in-game currency.
+    private void ZZZ() {
+        if (ZZZ_lbl != null) win.remove(ZZZ_lbl); // Remove old label if it exists.
+        ZZZ_lbl = new JLabel("000000000"); // Create a new label for in-game currency.
+        ZZZ_lbl.setFont(new Font("Chiller", Font.PLAIN|Font.ITALIC, 50)); // Set font style.
+        ZZZ_lbl.setOpaque(false); // Make the label background transparent.
+        ZZZ_lbl.setForeground(set.ZZZ_color); // Set text color.
     
-        // Measure text size
+        // Measure text size for precise positioning.
         FontMetrics metrics = ZZZ_lbl.getFontMetrics(ZZZ_lbl.getFont());
         int width = metrics.stringWidth(ZZZ_lbl.getText());
         int height = metrics.getHeight();
     
+        // Update the label text with the current currency value.
         ZZZ_lbl.setText("$"+Integer.toString(e.ZZZ));
-        // Set precise bounds
+        // Position the label at the bottom-right corner.
         ZZZ_lbl.setBounds((int)(win.width()-width), (int)((win.height()-height)), width, height);
 
-        ZZZ_lbl.setBorder(BorderFactory.createLineBorder(set.ZZZ_color, 2));
-        win.add(ZZZ_lbl);
+        ZZZ_lbl.setBorder(BorderFactory.createLineBorder(set.ZZZ_color, 2)); // Add a border to the label.
+        win.add(ZZZ_lbl); // Add the label to the window.
     }
     //
-    //
-    private
-    void stats() 
-    {
+    // Method to display player stats.
+    private void stats() {
         if (stats_lbl != null) 
-            win.remove(stats_lbl);
+            win.remove(stats_lbl); // Remove old label if it exists.
 
+        // Create a new label for player stats.
         String s = "Power ("+Integer.toString(e.lazar_power())+") | Upgrade $"+e.lazar_uprice + ",     press [U] to upgrade";
         stats_lbl = new JLabel(s);
-        stats_lbl.setFont(new Font("Chiller", Font.PLAIN, 45));
-        stats_lbl.setOpaque(false);
-        stats_lbl.setForeground(set.stats_color);
+        stats_lbl.setFont(new Font("Chiller", Font.PLAIN, 45)); // Set font style.
+        stats_lbl.setOpaque(false); // Make the label background transparent.
+        stats_lbl.setForeground(set.stats_color); // Set text color.
     
-        // Measure text size
+        // Measure text size for precise positioning.
         FontMetrics metrics = stats_lbl.getFontMetrics(stats_lbl.getFont());
         int width = metrics.stringWidth(stats_lbl.getText());
         int height = metrics.getHeight();
     
-        // Set precise bounds
+        // Position the label at the bottom-left corner.
         stats_lbl.setBounds(0, (int)((win.height()-height)), width, height);
 
-        win.add(stats_lbl);
+        win.add(stats_lbl); // Add the label to the window.
     }
     //
-    //
-    private
-    void pause() 
-    {
+    // Method to handle pause state UI.
+    private void pause() {
         if (pause_lbl != null)
-            win.remove(pause_lbl);
+            win.remove(pause_lbl); // Remove old label if it exists.
+          
+        if (keybinds_lbl != null)
+            for (JLabel lbl : keybinds_lbl)
+                if (lbl != null)
+                    win.remove(lbl); // Remove keybind labels if they exist.
 
         if (e.is_paused)
         {
+            // Create a new label for the pause state.
             String s = "Game Paused: Hit [ESC] to Resume";
             pause_lbl = new JLabel(s);
-            pause_lbl.setFont(new Font("Jokerman", Font.PLAIN|Font.ITALIC, 75));
-            pause_lbl.setOpaque(false);
-            pause_lbl.setForeground(set.pause_color);
+            pause_lbl.setFont(new Font("Jokerman", Font.PLAIN|Font.ITALIC, 75)); // Set font style.
+            pause_lbl.setOpaque(false); // Make the label background transparent.
+            pause_lbl.setForeground(set.pause_color); // Set text color.
         
-            // Measure text size
+            // Measure text size for precise positioning.
             FontMetrics metrics = pause_lbl.getFontMetrics(pause_lbl.getFont());
             int width = metrics.stringWidth(pause_lbl.getText());
             int height = metrics.getHeight();
         
-            // Set precise bounds
+            // Center the label on the screen.
             pause_lbl.setBounds((int)((win.width()/2.00)-(width/2.00)), (int)((win.height()/2.00)-(height/2.00)), width, height);
 
-            win.add(pause_lbl);
+            win.add(pause_lbl); // Add the label to the window.
+            
+            // Display keybinds when paused.
+            show_keybinds();
         }
     }
     //
-    //
-    private
-    void lzammo() 
-    {
+    // Method to display lazar ammo.
+    private void lzammo() {
         if (lzammo_lbl != null) 
-            win.remove(lzammo_lbl);
+            win.remove(lzammo_lbl); // Remove old label if it exists.
 
+        // Create a new label for lazar ammo.
         String s = "000000";
         lzammo_lbl = new JLabel(s);
-        lzammo_lbl.setFont(new Font("Jokerman", Font.PLAIN|Font.ITALIC, 50));
-        lzammo_lbl.setOpaque(false);
-        lzammo_lbl.setForeground(set.lzammo_color);
+        lzammo_lbl.setFont(new Font("Jokerman", Font.PLAIN|Font.ITALIC, 50)); // Set font style.
+        lzammo_lbl.setOpaque(false); // Make the label background transparent.
+        lzammo_lbl.setForeground(set.lzammo_color); // Set text color.
     
-        // Measure text size
+        // Measure text size for precise positioning.
         FontMetrics metrics = lzammo_lbl.getFontMetrics(lzammo_lbl.getFont());
         int width = metrics.stringWidth(lzammo_lbl.getText());
         int height = metrics.getHeight();
    
+        // Update the label text with the current ammo count.
         lzammo_lbl.setText(Integer.toString(e.lazar_mag));
-        // Set precise bounds
+        // Position the label at the bottom-right corner.
         lzammo_lbl.setBounds((int)(win.width()-(width)), (int)((win.height()-(height*2))), width, height);
 
-        win.add(lzammo_lbl);
-        lazar_reload_prompt();
+        win.add(lzammo_lbl); // Add the label to the window.
+        lazar_reload_prompt(); // Display reload prompt if necessary.
     }
     //
-    private
-    void lazar_reload_prompt() 
-    {
+    // Method to display reload prompt for lazar ammo.
+    private void lazar_reload_prompt() {
         if (lzrel_lbl != null) 
-            win.remove(lzrel_lbl);
+            win.remove(lzrel_lbl); // Remove old label if it exists.
 
         if (e.lazar_mag <= 0)
         {
-        String s = "Reload with [CTRL]";
+        // Create a new label for the reload prompt.
+        String s = "   Reload with [CTRL]   ";
         lzrel_lbl = new JLabel(s);
-        lzrel_lbl.setFont(new Font("Jokerman", Font.PLAIN|Font.ITALIC, 20));
-        lzrel_lbl.setOpaque(false);
-        lzrel_lbl.setForeground(set.lzammo_color);
+        lzrel_lbl.setFont(new Font("Jokerman", Font.PLAIN, 20)); // Set font style.
+        lzrel_lbl.setOpaque(false); // Make the label background transparent.
+        lzrel_lbl.setForeground(set.reload_prompt_color); // Set text color.
+        int border_width = 2;
+        lzrel_lbl.setBorder(BorderFactory.createLineBorder(set.reload_prompt_color, border_width));
     
-        // Measure text size
+        // Measure text size for precise positioning.
         FontMetrics metrics = lzrel_lbl.getFontMetrics(lzrel_lbl.getFont());
-        int width = metrics.stringWidth(lzrel_lbl.getText());
+        int width = metrics.stringWidth(lzrel_lbl.getText())+(int)(border_width*2);
         int height = metrics.getHeight();
 
-        // Set precise bounds
-        lzrel_lbl.setBounds((int)(win.width()-(width)), (int)((win.height()-(height*6))), width, height);
+        // Position the label at the bottom-right corner.
+        lzrel_lbl.setBounds((int)(win.width()-((int)(width*1.5))), (int)((win.height()-(height*6))), width, height);
 
-        win.add(lzrel_lbl);
+        win.add(lzrel_lbl); // Add the label to the window.
+        }
+    }
+    //
+    // Method to display keybinds when paused.
+    private void show_keybinds() {
+        final String[] controls = 
+        {
+            ":: KEYBINDINGS ::",
+            " ",
+            "1. Move:.................[W][A][S][D]",
+            "2. Shoot:.................Arrow Keys ",
+            "3. Reload:................[CTRL]",
+            "4. Upgrade Weapon:........[U]",
+            "5. Speed Boost:...........[SPACE]",
+            "6. Pause/Resume:..........[ESC]",
+            "7. Restart When Dead:.....[R]"
+        };
+
+        keybinds_lbl = new JLabel[controls.length];
+
+        for (int i = 0; i < controls.length; i++)
+        {
+            keybinds_lbl[i] = new JLabel(controls[i]);
+            keybinds_lbl[i].setFont(new Font("Serif", Font.PLAIN|Font.ITALIC, 25)); // Set font style.
+            keybinds_lbl[i].setOpaque(false); // Make the label background transparent.
+            keybinds_lbl[i].setForeground(set.keybinds_color); // Set text color.
+            FontMetrics metrics = keybinds_lbl[i].getFontMetrics(keybinds_lbl[i].getFont());
+        }
+
+        FontMetrics metrics = keybinds_lbl[0].getFontMetrics(keybinds_lbl[0].getFont());
+        int height = metrics.getHeight();
+        int width = 150+metrics.stringWidth(keybinds_lbl[0].getText());
+
+        for (int i = 0; i < controls.length; i++)
+        {
+            int h = height;
+            int x = (int)(win.width()/2.00 - (int)(width/2.00));
+            int y = 100+(int)(win.height()/2.00 - (int)(height/2.00));
+            keybinds_lbl[i].setBounds(x, y+height*i, width, height);
+            win.add(keybinds_lbl[i]); // Add each keybind label to the window.
         }
     }
 
-
-    public 
-    void new_game() 
-    {
-        win.setBackground(set.window_bg);
+    // Method to reset UI for a new game.
+    public void new_game() {
+        win.setBackground(set.window_bg); // Reset the background color.
     }
     
 
-    // RANDOMS //
-    //
-    protected 
-    int rng(int min, int max) 
-    {
-        return rand.nextInt(max-min)+min;
+    // Method to generate random numbers within a range.
+    protected int rng(int min, int max) {
+        if (max-min > 0)
+            return rand.nextInt(max-min)+min;
+        else
+            return min;
     }
 }

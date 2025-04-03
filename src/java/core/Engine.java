@@ -19,29 +19,29 @@ public class Engine
     // lazar ammo and mag
     public  int         lazar_ammo = 8, lazar_mag = lazar_ammo, 
                         lazar_ammo_org = lazar_ammo, 
-                        lazar_reload_delay = 2000;
-    public  int         z_throt = 100, p_throt = 120;
-    private int         max_z_num = 100, z_num   = 1, 
-                        p_size  = 32, z_size = 32, lazar_size = 5;
-    private double      p_speed = 15.0, z_speed = 10.0, lazar_speed = 20.0;
+                        lazar_reload_delay = 2000; // Delay for reloading lazar ammo
+    public  int         z_throt = 100, p_throt = 120; // Throttle values for zombie and player movement
+    private int         max_z_num = 100, z_num   = 1, // Maximum number of zombies and current zombie count
+                        p_size  = 32, z_size = 32, lazar_size = 5; // Sizes for player, zombies, and lazar
+    private double      p_speed = 15.0, z_speed = 10.0, lazar_speed = 20.0; // Speeds for player, zombies, and lazar
     //
-    public  Player      p;
-    public  List<Zomb>  zombs   = new ArrayList<>();
-    public  List<Lazar> lazars  = new ArrayList<>();
-    public  Timer       z_move_t, 
-                        lazar_motion_t, lazar_collision_t, lazar_rem_t,
-                        cleanup_t, heal_t;
-    private Random      rand    = new Random();
-    private Settings    set;
-    public  int         screen_width, screen_height;
-    private int         z_hit_stren = 25;
-    public  Color       screen_color;
-    public  boolean     is_p_alive = true;
-    private boolean     is_respawn = false;
-    public  int         z_kills = 0, z_wave = 1, zwf = 5,
-                        ZZZ = 0, ZZZ_unit = 44,
-                        lazar_uprice = 400, lazar_f = 1;
-    public  boolean     is_paused = false;
+    public  Player      p; // Player object
+    public  List<Zomb>  zombs   = new ArrayList<>(); // List of zombies
+    public  List<Lazar> lazars  = new ArrayList<>(); // List of lazars
+    public  Timer       z_move_t, // Timer for zombie movement
+                        lazar_motion_t, lazar_collision_t, lazar_rem_t, // Timers for lazar actions
+                        cleanup_t, heal_t; // Timers for cleanup and healing
+    private Random      rand    = new Random(); // Random object for generating random values
+    private Settings    set; // Settings object
+    public  int         screen_width, screen_height; // Screen dimensions
+    private int         z_hit_stren = 25; // Strength of zombie hits
+    public  Color       screen_color; // Screen color
+    public  boolean     is_p_alive = true; // Flag to check if player is alive
+    private boolean     is_respawn = false; // Flag for respawn state
+    public  int         z_kills = 0, z_wave = 1, zwf = 5, // Zombie kills, wave count, and wave frequency
+                        ZZZ = 0, ZZZ_unit = 44, // Player's currency and unit value
+                        lazar_uprice = 400, lazar_f = 1; // Lazar upgrade price and factor
+    public  boolean     is_paused = false; // Flag for game pause state
 
 
     // ACCESS //
@@ -50,14 +50,14 @@ public class Engine
     public 
     void player(Player p) 
     {
-        this.p = p;
+        this.p = p; // Assign player object
     }
     //
     // get settings
     public
     void settings(Settings set) 
     {
-        this.set = set;
+        this.set = set; // Assign settings object
     }
 
 
@@ -67,37 +67,36 @@ public class Engine
     public 
     void start() 
     {
-        init_player();
-        init_zombs();
+        init_player(); // Initialize player
+        init_zombs(); // Initialize zombies
 
-        z_move_t = new Timer(z_throt, e -> chase());
+        z_move_t = new Timer(z_throt, e -> chase()); // Timer for zombie movement
         z_move_t.start();
 
-        lazar_motion_t = new Timer(120, e -> lazar_move());
+        lazar_motion_t = new Timer(120, e -> lazar_move()); // Timer for lazar movement
         lazar_motion_t.start();
 
-        lazar_collision_t = new Timer(100, e -> lazar_hits());
+        lazar_collision_t = new Timer(100, e -> lazar_hits()); // Timer for lazar collision detection
         lazar_collision_t.start();
 
-        lazar_rem_t = new Timer(200, e -> rem_hits());
+        lazar_rem_t = new Timer(200, e -> rem_hits()); // Timer for removing hit lazars
         lazar_rem_t.start();
 
-        cleanup_t = new Timer(4000, e -> clean_up_z());
+        cleanup_t = new Timer(4000, e -> clean_up_z()); // Timer for cleaning up dead zombies
         cleanup_t.start();
 
-        heal_t = new Timer(8000, e -> heal_p());
-        heal_t.start();
+        heal_t = new Timer(8000, e -> heal_p()); // Timer for healing player
     }
     //
     // update engine
     public 
     void update() 
     {
-        keep_in_bounds();
-        health_check();
-        z_hits();
-        is_z_dead();
-        spawn_check();
+        keep_in_bounds(); // Ensure entities stay within screen bounds
+        health_check(); // Check player's health
+        z_hits(); // Check zombie hits on player
+        is_z_dead(); // Check if zombies are dead
+        spawn_check(); // Check and handle zombie spawning
     }
 
 
@@ -107,9 +106,9 @@ public class Engine
     private 
     void init_player() 
     {
-        p.health = 100;
-        p.size = p_size;
-        p.body_color = set.p_color;
+        p.health = 100; // Set player's health
+        p.size = p_size; // Set player's size
+        p.body_color = set.p_color; // Set player's color
         p.speed = p_speed;
 
         p.x = (int)((screen_width/2.00)-(p.size/2.00));
@@ -120,21 +119,20 @@ public class Engine
     private 
     void init_zombs() 
     {
-        for (int i=0; i<z_num; i++) 
-        {
+        for (int i=0; i<z_num; i++) {
             Zomb z = new Zomb();
             zombs.add(z);
         }
-
-        for (Zomb z : zombs) 
-        {
+    
+        for (Zomb z : zombs) {
             z.size = z_size;
             z.body_color = set.z_color;
-            z.speed = z_speed;
+            // Set speed based on pause state
+            z.speed = is_paused ? 0.0 : z_speed;
             z.x = rand.nextInt(screen_width-z.size)+z.size;
             z.y = rand.nextInt(screen_height-z.size)+z.size;
         }
-        is_respawn = true;
+        is_respawn = true; // Allow respawning of zombies after the first wave
     }
 
 
@@ -272,6 +270,13 @@ public class Engine
                     p_dec();
                 }
             }
+
+            if (p.health >= 100)
+            {
+                heal_t.stop(); // Stop healing timer if player is at max health
+                p.health = 100; // Ensure health does not exceed 100:w
+            }
+            heal_t.start(); // Restart healing timer if player is alive
         }
     }
     //
@@ -333,18 +338,37 @@ public class Engine
     public 
     void reload_lazar() 
     {
-        new Thread(() -> 
+        if (lazar_mag >= lazar_ammo) 
         {
-            try 
+            // Already full ammo
+            return;
+        }
+        
+        // Check if the game is paused
+        // If the game is paused, do not reload lazar ammo
+        if (is_paused) 
+        {
+            // If game is paused, do not reload
+            return;
+        }
+
+        // If lazar_mag is less than lazar_ammo, reload it
+        if  (lazar_mag <= 0)
+        {
+            // Reload lazar ammo with a delay
+            new Thread(() -> 
             {
-                Thread.sleep(lazar_reload_delay); // 2-second delay
-                lazar_mag = lazar_ammo;
-                // System.out.println("Lazar reloaded: " + lazar_mag);
-            } catch (InterruptedException e) 
-            {
-                e.printStackTrace();
-            }
-        }).start();
+                try 
+                {
+                    Thread.sleep(lazar_reload_delay); // 2-second delay
+                    lazar_mag = lazar_ammo;
+                    // System.out.println("Lazar reloaded: " + lazar_mag);
+                } catch (InterruptedException e) 
+                {
+                    e.printStackTrace();
+                }
+            }).start();
+        }
     }
     
     //

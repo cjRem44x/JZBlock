@@ -6,10 +6,10 @@ import java.awt.*;
 
 public class Lazar 
 {
-    public int     x, y, size;
-    public double  speed;
-    public Color   body_color, shadow_color;
-    public String  dir = "up";
-    public boolean is_hit = false;
-    public int     stren = 25;
+    public int     x, y, size; // Position and size
+    public double  speed; // Speed
+    public Color   body_color, shadow_color; // Colors
+    public String  dir = "up"; // Direction
+    public boolean is_hit = false; // Hit flag
+    public int     stren = 25; // Strength
 }
