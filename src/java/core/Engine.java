@@ -119,12 +119,14 @@ public class Engine
     private 
     void init_zombs() 
     {
-        for (int i=0; i<z_num; i++) {
+        for (int i=0; i<z_num; i++) 
+        {
             Zomb z = new Zomb();
             zombs.add(z);
         }
     
-        for (Zomb z : zombs) {
+        for (Zomb z : zombs) 
+        {
             z.size = z_size;
             z.body_color = set.z_color;
             // Set speed based on pause state

@@ -8,7 +8,7 @@ public class Settings
 {
     // FIELDS //
     //
-    public final String GAME_TITLE = "JZBlock"; // The title of the game window
+    public final String GAME_TITLE = "JZBlock ϫⲍⲃⲗⲟⲕ"; // The title of the game window
     //
     public int     screen_width = 1550,  // Width of the game screen
                    screen_height = 950, // Height of the game screen
@@ -20,7 +20,7 @@ public class Settings
                    lazar_color = new Color(255, 0, 159), // Lazar color
                    lazar_shadow = new Color(252, 146, 212), // Lazar shadow color
                    lazar_blow_color = new Color(255, 255, 255); // Lazar explosion color
-    public Color   window_bg = new Color(0, 7, 53); // Window background color
+    public Color   window_bg = new Color(16, 16, 36); // Window background color
     public Color  go_bg          = new Color(38, 10, 0),   // Game over background color
                   p_health_color = new Color(255, 100 ,100), // Player health color
                   go_color       = new Color(255, 0, 0),     // Game over text color
