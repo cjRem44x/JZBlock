@@ -30,7 +30,7 @@ public class Settings
                   ZZZ_color      = new Color(255, 0, 240),   // ZZZ color
                   stats_color    = new Color(255, 0, 0),    // Stats color
                   pause_color    = new Color(255, 0, 0),    // Pause color
-                  lzammo_color   = new Color(255, 0, 200),   // Lazar ammo color
+                  lzammo_color   = new Color(235, 255, 200),   // Lazar ammo color
                   keybinds_color = new Color(255, 233, 0), // Keybinds color
                   reload_prompt_color = new Color(200, 255, 200), // Reload prompt color
                   paused_bg_color = new Color(50, 50, 50); // Game over background color

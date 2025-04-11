@@ -22,18 +22,6 @@ extends JPanel
     private UI           ui; // UI object for user interface management
     private Settings     set; // Settings object for application configuration
     //
-    // colors
-    // @TODO: make separate 'Theme.java' for this 
-    private Color bg             = new Color(0, 10, 20), // Background color
-                  go_bg          = new Color(38, 10, 0), // Game over background color
-                  p_health_color = new Color(255, 70, 157), // Player health color
-                  go_color       = new Color(255, 0, 0), // Game over color
-                  zkill_color    = new Color(179, 255, 0), // Zombie kill color
-                  zwave_color    = new Color(255, 119, 0), // Zombie wave color
-                  reload_color   = new Color(43, 234, 244), // Reload color
-                  ZZZ_color      = new Color(225, 205, 255), // ZZZ color
-                  stats_color    = new Color(255, 0, 255); // Stats color
-    //
     // displaying stats
     private JLabel p_health_lbl, go_lbl, 
                    zkill_lbl, zwave_lbl, 
@@ -125,7 +113,7 @@ extends JPanel
     void clear() 
     {
         this.removeAll(); // Remove all components from the JPanel
-        this.setBackground(bg); // Reset the background color
+        this.setBackground(set.window_bg); // Reset the background color
     }
 
 
@@ -142,7 +130,7 @@ extends JPanel
     void engine(Engine e) 
     {
         this.e = e; // Set the Engine object
-        e.screen_color = bg; // Set the screen color in the Engine
+        e.screen_color = set.window_bg; // Set the screen color in the Engine
     }
     //
     public 
