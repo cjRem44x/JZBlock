@@ -1,5 +1,3 @@
-// AUTHOR: cjRem44x //
-//
 package ui;
 
 // Import necessary libraries for UI components and event handling.
@@ -64,6 +62,7 @@ public class UI
         if (!e.is_p_alive) {
             g_over(); // Show game over screen
             reload(); // Show reload prompt
+            first_paint = 0;
         } else {
             new_game(); // Reset UI for a new game.
         }
@@ -100,8 +99,8 @@ public class UI
     // Method to display the "Game Over" title.
     private void g_over() {
         zwave(); // Update the wave display.
-        go_lbl = new JLabel("Game Over"); // Create a new label for "Game Over".
-        go_lbl.setFont(new Font("Verdana", Font.PLAIN, 100)); // Set font style.
+        go_lbl = new JLabel("🙁 Game Over 😭"); // Create a new label for "Game Over".
+        go_lbl.setFont(new Font("Arial Unicode MS", Font.PLAIN, 100)); // Set font style.
         go_lbl.setOpaque(false); // Make the label background transparent.
         go_lbl.setForeground(set.go_color); // Set text color.
     
@@ -194,35 +193,26 @@ public class UI
     //
     // Method to display in-game currency.
     private void ZZZ() {
-        //if (ZZZ_lbl != null) win.remove(ZZZ_lbl); // Remove old label if it exists.
-        
-        FontMetrics metrics = null;
-        if (first_paint < 1)
-        {
-            ZZZ_lbl = new JLabel("000000000"); // Create a new label for in-game currency.
-            ZZZ_lbl.setFont(new Font("Chiller", Font.PLAIN|Font.ITALIC, 50)); // Set font style.
-            ZZZ_lbl.setOpaque(false); // Make the label background transparent.
-            ZZZ_lbl.setForeground(set.ZZZ_color); // Set text color.
-            // Measure text size for precise positioning.
-            metrics = ZZZ_lbl.getFontMetrics(ZZZ_lbl.getFont());
+        if (first_paint < 1) {
+            ZZZ_lbl = new JLabel();
+            ZZZ_lbl.setFont(new Font("Chiller", Font.PLAIN | Font.ITALIC, 50));
+            ZZZ_lbl.setOpaque(false);
+            ZZZ_lbl.setForeground(set.ZZZ_color);
+            win.add(ZZZ_lbl); // moved inside here since it's only done once
         }
-        if (metrics != null)
-        {
-            int width = metrics.stringWidth(ZZZ_lbl.getText());
-            int height = metrics.getHeight();
-        
-            // Update the label text with the current currency value.
-            ZZZ_lbl.setText("$  "+Integer.toString(e.ZZZ));
-            // Position the label at the bottom-right corner.
-            ZZZ_lbl.setBounds((int)(win.width()-width), (int)((win.height()-height)), width, height);
-
-            ZZZ_lbl.setBorder(BorderFactory.createLineBorder(set.ZZZ_color, 2)); // Add a border to the label.
-            
-            if (first_paint < 1)
-                win.add(ZZZ_lbl); // Add the label to the window.
-        
-        }
-    }
+    
+        ZZZ_lbl.setText("$ 000000000  ");
+        FontMetrics metrics = ZZZ_lbl.getFontMetrics(ZZZ_lbl.getFont());
+        int width = metrics.stringWidth(ZZZ_lbl.getText());
+        int height = metrics.getHeight();
+    
+        ZZZ_lbl.setText("$ " + Integer.toString(e.ZZZ));
+        ZZZ_lbl.setBounds(win.width() - width, win.height() - height, width, height);
+        ZZZ_lbl.setBorder(BorderFactory.createLineBorder(set.ZZZ_color, 2));
+    
+        ZZZ_lbl.revalidate();
+        ZZZ_lbl.repaint();
+    }    
     //
     // Method to display player stats.
     private void stats() {
@@ -245,7 +235,7 @@ public class UI
         int height = metrics.getHeight();
     
         // Position the label at the bottom-left corner.
-        stats_lbl.setBounds(0, (int)((win.height()-height)), width, height);
+        stats_lbl.setBounds(0, (int)((win.height()-height))-5, width, height);
 
         if (first_paint < 1)
             win.add(stats_lbl); // Add the label to the window.
@@ -253,15 +243,17 @@ public class UI
     //
     // Method to handle pause state UI.
     private void pause() {
+        // Always clean up previous pause UI elements
         if (pause_lbl != null)
             win.remove(pause_lbl); // Remove old label if it exists.
-          
+        
         if (keybinds_lbl != null)
             for (JLabel lbl : keybinds_lbl)
                 if (lbl != null)
                     win.remove(lbl); // Remove keybind labels if they exist.
-
-        if (e.is_paused)
+    
+        // Only show pause UI if the game is paused AND the player is alive
+        if (e.is_paused && e.is_p_alive) 
         {
             // Create a new label for the pause state.
             String s = "🎮  Game Paused: Hit [ESC] to Resume";
@@ -277,7 +269,7 @@ public class UI
         
             // Center the label on the screen.
             pause_lbl.setBounds((int)((win.width()/2.00)-(width/2.00)), (int)((win.height()/2.00)-(height/2.00)), width, height);
-
+    
             win.add(pause_lbl); // Add the label to the window.
             
             // Display keybinds when paused.
@@ -389,8 +381,45 @@ public class UI
         }
     }
 
+    // Method to reset all UI elements
+    public void resetUI() {
+        // Reset the first_paint counter
+        first_paint = 0;
+        
+        // Remove all existing labels
+        if (p_health_lbl != null) win.remove(p_health_lbl);
+        if (zkill_lbl != null) win.remove(zkill_lbl);
+        if (zwave_lbl != null) win.remove(zwave_lbl);
+        if (ZZZ_lbl != null) win.remove(ZZZ_lbl);
+        if (stats_lbl != null) win.remove(stats_lbl);
+        if (pause_lbl != null) win.remove(pause_lbl);
+        if (lzammo_lbl != null) win.remove(lzammo_lbl);
+        if (lzrel_lbl != null) win.remove(lzrel_lbl);
+        if (go_lbl != null) win.remove(go_lbl);
+        if (reload_lbl != null) win.remove(reload_lbl);
+        
+        // Reset references to null
+        p_health_lbl = zkill_lbl = zwave_lbl = ZZZ_lbl = null;
+        stats_lbl = pause_lbl = lzammo_lbl = lzrel_lbl = null;
+        go_lbl = reload_lbl = null;
+        
+        // Clear keybinds if they exist
+        if (keybinds_lbl != null) {
+            for (JLabel lbl : keybinds_lbl) {
+                if (lbl != null) win.remove(lbl);
+            }
+            keybinds_lbl = null;
+        }
+        
+        // Reset background
+        win.setBackground(set.window_bg);
+    }
+
     // Method to reset UI for a new game.
     public void new_game() {
+        if (go_lbl != null && reload_lbl != null) {
+            resetUI(); // Use the comprehensive reset method instead of just removing two labels
+        }
         win.setBackground(set.window_bg); // Reset the background color.
     }
     
@@ -402,4 +431,6 @@ public class UI
         else
             return min;
     }
-}
+
+
+}// END OF CLASS //

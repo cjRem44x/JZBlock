@@ -11,7 +11,7 @@ public class Settings
     public final String GAME_TITLE = "JZBlock ϫⲍⲃⲗⲟⲕ"; // The title of the game window
     //
     public int     screen_width = 1550,  // Width of the game screen
-                   screen_height = 950, // Height of the game screen
+                   screen_height = 920, // Height of the game screen
                    fps = 60;              // Frames per second
     public boolean switch_controls = false; // Flag to switch control scheme
     public Color   p_color     = new Color(137,0,255), // Player color
@@ -30,7 +30,7 @@ public class Settings
                   ZZZ_color      = new Color(255, 0, 240),   // ZZZ color
                   stats_color    = new Color(255, 0, 0),    // Stats color
                   pause_color    = new Color(255, 0, 0),    // Pause color
-                  lzammo_color   = new Color(235, 255, 200),   // Lazar ammo color
+                  lzammo_color   = new Color(200, 255, 200),   // Lazar ammo color
                   keybinds_color = new Color(255, 233, 0), // Keybinds color
                   reload_prompt_color = new Color(200, 255, 200), // Reload prompt color
                   paused_bg_color = new Color(50, 50, 50); // Game over background color

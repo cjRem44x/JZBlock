@@ -46,6 +46,14 @@ implements KeyListener, WindowListener
                     uarr_press  = false, // Up arrow key pressed
                     darr_press  = false; // Down arrow key pressed
 
+    // Speed boost logic variables
+    private long boostStartTime = 0; // Timestamp when the speed boost was activated
+    private final long BOOST_DURATION = 5000; // Duration of the speed boost (5 seconds)
+    private final long RECHARGE_TIME = 5000; // Recharge time (5 seconds)
+    private boolean canUseBoost = true; // Flag to indicate if the boost can be used
+
+    private boolean energyDepleted = false; // Flag to check if energy is depleted
+
 
     // ACCESS //
     //
@@ -86,8 +94,7 @@ implements KeyListener, WindowListener
     // MOVEMENT //
     //
     // Handle key presses
-    @Override public 
-    void keyPressed(KeyEvent e) 
+    @Override public void keyPressed(KeyEvent e) 
     {
         int n = e.getKeyCode();
 
@@ -133,15 +140,23 @@ implements KeyListener, WindowListener
     }
     //
     // Handle key releases
-    @Override public 
-    void keyReleased(KeyEvent e) 
+    @Override public void keyReleased(KeyEvent e) 
     {
         int n = e.getKeyCode();
         if (n == W) up_press      = false;
         if (n == S) dwn_press    = false;
         if (n == A) left_press    = false;
         if (n == D) right_press   = false;
-        if (n == SPACE) space_press = false;
+        if (n == SPACE) {
+            space_press = false;
+            // End the speed boost when the spacebar is released
+            if (speed_boost) {
+                // End the speed boost and trigger recharge
+                this.e.p.speed /= 2; // Reset speed to normal
+                speed_boost = false;
+                energyDepleted = true; // Energy is now depleted, trigger recharge
+            }
+        }
 
         
         if (n == RARR) rarr_press = false;
@@ -151,29 +166,42 @@ implements KeyListener, WindowListener
     }
     //
     // Continuous movement loop
-    private 
-    void startMovementLoop() 
+    private void startMovementLoop() 
     {
         new javax.swing.Timer(e.p_throt, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
+                // Handle movement
                 if (up_press)    e.p.y -= e.p.speed;
                 if (dwn_press)   e.p.y += e.p.speed;
                 if (left_press)  e.p.x -= e.p.speed;
                 if (right_press) e.p.x += e.p.speed;
 
+                // Handle blasts
                 if (rarr_press) e.blast("right");
                 if (larr_pres)  e.blast("left");
                 if (uarr_press) e.blast("up");
                 if (darr_press) e.blast("down");
-                
-                if (space_press && !speed_boost) {
+
+                // Speed Boost Logic
+                if (space_press && canUseBoost && !speed_boost) {
                     e.p.speed *= 2;
                     speed_boost = true;
+                    boostStartTime = System.currentTimeMillis(); // Record the time when boost was activated
+                    canUseBoost = false; // Disable using boost until it's recharged
                 }
-                if (!space_press && speed_boost) {
-                    e.p.speed /= 2;
+
+                // Check if the speed boost has lasted long enough to end
+                if (speed_boost && System.currentTimeMillis() - boostStartTime >= BOOST_DURATION) {
+                    e.p.speed /= 2; // Reset speed to normal
                     speed_boost = false;
+                    energyDepleted = true; // Energy is now depleted, trigger recharge
+                }
+
+                // Check if the speed boost is done and we are in the recharge period
+                if (energyDepleted && System.currentTimeMillis() - boostStartTime >= BOOST_DURATION + RECHARGE_TIME) {
+                    canUseBoost = true; // Enable using the boost again after recharge time
+                    energyDepleted = false; // Reset the energy depletion flag
                 }
             }
         }).start();
@@ -182,8 +210,7 @@ implements KeyListener, WindowListener
 
     // WINDOW //
     //
-    @Override public 
-    void windowClosing(WindowEvent e) 
+    @Override public void windowClosing(WindowEvent e) 
     {
         System.exit(0);
     }

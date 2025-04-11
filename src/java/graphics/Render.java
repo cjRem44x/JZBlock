@@ -35,12 +35,18 @@ public class Render
         // draw player
         g.setColor(e.p.body_color);
         g.fillRect(e.p.x, e.p.y, e.p.size, e.p.size);
+        g.setColor(Color.black);
+        g.setFont( new Font("Arial Unicode MS", Font.PLAIN|Font.BOLD, 31));
+        g.drawString("😃", e.p.x, e.p.y+e.p.size-4);
         //
         // draw zombs
         for (Zomb z : e.zombs) 
         {
             g.setColor(z.body_color);
             g.fillRect(z.x, z.y, z.size, z.size);
+            g.setColor(Color.black);
+            g.setFont( new Font("Arial Unicode MS", Font.PLAIN|Font.BOLD, 31));
+            g.drawString("😈", z.x, z.y+z.size-4);
         }
         //
         // draw lazars

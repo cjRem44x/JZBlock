@@ -3,6 +3,10 @@
 package graphics;
 
 import java.awt.*; // Import AWT library
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.security.SecureRandom; // Import SecureRandom
 import javax.swing.*; // Import Swing library
 //
@@ -96,6 +100,23 @@ extends JPanel
         // f.setExtendedState(JFrame.MAXIMIZED_BOTH); // Uncomment to maximize the window
         f.setMinimumSize( new Dimension(800, 800) ); // Set minimum size for the window
         f.setResizable(false); // Disable resizing of the window
+        
+        // Setiing up Invisible cursor when
+        // screen is clicked on.
+        BufferedImage cursimg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+            cursimg, new Point(0, 0), 
+            "blank cursor"
+        );
+        f.addMouseListener(
+            new MouseAdapter() {
+                @Override public 
+                void mouseClicked(MouseEvent e) 
+                {
+                    f.getContentPane().setCursor(blankCursor);
+                }
+            }
+        );
 
         // background color
         this.setBackground(set.window_bg); // Set the background color using settings
