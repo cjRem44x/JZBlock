@@ -45,7 +45,7 @@ public class Render
             g.setColor(z.body_color);
             g.fillRect(z.x, z.y, z.size, z.size);
             g.setColor(Color.black);
-            g.setFont( new Font("Arial Unicode MS", Font.PLAIN|Font.BOLD, 31`));
+            g.setFont( new Font("Arial Unicode MS", Font.PLAIN|Font.BOLD, 31));
             g.drawString("😈", z.x, z.y+z.size-4);
         }
         //
