@@ -97,7 +97,9 @@ public class UI
     }
     //
     // Method to display the "Game Over" title.
-    private void g_over() {
+    private 
+    void g_over() 
+    {
         zwave(); // Update the wave display.
         go_lbl = new JLabel("🙁 Game Over 😭"); // Create a new label for "Game Over".
         go_lbl.setFont(new Font("Arial Unicode MS", Font.PLAIN, 100)); // Set font style.
@@ -117,7 +119,9 @@ public class UI
     }
     //
     // Method to display zombie kills.
-    private void z_kills() {
+    private 
+    void z_kills() 
+    {
         //if (zkill_lbl != null) win.remove(zkill_lbl); // Remove old label if it exists.
 
         if (first_paint < 1)
@@ -145,7 +149,9 @@ public class UI
     }
     //
     // Method to display the current wave.
-    private void zwave() {
+    private 
+    void zwave() 
+    {
         if (zwave_lbl != null) win.remove(zwave_lbl); // Remove old label if it exists.
 
         // Create a new label for the current wave.
@@ -174,7 +180,9 @@ public class UI
     }
     //
     // Method to display the reload prompt.
-    private void reload() {
+    private 
+    void reload() 
+    {
         reload_lbl = new JLabel("press [R] to start over"); // Create a new label for the reload prompt.
         reload_lbl.setFont(new Font("Monospace", Font.PLAIN|Font.ITALIC, 50)); // Set font style.
         reload_lbl.setOpaque(false); // Make the label background transparent.
@@ -192,8 +200,11 @@ public class UI
     }
     //
     // Method to display in-game currency.
-    private void ZZZ() {
-        if (first_paint < 1) {
+    private 
+    void ZZZ() 
+    {
+        if (first_paint < 1) 
+        {
             ZZZ_lbl = new JLabel();
             ZZZ_lbl.setFont(new Font("Chiller", Font.PLAIN | Font.ITALIC, 50));
             ZZZ_lbl.setOpaque(false);
@@ -215,7 +226,9 @@ public class UI
     }    
     //
     // Method to display player stats.
-    private void stats() {
+    private 
+    void stats() 
+    {
         //if (stats_lbl != null) 
             //win.remove(stats_lbl); // Remove old label if it exists.
 
@@ -242,7 +255,9 @@ public class UI
     }
     //
     // Method to handle pause state UI.
-    private void pause() {
+    private 
+    void pause() 
+    {
         // Always clean up previous pause UI elements
         if (pause_lbl != null)
             win.remove(pause_lbl); // Remove old label if it exists.
@@ -278,7 +293,9 @@ public class UI
     }
     //
     // Method to display lazar ammo.
-    private void lzammo() {
+    private 
+    void lzammo() 
+    {
         //if (lzammo_lbl != null) 
             //win.remove(lzammo_lbl); // Remove old label if it exists.
 
@@ -314,35 +331,38 @@ public class UI
     //
     // Method to display reload prompt for lazar ammo.
     private 
-    void lazar_reload_prompt() {
+    void lazar_reload_prompt() 
+    {
         if (lzrel_lbl != null) 
             win.remove(lzrel_lbl); // Remove old label if it exists.
 
         if (e.lazar_mag <= 0)
         {
-        // Create a new label for the reload prompt.
-        String s = "   Reload with [CTRL]   ";
-        lzrel_lbl = new JLabel(s);
-        lzrel_lbl.setFont(new Font("Jokerman", Font.PLAIN, 20)); // Set font style.
-        lzrel_lbl.setOpaque(false); // Make the label background transparent.
-        lzrel_lbl.setForeground(set.reload_prompt_color); // Set text color.
-        int border_width = 2;
-        lzrel_lbl.setBorder(BorderFactory.createLineBorder(set.reload_prompt_color, border_width));
-    
-        // Measure text size for precise positioning.
-        FontMetrics metrics = lzrel_lbl.getFontMetrics(lzrel_lbl.getFont());
-        int width = metrics.stringWidth(lzrel_lbl.getText())+(int)(border_width*2);
-        int height = metrics.getHeight();
+            // Create a new label for the reload prompt.
+            String s = "   Reload with [CTRL]   ";
+            lzrel_lbl = new JLabel(s);
+            lzrel_lbl.setFont(new Font("Jokerman", Font.PLAIN, 20)); // Set font style.
+            lzrel_lbl.setOpaque(false); // Make the label background transparent.
+            lzrel_lbl.setForeground(set.reload_prompt_color); // Set text color.
+            int border_width = 2;
+            lzrel_lbl.setBorder(BorderFactory.createLineBorder(set.reload_prompt_color, border_width));
+        
+            // Measure text size for precise positioning.
+            FontMetrics metrics = lzrel_lbl.getFontMetrics(lzrel_lbl.getFont());
+            int width = metrics.stringWidth(lzrel_lbl.getText())+(int)(border_width*2);
+            int height = metrics.getHeight();
 
-        // Position the label at the bottom-right corner.
-        lzrel_lbl.setBounds((int)(win.width()-((int)(width*1.5))), (int)((win.height()-(height*6))), width, height);
+            // Position the label at the bottom-right corner.
+            lzrel_lbl.setBounds((int)(win.width()-((int)(width*1.5))), (int)((win.height()-(height*6))), width, height);
 
-        win.add(lzrel_lbl); // Add the label to the window.
+            win.add(lzrel_lbl); // Add the label to the window.
         }
     }
     //
     // Method to display keybinds when paused.
-    private void show_keybinds() {
+    private 
+    void show_keybinds() 
+    {
         final String[] controls = 
         {
             "🖮 KEYBINDINGS ⌨",
@@ -382,7 +402,9 @@ public class UI
     }
 
     // Method to reset all UI elements
-    public void resetUI() {
+    public 
+    void resetUI() 
+    {
         // Reset the first_paint counter
         first_paint = 0;
         
@@ -404,8 +426,10 @@ public class UI
         go_lbl = reload_lbl = null;
         
         // Clear keybinds if they exist
-        if (keybinds_lbl != null) {
-            for (JLabel lbl : keybinds_lbl) {
+        if (keybinds_lbl != null) 
+        {
+            for (JLabel lbl : keybinds_lbl) 
+            {
                 if (lbl != null) win.remove(lbl);
             }
             keybinds_lbl = null;
@@ -416,8 +440,11 @@ public class UI
     }
 
     // Method to reset UI for a new game.
-    public void new_game() {
-        if (go_lbl != null && reload_lbl != null) {
+    public 
+    void new_game() 
+    {
+        if (go_lbl != null && reload_lbl != null) 
+        {
             resetUI(); // Use the comprehensive reset method instead of just removing two labels
         }
         win.setBackground(set.window_bg); // Reset the background color.
@@ -425,7 +452,9 @@ public class UI
     
 
     // Method to generate random numbers within a range.
-    protected int rng(int min, int max) {
+    protected 
+    int rng(int min, int max) 
+    {
         if (max-min > 0)
             return rand.nextInt(max-min)+min;
         else
