@@ -1,6 +1,6 @@
 // AUTHOR: cjRem44x //
 //
-package dat;
+package game.dat;
 
 import java.awt.*;
 

@@ -1,6 +1,6 @@
 // AUTHOR: cjRem44x //
 //
-package core;
+package game.core;
 
 import java.awt.*;
 import java.util.List;
@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import javax.swing.Timer;
 //
-import dat.*;
-import opt.*;
+import game.dat.*;
+import game.opt.*;
 
 public class Engine 
 {
@@ -32,7 +32,7 @@ public class Engine
                         lazar_motion_t, lazar_collision_t, lazar_rem_t, // Timers for lazar actions
                         cleanup_t, heal_t; // Timers for cleanup and healing
     private Random      rand    = new Random(); // Random object for generating random values
-    private Settings    set; // Settings object
+    private Config    set; // Settings object
     public  int         screen_width, screen_height; // Screen dimensions
     private int         z_hit_stren = 25; // Strength of zombie hits
     public  Color       screen_color; // Screen color
@@ -55,7 +55,7 @@ public class Engine
     //
     // get settings
     public
-    void settings(Settings set) 
+    void config(Config set) 
     {
         this.set = set; // Assign settings object
     }

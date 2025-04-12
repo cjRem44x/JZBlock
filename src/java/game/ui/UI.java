@@ -1,4 +1,4 @@
-package ui;
+package game.ui;
 
 // Import necessary libraries for UI components and event handling.
 import java.awt.*; // Import AWT library
@@ -6,16 +6,16 @@ import java.util.Random; // Import Random class
 import javax.swing.*; // Import Swing library
 import java.awt.event.*; // Import AWT event library
 //
-import core.Engine; // Import Engine class
-import graphics.Window; // Import Window class
-import opt.Settings; // Import Settings class
+import game.core.Engine; // Import Engine class
+import game.graphics.Window; // Import Window class
+import game.opt.Config; // Import Config class
 
 public class UI 
 {
     // FIELDS //
     //
     private Random rand = new Random(); // Random generator for dynamic UI effects.
-    private Settings set; // Game settings.
+    private Config set; // Game settings.
     private JLabel p_health_lbl, go_lbl, 
     zkill_lbl, zwave_lbl, 
     reload_lbl, ZZZ_lbl, 
@@ -41,7 +41,7 @@ public class UI
     }
     //
     // Method to set the game settings reference.
-    public void settings(Settings set) {
+    public void config(Config set) {
         this.set = set; // Set the settings
     }
 

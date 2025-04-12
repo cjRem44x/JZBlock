@@ -1,101 +1,64 @@
 // AUTHOR: cjRem44x //
 //
-import core.*; // Import core package
-import graphics.*; // Import graphics package
-import dat.*; // Import dat package
-import opt.*; // Import opt package
-import input.*; // Import input package
-import ui.*; // Import ui package
+import game.core.*; // Import core package
+import game.graphics.*; // Import graphics package
+import game.dat.*; // Import dat package
+import game.opt.*; // Import opt package
+import game.input.*; // Import input package
+import game.ui.*; // Import ui package
 
 public class Main 
 {
-    // FIELDS //
-    //
+    /// FIELDS ///
+    ///
+    static GameStates game_state;
+    ///
     static final Window    WIN     = new Window(); // Create a new window
     static final UI        UI      = new UI(); // Create a new UI
     static final Input     INP     = new Input(); // Create a new input
     static final Render    REND    = new Render(); // Create a new render
-    static final Settings  SET     = new Settings(); // Create a new settings
+    static final Config    CONFG     = new Config(); // Create a new settings
     static final Engine    ENGINE  = new Engine(); // Create a new engine
     static final Player    PLAYER  = new Player(); // Create a new player
+    ///
+    // vars to keep track of looping time
+    private static long fps_start = 0, fps_prev, fps_steps = 0;
 
 
-    // DRIVER //
-    //
-    // Main method
+    /// ENTRY ///
+    ///
     public static 
     void main(final String[] args) 
     {
-        // init game,
-        // then loop game.
-        init(); // Initialize the game
-        loop(); // Start the game loop
+        // launch game to MAIN_MENU
+        game_state = GameStates.IN_GAME;
+
+        init(); // Initialize the program        
+        loop(); // Start the program loop
     }
 
 
-    // GAME //
-    //
-    // game init
+
+    /// PROGRAM DRIVER ///
+    /// 
     private static 
     void init() 
     {
-        // optional (start) settings:
-        //
-        // SET.switch_controls = true;
-        // SET.fps = 120;
-
-        INP.win(WIN); // Set the window for input
-        INP.engine(ENGINE); // Set the engine for input
-        REND.engine(ENGINE); // Set the engine for render
-        ENGINE.player(PLAYER); // Set the player for engine
-        ENGINE.settings(SET); // Set the settings for engine
-        UI.settings(SET); // Set the settings for UI
-        WIN.settings(SET); // Set the settings for window
-        WIN.rend(REND); // Set the render for window
-        WIN.size(SET.screen_width, SET.screen_height); // Set the size of the window
-        WIN.build(); // Build the window
-        WIN.engine(ENGINE); // Set the engine for window
-        INP.settings(SET); // Set the settings for input
-
-        ENGINE.screen_width = WIN.width(); // Set the screen width for engine
-        ENGINE.screen_height = WIN.height(); // Set the screen height for engine
-        ENGINE.start(); // Start the engine
-
-        WIN.title(SET.GAME_TITLE); // Set the title of the window
-        WIN.ui(UI); // Set the UI for window
+        if (game_state == GameStates.IN_GAME)
+        {init_game();}
+        else {}
     }
-    //
-    // game loop
+    ///
     private static 
     void loop() 
     {
-        // vars to keep track of looping time
-        long fps_start = 0, fps_prev, fps_steps = 0;
         
         // core game loop
         while (true) 
         {
-            // update engine
-            ENGINE.update(); // Update the engine
-            ENGINE.screen_width = WIN.width(); // Update the screen width for engine
-            ENGINE.screen_height = WIN.height(); // Update the screen height for engine
-
-            // window refresh;
-            // loop-time calculation
-            fps_prev = fps_start;
-            fps_start = System.currentTimeMillis();
-            fps_steps += (fps_start-fps_prev);
-            
-            if (SET.fps > 0) 
-            {
-                if (fps_steps >= (int)(1000.0/SET.fps)) 
-                {
-                    WIN.ref(); // Refresh the window
-                    // System.out.println("winref @"+fps_steps);
-                    fps_steps = 0;
-                }
-            } else {WIN.ref();}
-
+            if (game_state == GameStates.IN_GAME)
+            {loop_game();}
+            else {}
 
             // let system brake to
             // prevent resource eating.  
@@ -104,8 +67,66 @@ public class Main
     }
 
 
-    // SLEEP //
-    //
+    /// GAME DRIVER ///   
+    ///
+    static 
+    void init_game() 
+    {
+        // optional (start) settings:
+        //
+        // CONFG.switch_controls = true;
+        // CONFG.fps = 120;
+
+        INP.win(WIN); // Set the window for input
+        INP.engine(ENGINE); // Set the engine for input
+        REND.engine(ENGINE); // Set the engine for render
+        ENGINE.player(PLAYER); // Set the player for engine
+        ENGINE.config(CONFG); // Set the config for engine
+        UI.config(CONFG); // Set the config for UI
+        WIN.config(CONFG); // Set the config for window
+        WIN.rend(REND); // Set the render for window
+        WIN.size(CONFG.screen_width, CONFG.screen_height); // Set the size of the window
+        WIN.build(); // Build the window
+        WIN.engine(ENGINE); // Set the engine for window
+        INP.config(CONFG); // Set the config for input
+
+        ENGINE.screen_width = WIN.width(); // Set the screen width for engine
+        ENGINE.screen_height = WIN.height(); // Set the screen height for engine
+        ENGINE.start(); // Start the engine
+
+        WIN.title(CONFG.GAME_TITLE); // Set the title of the window
+        WIN.ui(UI); // Set the UI for window
+    }
+    ///
+    static 
+    void loop_game() 
+    {
+        // update engine
+        ENGINE.update(); // Update the engine
+        ENGINE.screen_width = WIN.width(); // Update the screen width for engine
+        ENGINE.screen_height = WIN.height(); // Update the screen height for engine
+
+        // window refresh;
+        // loop-time calculation
+        fps_prev = fps_start;
+        fps_start = System.currentTimeMillis();
+        fps_steps += (fps_start-fps_prev);
+        
+        if (CONFG.fps > 0) 
+        {
+            if (fps_steps >= (int)(1000.0/CONFG.fps)) 
+            {
+                WIN.ref(); // Refresh the window
+                // System.out.println("winref @"+fps_steps);
+                fps_steps = 0;
+            }
+        } else {WIN.ref();}
+    }
+
+
+
+    /// SYSTEM SLEEP ///
+    ///
     private static 
     void brake() 
     {

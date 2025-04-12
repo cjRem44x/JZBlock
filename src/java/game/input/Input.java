@@ -1,14 +1,14 @@
 // AUTHOR: cjRem44x //
 //
-package input;
+package game.input;
 
 import java.awt.event.*; // Import AWT event package
 import javax.swing.Timer; // Import Swing Timer
 //
-import core.*; // Import core package
-import dat.*; // Import dat package
-import graphics.*; // Import graphics package
-import opt.*; // Import opt package
+import game.core.*; // Import core package
+import game.dat.*; // Import dat package
+import game.graphics.*; // Import graphics package
+import game.opt.*; // Import opt package
 
 public class Input 
 implements KeyListener, WindowListener 
@@ -17,7 +17,7 @@ implements KeyListener, WindowListener
     //
     private Window win; // Window object
     private Engine e; // Engine object
-    private Settings set; // Settings object
+    private Config set; // Settings object
     protected Timer set_t; // Timer object
     //
     // Movement keys
@@ -73,7 +73,7 @@ implements KeyListener, WindowListener
     }
     //
     // Set the settings
-    public void settings(Settings set) 
+    public void config(Config set) 
     {
         this.set = set; // Assign settings object
         if (set.switch_controls) 

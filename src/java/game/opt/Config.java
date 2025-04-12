@@ -1,10 +1,10 @@
 // AUTHOR: cjRem44x //
 //
-package opt;
+package game.opt;
 
 import java.awt.*;
 
-public class Settings 
+public class Config 
 {
     // FIELDS //
     //

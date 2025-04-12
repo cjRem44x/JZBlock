@@ -1,6 +1,6 @@
 //  AUTHOR: cjRem44x //
 //
-package graphics;
+package game.graphics;
 
 import java.awt.*; // Import AWT library
 import java.awt.event.MouseAdapter;
@@ -10,9 +10,9 @@ import java.awt.image.BufferedImage;
 import java.security.SecureRandom; // Import SecureRandom
 import javax.swing.*; // Import Swing library
 //
-import core.*; // Import core package
-import opt.Settings; // Import Settings class
-import ui.UI; // Import UI class
+import game.core.*; // Import core package
+import game.opt.*; // Import Settings class
+import game.ui.UI; // Import UI class
 
 public class Window 
 extends JPanel 
@@ -24,7 +24,7 @@ extends JPanel
     private Render       rend = null; // Render object for handling graphics rendering
     private Engine       e; // Engine object for game logic
     private UI           ui; // UI object for user interface management
-    private Settings     set; // Settings object for application configuration
+    private Config     set; // Settings object for application configuration
     //
     // displaying stats
     private JLabel p_health_lbl, go_lbl, 
@@ -163,7 +163,7 @@ extends JPanel
     }
     //
     public 
-    void settings(Settings set) 
+    void config(Config set) 
     {
         this.set = set; // Set the Settings object
     } 
