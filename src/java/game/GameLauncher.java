@@ -27,6 +27,12 @@ public class GameLauncher {
     private Thread game_thrd;
 
     public 
+    String title()
+    {
+        return CONFG.GAME_TITLE;
+    }
+
+    public 
     void start(GameStates game_state) {
         
         game_thrd = new Thread(() ->

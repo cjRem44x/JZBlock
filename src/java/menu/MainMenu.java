@@ -22,15 +22,39 @@ public class MainMenu
     private Color buttonColor = new Color(100, 100, 200);
     private Color textColor = Color.WHITE;
     private Font buttonFont = new Font("Arial Unicode MS", Font.BOLD, 25);
+    private Font titleFont = new Font("Arial Unicode MS", Font.BOLD, 100);
     ///
     private JLabel bg_lbl = new JLabel("BG");
     ///
     private GameLauncher GL;
-    
+    private JLabel titleLabel; 
 
     public 
     void launcher(GameLauncher GL) {
         this.GL = GL;
+    }
+    
+
+    public 
+    void addTitle(String titleText) {
+        titleLabel = new JLabel(titleText);
+        titleLabel.setFont(titleFont != null ? titleFont : new Font("Arial", Font.BOLD, 24));
+        
+        // Get font metrics for the titleFont
+        FontMetrics metrics = this.getFontMetrics(titleLabel.getFont());
+        int textWidth = metrics.stringWidth(titleText);
+        int textHeight = metrics.getHeight();
+
+        // Center the label based on actual text dimensions
+        int x = (SCREEN_WIDTH - textWidth) / 2;
+        int y = 80; // You can still choose your vertical position
+
+        titleLabel.setBounds(x, y, textWidth, textHeight);
+        titleLabel.setForeground(textColor != null ? textColor : Color.BLACK);
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+        this.add(titleLabel);
+        this.repaint();
     }
 
     public 
@@ -88,7 +112,8 @@ public class MainMenu
     public 
     void build(GameStates g_state) {
         this.g_state = g_state;
-        
+       
+        addTitle(GL.title());
         add_btns();
         f.setUndecorated(true);
 
@@ -99,7 +124,8 @@ public class MainMenu
         this.add(bg_lbl);
 
         this.setBackground(backgroundColor);
-        
+       
+        f.setTitle(GL.title());
         f.add(this);
         f.pack();
         f.setResizable(true);
