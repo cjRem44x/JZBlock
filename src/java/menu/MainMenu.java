@@ -24,7 +24,7 @@ public class MainMenu
     private Font buttonFont = new Font("Arial Unicode MS", Font.BOLD, 25);
     private Font titleFont = new Font("Arial Unicode MS", Font.BOLD, 100);
     ///
-    private JLabel bg_lbl = new JLabel("BG");
+    private JLabel bg_lbl = new JLabel(get_mm_img());
     ///
     private GameLauncher GL;
     private JLabel titleLabel; 
@@ -33,7 +33,15 @@ public class MainMenu
     void launcher(GameLauncher GL) {
         this.GL = GL;
     }
-    
+
+
+    public 
+    ImageIcon get_mm_img() {
+        final var img_path = System.getProperty("user.dir")+"../../../res/img/main_menu_img.png";
+        ImageIcon org = new ImageIcon(img_path);
+        Image scaled = org.getImage().getScaledInstance(SCREEN_WIDTH, SCREEN_HEIGHT, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaled);
+    }
 
     public 
     void addTitle(String titleText) {
@@ -63,6 +71,10 @@ public class MainMenu
         startButton = createButton("Play Game", SCREEN_WIDTH/2 - BUTTON_WIDTH/2, 200);
         optionsButton = createButton("Settings", SCREEN_WIDTH/2 - BUTTON_WIDTH/2, 280);
         exitButton = createButton("Exit", SCREEN_WIDTH/2 - BUTTON_WIDTH/2, 360);
+
+        startButton.setOpaque(false);
+        optionsButton.setOpaque(false);
+        exitButton.setOpaque(false);
         
         // Add action listeners
         startButton.addActionListener(new ActionListener() {
@@ -140,4 +152,6 @@ public class MainMenu
         f.dispose();
         System.gc();
     }
+
+
 }
