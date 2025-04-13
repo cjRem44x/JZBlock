@@ -85,10 +85,6 @@ extends JPanel
         f.setTitle(title); // Set the title of the window
     }
 
-    public 
-    Image icon() {
-        return set.get_icon().getImage();
-    }
 
     // INIT //
     //
@@ -96,7 +92,6 @@ extends JPanel
     public 
     void build() 
     {
-        f.setIconImage(icon());
         this.setLayout(null); // Set layout to null
         f.add(this); // Add this JPanel to the JFrame
         f.pack(); // Pack the JFrame
@@ -106,6 +101,7 @@ extends JPanel
         f.setMinimumSize( new Dimension(800, 800) ); // Set minimum size for the window
         f.setResizable(false); // Disable resizing of the window
         f.setAlwaysOnTop(true);
+        f.setIcon(set.get_icon());
 
         // Setiing up Invisible cursor when
         // screen is clicked on.

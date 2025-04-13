@@ -136,7 +136,8 @@ public class MainMenu
         this.add(bg_lbl);
 
         this.setBackground(backgroundColor);
-       
+      
+        f.setIconImage(GL.icon());
         f.setTitle(GL.title());
         f.add(this);
         f.pack();

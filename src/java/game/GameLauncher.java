@@ -8,6 +8,8 @@ import game.input.*; // Import input package
 import game.ui.*; // Import ui package
 ///
 import states.*;
+//
+import java.awt.Image;
 
 public class GameLauncher {
     /// FIELDS ///   
@@ -25,6 +27,11 @@ public class GameLauncher {
     private static GameStates game_state;
 
     private Thread game_thrd;
+
+    public 
+    Image icon() {
+        return CONFG.get_icon().getImage();
+    }
 
     public 
     String title()

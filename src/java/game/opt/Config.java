@@ -3,6 +3,7 @@
 package game.opt;
 
 import java.awt.*;
+import javax.swing.*;
 
 public class Config 
 {
@@ -34,4 +35,10 @@ public class Config
                   keybinds_color = new Color(255, 233, 0), // Keybinds color
                   reload_prompt_color = new Color(200, 255, 200), // Reload prompt color
                   paused_bg_color = new Color(50, 50, 50); // Game over background color
+    
+    public 
+    ImageIcon get_icon() {
+        final var icon_path = System.getProperty("user.dir")+"../../../res/img/icon.png";
+        return new ImageIcon(icon_path);
+    }
 }
