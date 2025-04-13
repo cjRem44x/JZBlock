@@ -18,7 +18,7 @@ public class MainMenu
     private GameStates g_state;
     private JButton startButton, optionsButton, exitButton;
     // Theme properties (adjustable)
-    private Color backgroundColor = new Color(50, 50, 50);
+    private Color backgroundColor = new Color(0, 0, 0);
     private Color buttonColor = new Color(100, 100, 200);
     private Color textColor = Color.WHITE;
     private Font buttonFont = new Font("Arial Unicode MS", Font.BOLD, 25);
@@ -36,7 +36,7 @@ public class MainMenu
     public 
     void add_btns() {
         // Create buttons
-        startButton = createButton("Play Game 🤪", SCREEN_WIDTH/2 - BUTTON_WIDTH/2, 200);
+        startButton = createButton("Play Game", SCREEN_WIDTH/2 - BUTTON_WIDTH/2, 200);
         optionsButton = createButton("Settings", SCREEN_WIDTH/2 - BUTTON_WIDTH/2, 280);
         exitButton = createButton("Exit", SCREEN_WIDTH/2 - BUTTON_WIDTH/2, 360);
         
@@ -97,6 +97,8 @@ public class MainMenu
         //this.setBackground(backgroundColor);
         bg_lbl.setBounds(0,0, SCREEN_WIDTH, SCREEN_HEIGHT);
         this.add(bg_lbl);
+
+        this.setBackground(backgroundColor);
         
         f.add(this);
         f.pack();
