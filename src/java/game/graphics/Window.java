@@ -100,6 +100,7 @@ extends JPanel
         // f.setExtendedState(JFrame.MAXIMIZED_BOTH); // Uncomment to maximize the window
         f.setMinimumSize( new Dimension(800, 800) ); // Set minimum size for the window
         f.setResizable(false); // Disable resizing of the window
+        f.setAlwaysOnTop(true);
         
         // Setiing up Invisible cursor when
         // screen is clicked on.

@@ -10,8 +10,8 @@ public class Config
     //
     public final String GAME_TITLE = "JZBlock ϫⲍⲃⲗⲟⲕ"; // The title of the game window
     //
-    public int     screen_width = 1350,  // Width of the game screen
-                   screen_height = 820, // Height of the game screen
+    public int     screen_width = 1400,  // Width of the game screen
+                   screen_height = 900, // Height of the game screen
                    fps = 60;              // Frames per second
     public boolean switch_controls = false; // Flag to switch control scheme
     public Color   p_color     = new Color(137,0,255), // Player color
