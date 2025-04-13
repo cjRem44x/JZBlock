@@ -6,6 +6,10 @@ import game.dat.*; // Import dat package
 import game.opt.*; // Import opt package
 import game.input.*; // Import input package
 import game.ui.*; // Import ui package
+//
+import menu.*;
+//
+import states.GameStates;
 
 public class Main 
 {
@@ -23,6 +27,8 @@ public class Main
     ///
     // vars to keep track of looping time
     private static long fps_start = 0, fps_prev, fps_steps = 0;
+    ///
+    static final MainMenu MAIN_MENU = new MainMenu();
 
 
     /// ENTRY ///
@@ -31,7 +37,7 @@ public class Main
     void main(final String[] args) 
     {
         // launch game to MAIN_MENU
-        game_state = GameStates.IN_GAME;
+        game_state = GameStates.MAIN_MENU;
 
         init(); // Initialize the program        
         loop(); // Start the program loop
@@ -46,6 +52,10 @@ public class Main
     {
         if (game_state == GameStates.IN_GAME)
         {init_game();}
+        else if (game_state ==  GameStates.MAIN_MENU)
+        {
+            MAIN_MENU.build(game_state);
+        }
         else {}
     }
     ///
