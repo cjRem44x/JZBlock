@@ -232,10 +232,11 @@ public class UI
         //if (stats_lbl != null) 
             //win.remove(stats_lbl); // Remove old label if it exists.
 
+        
+        String s = "  Power ⛈ ("+Integer.toString(e.lazar_power())+") | Upgrade $"+e.lazar_uprice + ",     press [U] to upgrade";
         if (first_paint < 1)
         {
             // Create a new label for player stats.
-            String s = "  Power ⛈ ("+Integer.toString(e.lazar_power())+") | Upgrade $"+e.lazar_uprice + ",     press [U] to upgrade";
             stats_lbl = new JLabel(s);
             stats_lbl.setFont(new Font("Arial Unicode MS", Font.PLAIN, 30)); // Set font style.
             stats_lbl.setOpaque(false); // Make the label background transparent.
@@ -246,6 +247,8 @@ public class UI
         FontMetrics metrics = stats_lbl.getFontMetrics(stats_lbl.getFont());
         int width = metrics.stringWidth(stats_lbl.getText());
         int height = metrics.getHeight();
+
+        stats_lbl.setText(s); // Update the label text with player stats.
     
         // Position the label at the bottom-left corner.
         stats_lbl.setBounds(0, (int)((win.height()-height))-5, width, height);

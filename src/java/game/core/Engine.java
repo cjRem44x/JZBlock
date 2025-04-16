@@ -524,21 +524,21 @@ public class Engine
                             z.y -= distY * 0.05;
                         }
 
-                        if ( rng(1, 10) == 2) // 1/10 chance 
-                        { 
-                            // sporadically move zomb
-                            int n = rng(1,10);
-                            double fac = 0.55;
-                            if (n%2==0) 
-                            {
-                                z.x -= fac;
-                                z.y += fac;
-                            } else
-                            {
-                                z.x += fac;
-                                z.y -= fac;
-                            }
-                        }
+                        // if ( rng(1, 10) == 2) // 1/10 chance 
+                        // { 
+                        //     // sporadically move zomb
+                        //     int n = rng(1,10);
+                        //     double fac = 0.55;
+                        //     if (n%2==0) 
+                        //     {
+                        //         z.x -= fac;
+                        //         z.y += fac;
+                        //     } else
+                        //     {
+                        //         z.x += fac;
+                        //         z.y -= fac;
+                        //     }
+                        // }
                     }
                 }
             }
