@@ -1,63 +1,62 @@
 # JZBlock
 
-A personal zombie survival game composed of blocks.
+A cross-platform Java-based game development framework.
 
 ## Overview
 
-JZBlock is a 2D zombie survival game where the player must fend off waves of zombies using a blaster. The game features a simple block-based design, with mechanics such as health management, weapon upgrades, and zombie AI. The goal is to survive as long as possible while accumulating kills and upgrading your weapon.
+JZBlock is undergoing a major rewrite for version 0.5. The project has been restructured to provide a clean, modular foundation for Java-based game development with cross-platform window management and system utilities.
 
-## Gameplay
+## Current Status (v0.5)
 
-### Objective
-- Survive waves of zombies.
-- Kill zombies to earn points (`ZZZ`) and upgrade your weapon.
-- Avoid getting hit by zombies to maintain your health.
+This version focuses on establishing core infrastructure:
+- Cross-platform window management using Swing/AWT
+- System detection and utilities
+- Basic 2D body/entity framework
+- Modular architecture for future game development
 
-### Controls
-- **Movement**: Use `[W][A][S][D]` to move the player.
-- **Shooting**: Use the arrow keys (`↑`, `↓`, `←`, `→`) to shoot in the respective direction.
-- **Reload**: Press `[CTRL]` to reload your blaster.
-- **Upgrade Weapon**: Press `[U]` to upgrade your blaster (requires sufficient `ZZZ` points).
-- **Speed Boost**: Hold `[SPACE]` to temporarily double your movement speed.
-- **Pause/Resume**: Press `[ESC]` to pause or resume the game.
-- **Restart**: Press `[R]` to restart the game after dying.
+## Project Structure
 
-### Game Features
-- **Health System**: The player starts with 100 health points. Health decreases when hit by zombies and regenerates over time.
-- **Blaster**: The player's weapon has limited ammo and requires reloading. Upgrades increase its power and ammo capacity.
-- **Zombie AI**: Zombies chase the player and avoid bunching up. Their health and speed increase with each wave.
-- **Wave System**: Zombies spawn in waves, with each wave introducing more zombies and tougher challenges.
-- **Game Over**: The game ends when the player's health reaches zero.
+### Active Development
+- **Main Entry Point**: `src/main/java/Main.java` - Application entry point
+- **Window Management**: `src/main/java/Window.java` - Cross-platform window creation and management
+- **System Utilities**: `src/main/java/LocalSys.java` - OS detection and system information
+- **Game Framework**: `src/main/java/K2DBody.java` - Basic 2D entity/body class
 
-## Developer Notes
+### Archived Code
+The previous zombie survival game implementation has been moved to `src/main/archived/` for reference while the codebase is being restructured.
 
-### Project Structure
-- **Core Game Logic**: Located in `src/java/core/Engine.java`.
-- **Graphics and Rendering**: Managed by `src/java/graphics/Render.java` and `src/java/graphics/Window.java`.
-- **User Interface**: Handled by `src/java/ui/UI.java`.
-- **Input Handling**: Implemented in `src/java/input/Input.java`.
-- **Game Entities**: Defined in `src/java/dat/Player.java`, `src/java/dat/Zomb.java`, and `src/java/dat/Lazar.java`.
-- **Settings**: Configurable options are stored in `src/java/opt/Settings.java`.
+## Build and Run
 
-### Build and Run
-1. Use `build.bat` to compile and run the game:
-   ```
-   build.bat
-   ```
-2. Use `jar.bat` to package the game into a `.jar` file:
-   ```
-   jar.bat
-   ```
+### Prerequisites
+- Java Development Kit (JDK) 8 or later
+- Apache License 2.0 compliance
 
-### Customization
-- Modify `Settings.java` to adjust game parameters such as screen size, FPS, and colors.
-- Extend the `Engine` class to add new features or mechanics.
-- Update the `UI` class to enhance the user interface.
+### Building
+Use the provided build scripts:
+```bash
+# Windows
+build.bat
 
-### Future Enhancements
-- Add new enemy types with unique behaviors.
-- Introduce power-ups and special abilities.
-- Implement a scoring system with leaderboards.
-- Create a separate `Theme.java` file for customizable color themes.
+# Create JAR package
+jar.bat
+```
+
+## Development
+
+### Architecture
+The v0.5 rewrite emphasizes:
+- **Modularity**: Clean separation of concerns
+- **Cross-platform compatibility**: Works on Windows, Linux, and other Java-supported platforms
+- **Extensibility**: Foundation for future game development features
+- **Simplicity**: Minimal dependencies, focusing on core Java libraries
+
+### Key Features
+- **Window.o**: Singleton window manager with configurable dimensions and properties
+- **LocalSys.o**: System utilities including OS detection and directory management
+- **K2DBody**: Foundation class for 2D game entities with position, velocity, and rendering properties
+
+## License
+
+This project is licensed under the Apache License 2.0. See the `LICENSE` file for details.
 
 Enjoy playing and developing JZBlock!
