@@ -1,41 +1,37 @@
 #!/bin/bash
 # JZBlock v0.5 Build Script
-# Copyright 2024 JZBlock Project
-# Licensed under the Apache License, Version 2.0
-
-# project directories
-cd "$(dirname "$0")/.." || exit
-proj=$(pwd)
-bin="$proj/bin/main"
-src="$proj/src/main/java"
-
-args=""
+# Apache License 2.0
 
 echo "Building JZBlock v0.5..."
 
-# make sure bin directory exists
+# Move to project root (parent of script directory)
+cd "$(dirname "$0")/.." || exit
+proj="$(pwd)"
+bin="$proj/bin/main"
+src="$proj/src/main/java"
+zig_src="$proj/src/main/zig"
+
+args=""
+
+# Make sure bin directory exists
 mkdir -p "$bin"
 
-# compile java app
+# Compile Java sources
 cd "$src" || exit
-if command -v javac24 &> /dev/null; then
-    javac24 -d "$bin" *.java
-else
-    javac -d "$bin" *.java
-fi
-
+javac -d "$bin" *.java
 if [ $? -ne 0 ]; then
     echo "Build failed!"
     exit 1
 fi
 
+# Run Java app
 echo "Running JZBlock v0.5..."
 cd "$bin" || exit
-if command -v java24 &> /dev/null; then
-    java24 main.java.Main "$args"
-else
-    java main.java.Main "$args"
-fi
+java main.java.Main $args
 
-# return to project root
+# Run Zig build
+cd "$zig_src" || exit
+zig build run
+
+# Return to project root
 cd "$proj" || exit
