@@ -7,6 +7,8 @@ const rl = @import("raylib");
 const u = @import("util.zig");
 const print = std.debug.print;
 
+const Player_Entity = @import("player.zig").Player_Entity;
+
 // Window Properties
 const GAME_TITLE = "JZBlock";
 const FPS = 60;
@@ -18,6 +20,8 @@ var pixel_width: f32 = 1.0;
 var pixel_height: f32 = 1.0;
 
 pub fn main() !void {
+    var player = Player_Entity.init(100, 0, 0, 50, 50, rl.Color{ .r = 38, .g = 154, .b = 185, .a = 255 }, 1, 1, 15);
+
     rl.initWindow(u.toInt(screen_width), u.toInt(screen_height), GAME_TITLE);
     defer rl.closeWindow();
     rl.setTargetFPS(FPS);
@@ -28,6 +32,10 @@ pub fn main() !void {
     while (!rl.windowShouldClose()) {
         rl.beginDrawing();
         defer rl.endDrawing();
+
+        player.move();
+        player.draw();
+
         rl.clearBackground(.black);
     }
 }
