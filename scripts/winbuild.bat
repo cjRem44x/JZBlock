@@ -1,4 +1,4 @@
-                                                          @echo off
+@echo off
 :: JZBlock v0.5 Build Script (Windows BAT version)
 :: Apache License 2.0
 echo Building JZBlock v0.5...
