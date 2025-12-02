@@ -16,7 +16,7 @@
         body {
             font-family: 'Share Tech Mono', monospace;
             background: #0a0a0a;
-            color: #00ff41;
+            color: #e0b3ff;
             overflow-x: hidden;
             position: relative;
         }
@@ -29,8 +29,8 @@
             width: 100%;
             height: 100%;
             background-image: 
-                linear-gradient(rgba(0, 255, 65, 0.1) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 65, 0.1) 1px, transparent 1px);
+                linear-gradient(rgba(255, 105, 180, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(138, 43, 226, 0.1) 1px, transparent 1px);
             background-size: 50px 50px;
             animation: gridMove 20s linear infinite;
             pointer-events: none;
@@ -42,6 +42,66 @@
             100% { transform: translateY(50px); }
         }
         
+        /* Ghosty floating orbs - multi-color */
+        .ghost-orb {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(60px);
+            animation: ghostFloat 10s ease-in-out infinite;
+        }
+        
+        .ghost-orb:nth-child(1) {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(255, 105, 180, 0.4), transparent);
+            top: 10%;
+            left: 15%;
+            animation-delay: 0s;
+        }
+        
+        .ghost-orb:nth-child(2) {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(138, 43, 226, 0.3), transparent);
+            top: 50%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+        
+        .ghost-orb:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 0, 100, 0.35), transparent);
+            bottom: 20%;
+            left: 10%;
+            animation-delay: 4s;
+        }
+        
+        .ghost-orb:nth-child(4) {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 255, 127, 0.25), transparent);
+            top: 30%;
+            right: 25%;
+            animation-delay: 6s;
+        }
+        
+        .ghost-orb:nth-child(5) {
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(218, 112, 214, 0.3), transparent);
+            bottom: 35%;
+            left: 40%;
+            animation-delay: 3s;
+        }
+        
+        @keyframes ghostFloat {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+            50% { transform: translate(40px, -40px) scale(1.3); opacity: 0.7; }
+        }
+        
         /* Laser scan effect */
         .scan-line {
             position: fixed;
@@ -51,12 +111,12 @@
             height: 2px;
             background: linear-gradient(90deg, 
                 transparent,
-                rgba(255, 0, 0, 0.8) 20%,
-                rgba(255, 0, 0, 1) 50%,
-                rgba(255, 0, 0, 0.8) 80%,
+                rgba(255, 105, 180, 0.8) 20%,
+                rgba(255, 0, 100, 1) 50%,
+                rgba(255, 105, 180, 0.8) 80%,
                 transparent
             );
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
             animation: scan 4s ease-in-out infinite;
             pointer-events: none;
             z-index: 100;
@@ -91,14 +151,15 @@
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 8px;
-            background: linear-gradient(45deg, #ff0000, #00ff41, #ff0000);
-            background-size: 200% 200%;
+            background: linear-gradient(45deg, #ff69b4, #ba55d3, #ff0064, #00ff7f, #da70d6, #ff69b4);
+            background-size: 400% 400%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: logoGlow 3s ease-in-out infinite;
-            text-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+            animation: logoGlow 6s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255, 105, 180, 0.5);
             margin-bottom: 10px;
+            filter: drop-shadow(0 0 20px rgba(138, 43, 226, 0.6));
         }
         
         @keyframes logoGlow {
@@ -108,10 +169,11 @@
         
         .tagline {
             font-size: 1.4em;
-            color: #ff3333;
+            color: #ff69b4;
             text-transform: uppercase;
             letter-spacing: 4px;
             animation: flicker 2s infinite;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
         }
         
         @keyframes flicker {
@@ -123,12 +185,40 @@
             display: inline-block;
             margin-top: 15px;
             padding: 8px 20px;
-            background: rgba(255, 0, 0, 0.2);
-            border: 2px solid #ff0000;
-            color: #ff3333;
+            background: rgba(138, 43, 226, 0.2);
+            border: 2px solid #ba55d3;
+            color: #da70d6;
             font-size: 0.9em;
             letter-spacing: 2px;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+            box-shadow: 0 0 20px rgba(138, 43, 226, 0.3);
+        }
+        
+        /* Dual Language Badge */
+        .lang-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .lang-badge {
+            padding: 10px 25px;
+            background: rgba(255, 105, 180, 0.1);
+            border: 2px solid #ff69b4;
+            color: #ff69b4;
+            font-size: 1em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .lang-badge:hover {
+            background: rgba(138, 43, 226, 0.2);
+            border-color: #00ff7f;
+            color: #00ff7f;
+            box-shadow: 0 0 25px rgba(0, 255, 127, 0.5);
         }
         
         /* Game Preview Section */
@@ -139,8 +229,8 @@
             margin: 60px 0;
             padding: 40px;
             background: rgba(0, 0, 0, 0.7);
-            border: 2px solid #00ff41;
-            box-shadow: 0 0 30px rgba(0, 255, 65, 0.2);
+            border: 2px solid #ba55d3;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);
             position: relative;
         }
         
@@ -151,24 +241,25 @@
             left: -2px;
             right: -2px;
             bottom: -2px;
-            background: linear-gradient(45deg, #ff0000, #00ff41);
+            background: linear-gradient(45deg, #ff69b4, #ba55d3, #ff0064, #00ff7f, #da70d6);
             z-index: -1;
-            opacity: 0.3;
-            filter: blur(10px);
+            opacity: 0.2;
+            filter: blur(15px);
         }
         
         .game-visual {
             background: #000;
             padding: 30px;
-            border: 2px solid #ff0000;
+            border: 2px solid #ff69b4;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.3);
         }
         
         .game-canvas {
             width: 100%;
             height: 400px;
-            background: radial-gradient(circle at 50% 50%, #1a0505, #000);
+            background: radial-gradient(circle at 50% 50%, #1a051a, #000);
             position: relative;
             display: flex;
             align-items: center;
@@ -178,8 +269,8 @@
         .player-icon {
             width: 40px;
             height: 40px;
-            background: #00ff41;
-            box-shadow: 0 0 20px #00ff41;
+            background: #00ff7f;
+            box-shadow: 0 0 20px #00ff7f;
             position: relative;
             z-index: 3;
         }
@@ -188,8 +279,8 @@
             position: absolute;
             width: 30px;
             height: 30px;
-            background: #ff0000;
-            box-shadow: 0 0 15px #ff0000;
+            background: #ff0064;
+            box-shadow: 0 0 15px #ff0064;
             animation: zombieFloat 3s ease-in-out infinite;
         }
         
@@ -207,8 +298,8 @@
             position: absolute;
             width: 2px;
             height: 100px;
-            background: linear-gradient(180deg, #ff0000, transparent);
-            box-shadow: 0 0 10px #ff0000;
+            background: linear-gradient(180deg, #00ff7f, transparent);
+            box-shadow: 0 0 10px #00ff7f;
             animation: laserShoot 0.5s ease-out infinite;
             top: 50%;
             left: 50%;
@@ -233,10 +324,11 @@
         h2 {
             font-family: 'Orbitron', sans-serif;
             font-size: 2em;
-            color: #ff0000;
+            color: #ff69b4;
             margin-bottom: 15px;
             text-transform: uppercase;
             letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
         }
         
         .feature-list {
@@ -246,7 +338,7 @@
         
         .feature-list li {
             padding: 12px 0;
-            border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+            border-bottom: 1px solid rgba(186, 85, 211, 0.2);
             font-size: 1.1em;
             position: relative;
             padding-left: 30px;
@@ -256,7 +348,7 @@
             content: '▶';
             position: absolute;
             left: 0;
-            color: #ff0000;
+            color: #00ff7f;
             animation: pulse 1.5s ease-in-out infinite;
         }
         
@@ -275,17 +367,19 @@
         
         .stat-card {
             background: rgba(0, 0, 0, 0.8);
-            border: 2px solid #ff0000;
+            border: 2px solid #ba55d3;
             padding: 30px;
             text-align: center;
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.2);
         }
         
         .stat-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 10px 40px rgba(255, 0, 0, 0.5);
+            box-shadow: 0 10px 40px rgba(255, 105, 180, 0.5);
+            border-color: #ff69b4;
         }
         
         .stat-card::before {
@@ -295,7 +389,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 127, 0.3), transparent);
             transition: left 0.5s;
         }
         
@@ -307,24 +401,26 @@
             font-family: 'Orbitron', sans-serif;
             font-size: 3em;
             font-weight: 900;
-            color: #00ff41;
+            color: #00ff7f;
             display: block;
             margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(0, 255, 127, 0.6);
         }
         
         .stat-label {
             font-size: 1em;
-            color: #ff3333;
+            color: #da70d6;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
         
         /* Tech Stack */
         .tech-section {
-            background: rgba(255, 0, 0, 0.1);
-            border: 2px solid #ff0000;
+            background: rgba(138, 43, 226, 0.1);
+            border: 2px solid #ba55d3;
             padding: 40px;
             margin: 60px 0;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.2);
         }
         
         .tech-grid {
@@ -336,30 +432,86 @@
         
         .tech-badge {
             background: #000;
-            border: 1px solid #00ff41;
+            border: 1px solid #ba55d3;
             padding: 15px;
             text-align: center;
             font-size: 1.1em;
-            color: #00ff41;
+            color: #e0b3ff;
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.3s;
         }
         
         .tech-badge:hover {
-            background: #00ff41;
+            background: linear-gradient(135deg, #ba55d3, #ff69b4);
             color: #000;
-            box-shadow: 0 0 20px #00ff41;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        .tech-badge.highlight {
+            border: 2px solid #00ff7f;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(0, 255, 127, 0.4);
+        }
+        
+        /* Implementation Cards */
+        .implementation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .impl-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #ba55d3;
+            padding: 30px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .impl-card:hover {
+            border-color: #00ff7f;
+            box-shadow: 0 0 30px rgba(0, 255, 127, 0.4);
+            transform: translateY(-5px);
+        }
+        
+        .impl-card h3 {
+            color: #ff69b4;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .impl-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .impl-card li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+            color: #e0b3ff;
+        }
+        
+        .impl-card li::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: #da70d6;
         }
         
         /* Download Section */
         .download-section {
             text-align: center;
             padding: 60px 40px;
-            background: linear-gradient(135deg, rgba(255, 0, 0, 0.2), rgba(0, 255, 65, 0.2));
-            border: 2px solid #00ff41;
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.2), rgba(255, 105, 180, 0.2), rgba(0, 255, 127, 0.15));
+            border: 2px solid #ba55d3;
             margin: 60px 0;
             position: relative;
+            box-shadow: 0 0 40px rgba(138, 43, 226, 0.3);
         }
         
         .download-btn {
@@ -368,7 +520,7 @@
             font-size: 1.5em;
             font-weight: 700;
             color: #000;
-            background: #00ff41;
+            background: linear-gradient(135deg, #ba55d3, #ff69b4, #00ff7f);
             padding: 20px 50px;
             text-decoration: none;
             text-transform: uppercase;
@@ -378,7 +530,7 @@
             position: relative;
             overflow: hidden;
             transition: all 0.3s;
-            box-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+            box-shadow: 0 0 30px rgba(186, 85, 211, 0.5);
         }
         
         .download-btn::before {
@@ -388,7 +540,7 @@
             left: 50%;
             width: 0;
             height: 0;
-            background: #ff0000;
+            background: #da70d6;
             border-radius: 50%;
             transform: translate(-50%, -50%);
             transition: width 0.6s, height 0.6s;
@@ -400,8 +552,8 @@
         }
         
         .download-btn:hover {
-            color: #00ff41;
-            box-shadow: 0 0 50px rgba(255, 0, 0, 0.8);
+            color: #000;
+            box-shadow: 0 0 50px rgba(255, 105, 180, 0.8);
         }
         
         .download-btn span {
@@ -412,34 +564,35 @@
         .build-instructions {
             margin-top: 30px;
             font-size: 1em;
-            color: #00ff41;
+            color: #e0b3ff;
             line-height: 1.8;
         }
         
         .code-block {
             background: #000;
-            border: 1px solid #ff0000;
+            border: 1px solid #ba55d3;
             padding: 15px 20px;
             margin: 10px auto;
             display: inline-block;
             font-family: 'Share Tech Mono', monospace;
-            color: #00ff41;
+            color: #00ff7f;
             letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(0, 255, 127, 0.3);
         }
         
         /* Footer */
         footer {
             text-align: center;
             padding: 40px 20px;
-            border-top: 2px solid #00ff41;
+            border-top: 2px solid #ba55d3;
             margin-top: 60px;
         }
         
         .license-badge {
             display: inline-block;
             padding: 10px 20px;
-            background: rgba(0, 255, 65, 0.2);
-            border: 1px solid #00ff41;
+            background: rgba(138, 43, 226, 0.2);
+            border: 1px solid #ba55d3;
             margin-top: 20px;
         }
         
@@ -451,18 +604,28 @@
             .game-canvas { height: 300px; }
             h2 { font-size: 1.5em; }
             .download-btn { font-size: 1.2em; padding: 15px 30px; }
+            .implementation-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="grid-bg"></div>
+    <div class="ghost-orb"></div>
+    <div class="ghost-orb"></div>
+    <div class="ghost-orb"></div>
+    <div class="ghost-orb"></div>
+    <div class="ghost-orb"></div>
     <div class="scan-line"></div>
     
     <div class="container">
         <header>
             <h1 class="logo">JZBlock</h1>
             <p class="tagline">Laser-Powered Zombie Annihilation</p>
-            <div class="version-badge">VERSION 0.5 - CORE REWRITE</div>
+            <div class="version-badge">VERSION 0.5 - DUAL LANGUAGE REWRITE</div>
+            <div class="lang-badges">
+                <span class="lang-badge">⚡ Zig + Raylib</span>
+                <span class="lang-badge">☕ Java + Swing</span>
+            </div>
         </header>
         
         <div class="preview-section">
@@ -483,8 +646,9 @@
                     <p style="line-height: 1.8;">
                         JZBlock is a top-down zombie survival game where precision meets chaos. 
                         Armed with cutting-edge laser weaponry, you'll face relentless waves of 
-                        undead enemies in a block-based world. Built with pure Java, this game 
-                        combines retro aesthetics with modern gameplay mechanics.
+                        undead enemies in a block-based world. Version 0.5 is a complete rewrite 
+                        featuring dual implementations in both Zig (with Raylib) and Java (with Swing/AWT), 
+                        giving you the choice between blazing-fast native performance and cross-platform portability.
                     </p>
                 </div>
                 
@@ -494,7 +658,8 @@
                         <li>Laser Combat System - High-tech weaponry with visual effects</li>
                         <li>Wave-Based Survival - Increasingly difficult zombie hordes</li>
                         <li>Top-Down Tactical Gameplay - Strategic positioning matters</li>
-                        <li>Cross-Platform Compatible - Windows, Linux, and more</li>
+                        <li>Dual Implementation - Choose Zig/Raylib or Java/Swing</li>
+                        <li>Cross-Platform Compatible - Windows & Linux build scripts</li>
                         <li>Modular Architecture - Clean, maintainable codebase</li>
                     </ul>
                 </div>
@@ -507,8 +672,8 @@
                 <span class="stat-label">Zombie Waves</span>
             </div>
             <div class="stat-card">
-                <span class="stat-number">100%</span>
-                <span class="stat-label">Pure Java</span>
+                <span class="stat-number">2</span>
+                <span class="stat-label">Languages</span>
             </div>
             <div class="stat-card">
                 <span class="stat-number">0.5</span>
@@ -521,9 +686,46 @@
         </div>
         
         <div class="tech-section">
-            <h2 style="text-align: center;">Technical Architecture</h2>
+            <h2 style="text-align: center;">Dual Language Architecture</h2>
+            <p style="text-align: center; margin-top: 20px; font-size: 1.1em; line-height: 1.6;">
+                JZBlock v0.5 features a complete rewrite with <strong style="color: #ff69b4;">dual language support</strong>. 
+                The game now runs on both <strong style="color: #00ff7f;">Zig with Raylib</strong> (for native performance) and 
+                <strong style="color: #da70d6;">Java with Swing/AWT</strong> (for JVM compatibility). The original pure Java implementation 
+                has been archived at <code style="background: rgba(0,0,0,0.5); padding: 2px 8px;">src/main/archived/</code> while the new modular system takes center stage.
+            </p>
+            
+            <div class="implementation-grid">
+                <div class="impl-card">
+                    <h3>⚡ Zig Implementation</h3>
+                    <ul>
+                        <li>Raylib graphics framework - Modern & lightweight</li>
+                        <li>High-performance native execution</li>
+                        <li>Zero-cost abstractions</li>
+                        <li>Manual memory management</li>
+                        <li>Compile-time optimizations</li>
+                        <li>Direct system access</li>
+                        <li>Located: src/main/zig/</li>
+                    </ul>
+                </div>
+                
+                <div class="impl-card">
+                    <h3>☕ Java Implementation</h3>
+                    <ul>
+                        <li>Swing/AWT windowing - Classic & reliable</li>
+                        <li>Cross-platform JVM runtime</li>
+                        <li>Automatic memory management</li>
+                        <li>Mature ecosystem</li>
+                        <li>Easy debugging</li>
+                        <li>Familiar Java tooling</li>
+                        <li>Located: src/main/java/</li>
+                    </ul>
+                </div>
+            </div>
+            
             <div class="tech-grid">
-                <div class="tech-badge">Java 8+</div>
+                <div class="tech-badge highlight">Zig</div>
+                <div class="tech-badge highlight">Java 8+</div>
+                <div class="tech-badge highlight">Raylib</div>
                 <div class="tech-badge">Swing/AWT</div>
                 <div class="tech-badge">K2DBody</div>
                 <div class="tech-badge">LocalSys</div>
@@ -531,20 +733,20 @@
                 <div class="tech-badge">Apache 2.0</div>
             </div>
             
-            <div style="margin-top: 40px;">
+            <div style="margin-top: 50px;">
                 <h2>Development Philosophy</h2>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px;">
-                    <div style="padding: 20px; background: rgba(0,0,0,0.5); border-left: 3px solid #ff0000;">
-                        <h3 style="color: #00ff41; margin-bottom: 10px;">Modularity</h3>
-                        <p style="line-height: 1.6;">Clean separation of concerns with distinct systems for window management, entities, and game logic.</p>
+                    <div style="padding: 20px; background: rgba(0,0,0,0.5); border-left: 3px solid #ba55d3;">
+                        <h3 style="color: #ff69b4; margin-bottom: 10px;">Modularity</h3>
+                        <p style="line-height: 1.6;">Clean separation of concerns with distinct systems for window management, entities, and game logic across both languages.</p>
                     </div>
-                    <div style="padding: 20px; background: rgba(0,0,0,0.5); border-left: 3px solid #ff0000;">
-                        <h3 style="color: #00ff41; margin-bottom: 10px;">Simplicity</h3>
-                        <p style="line-height: 1.6;">Minimal dependencies, focusing on core Java libraries for maximum compatibility.</p>
+                    <div style="padding: 20px; background: rgba(0,0,0,0.5); border-left: 3px solid #00ff7f;">
+                        <h3 style="color: #00ff7f; margin-bottom: 10px;">Performance</h3>
+                        <p style="line-height: 1.6;">Zig with Raylib provides blazing-fast native performance while Java ensures broad compatibility and ease of development.</p>
                     </div>
-                    <div style="padding: 20px; background: rgba(0,0,0,0.5); border-left: 3px solid #ff0000;">
-                        <h3 style="color: #00ff41; margin-bottom: 10px;">Cross-Platform</h3>
-                        <p style="line-height: 1.6;">Works seamlessly on Windows, Linux, and any Java-supported platform.</p>
+                    <div style="padding: 20px; background: rgba(0,0,0,0.5); border-left: 3px solid #ff0064;">
+                        <h3 style="color: #ff0064; margin-bottom: 10px;">Flexibility</h3>
+                        <p style="line-height: 1.6;">Choose your runtime: Zig for maximum FPS or Java for maximum portability. Both share the same game design.</p>
                     </div>
                 </div>
             </div>
@@ -557,31 +759,104 @@
             </a>
             
             <div class="build-instructions">
-                <h3 style="color: #ff0000; margin: 30px 0 20px;">Build Instructions</h3>
-                <p style="margin-bottom: 15px;">Clone the repository and build using the provided scripts:</p>
+                <h3 style="color: #ff69b4; margin: 30px 0 20px;">Build & Run Instructions</h3>
+                <p style="margin-bottom: 15px;">Choose your language and platform with the interactive build scripts:</p>
                 
-                <div style="margin: 20px 0;">
-                    <p style="color: #ff3333; margin-bottom: 10px;">Windows:</p>
-                    <div class="code-block">build.bat</div>
-                    <div class="code-block">jar.bat</div>
+                <div style="margin: 30px 0;">
+                    <p style="color: #00ff7f; margin-bottom: 10px; font-size: 1.2em;">Windows Build:</p>
+                    <p style="margin-bottom: 10px;">Navigate to scripts/ and run winbuild.bat (interactive menu)</p>
+                    <div class="code-block">cd scripts</div>
+                    <div class="code-block">winbuild.bat</div>
                 </div>
                 
-                <div style="margin: 20px 0;">
-                    <p style="color: #ff3333; margin-bottom: 10px;">Requirements:</p>
-                    <div class="code-block">Java Development Kit (JDK) 8 or later</div>
+                <div style="margin: 30px 0;">
+                    <p style="color: #00ff7f; margin-bottom: 10px; font-size: 1.2em;">Linux Build:</p>
+                    <p style="margin-bottom: 10px;">Navigate to scripts/ and run lxbuild.sh (interactive menu)</p>
+                    <div class="code-block">cd scripts</div>
+                    <div class="code-block">chmod +x lxbuild.sh</div>
+                    <div class="code-block">./lxbuild.sh</div>
+                </div>
+                
+                <div style="margin: 30px 0;">
+                    <p style="color: #ba55d3; margin-bottom: 10px; font-size: 1.2em;">Archived Pure Java Version:</p>
+                    <p style="margin-bottom: 10px;">Original complete game available in scripts/archived/</p>
+                    <div class="code-block">cd scripts/archived</div>
+                    <div class="code-block">winbuild.bat / lxbuild.sh</div>
+                </div>
+                
+                <div style="margin: 30px 0;">
+                    <p style="color: #ba55d3; margin-bottom: 10px; font-size: 1.2em;">Requirements:</p>
+                    <div class="code-block">Java Development Kit (JDK) 8+ (for Java build)</div>
+                    <div class="code-block">Zig Compiler + Raylib (for Zig build)</div>
                 </div>
             </div>
         </div>
         
-        <div style="background: rgba(0,0,0,0.7); border: 2px solid #00ff41; padding: 40px; margin: 60px 0;">
+        <div style="background: rgba(0,0,0,0.7); border: 2px solid #ba55d3; padding: 40px; margin: 60px 0; box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);">
             <h2 style="text-align: center; margin-bottom: 30px;">Project Structure</h2>
-            <div style="background: #000; padding: 30px; font-family: 'Share Tech Mono', monospace; line-height: 2;">
-                <div style="color: #ff0000;">├── src/main/java/</div>
-                <div style="padding-left: 20px; color: #00ff41;">│   ├── Main.java <span style="color: #666;">// Application entry point</span></div>
-                <div style="padding-left: 20px; color: #00ff41;">│   ├── Window.java <span style="color: #666;">// Cross-platform window management</span></div>
-                <div style="padding-left: 20px; color: #00ff41;">│   ├── LocalSys.java <span style="color: #666;">// OS detection & utilities</span></div>
-                <div style="padding-left: 20px; color: #00ff41;">│   ├── K2DBody.java <span style="color: #666;">// 2D entity framework</span></div>
-                <div style="color: #ff0000;">└── src/main/archived/ <span style="color: #666;">// Original game implementation</span></div>
+            <div style="background: #000; padding: 30px; font-family: 'Share Tech Mono', monospace; line-height: 2; font-size: 0.9em;">
+                <div style="color: #ff69b4;">JZBlock/</div>
+                <div style="color: #ba55d3;">├── LICENSE <span style="color: #666;">// Apache 2.0</span></div>
+                <div style="color: #ba55d3;">├── README.md <span style="color: #666;">// Documentation</span></div>
+                <div style="color: #ff69b4;">├── docs/ <span style="color: #666;">// Project webpage</span></div>
+                <div style="padding-left: 20px; color: #e0b3ff;">│   └── index.html</div>
+                <div style="color: #ff69b4;">├── res/ <span style="color: #666;">// Game assets</span></div>
+                <div style="padding-left: 20px; color: #e0b3ff;">│   ├── gimp/ <span style="color: #666;">// Source graphics</span></div>
+                <div style="padding-left: 20px; color: #e0b3ff;">│   └── img/ <span style="color: #666;">// Icons & menu images</span></div>
+                <div style="color: #ff69b4;">├── scripts/ <span style="color: #666;">// Build automation</span></div>
+                <div style="padding-left: 20px; color: #00ff7f;">│   ├── winbuild.bat <span style="color: #666;">// Windows: Choose Zig/Java</span></div>
+                <div style="padding-left: 20px; color: #00ff7f;">│   ├── lxbuild.sh <span style="color: #666;">// Linux: Choose Zig/Java</span></div>
+                <div style="padding-left: 20px; color: #e0b3ff;">│   └── archived/ <span style="color: #666;">// Old build scripts</span></div>
+                <div style="color: #ff69b4;">├── bin/ <span style="color: #666;">// Compiled output</span></div>
+                <div style="color: #ff69b4;">├── build/ <span style="color: #666;">// Build artifacts</span></div>
+                <div style="padding-left: 20px; color: #e0b3ff;">│   └── archived/JZBlock.jar</div>
+                <div style="color: #ff69b4;">├── src/</div>
+                <div style="padding-left: 20px; color: #ba55d3;">│   ├── main/</div>
+                <div style="padding-left: 40px; color: #00ff7f;">│   │   ├── java/ <span style="color: #666;">// Java + Swing</span></div>
+                <div style="padding-left: 60px; color: #e0b3ff;">│   │   │   ├── Main.java</div>
+                <div style="padding-left: 60px; color: #e0b3ff;">│   │   │   ├── Window.java</div>
+                <div style="padding-left: 60px; color: #e0b3ff;">│   │   │   ├── LocalSys.java</div>
+                <div style="padding-left: 60px; color: #e0b3ff;">│   │   │   └── K2DBody.java</div>
+                <div style="padding-left: 40px; color: #00ff7f;">│   │   ├── zig/ <span style="color: #666;">// Zig + Raylib</span></div>
+                <div style="padding-left: 60px; color: #e0b3ff;">│   │   │   ├── build.zig</div>
+                <div style="padding-left: 60px; color: #e0b3ff;">│   │   │   ├── build.zig.zon</div>
+                <div style="padding-left: 60px; color: #e0b3ff;">│   │   │   └── src/</div>
+                <div style="padding-left: 80px; color: #da70d6;">│   │   │       ├── main.zig</div>
+                <div style="padding-left: 80px; color: #da70d6;">│   │   │       ├── root.zig</div>
+                <div style="padding-left: 80px; color: #da70d6;">│   │   │       ├── player.zig</div>
+                <div style="padding-left: 80px; color: #da70d6;">│   │   │       └── util.zig</div>
+                <div style="padding-left: 40px; color: #ff0064;">│   │   └── archived/ <span style="color: #666;">// Original complete game</span></div>
+                <div style="padding-left: 60px; color: #e0b3ff;">│   │       ├── java/ <span style="color: #666;">// Full Java game</span></div>
+                <div style="padding-left: 80px; color: #da70d6;">│   │       │   ├── Main.java</div>
+                <div style="padding-left: 80px; color: #da70d6;">│   │       │   ├── game/</div>
+                <div style="padding-left: 100px; color: #666;">│   │       │   │   ├── Engine.java</div>
+                <div style="padding-left: 100px; color: #666;">│   │       │   │   ├── Player.java</div>
+                <div style="padding-left: 100px; color: #666;">│   │       │   │   ├── Lazar.java</div>
+                <div style="padding-left: 100px; color: #666;">│   │       │   │   ├── Zomb.java</div>
+                <div style="padding-left: 100px; color: #666;">│   │       │   │   └── ...</div>
+                <div style="padding-left: 60px; color: #e0b3ff;">│   │       ├── zig/ <span style="color: #666;">// Archived Zig experiments</span></div>
+                <div style="padding-left: 60px; color: #e0b3ff;">│   │       └── c/ <span style="color: #666;">// C prototype</span></div>
+                <div style="padding-left: 20px; color: #ba55d3;">│   └── test/ <span style="color: #666;">// Unit tests</span></div>
+                <div style="padding-left: 40px; color: #e0b3ff;">│       └── java/MainTest.java</div>
+                <div style="color: #ff69b4;">└── zig-out/ <span style="color: #666;">// Zig build output</span></div>
+            </div>
+        </div>
+        
+        <div style="background: rgba(138, 43, 226, 0.1); border: 2px solid #ba55d3; padding: 40px; margin: 60px 0;">
+            <h2 style="text-align: center; margin-bottom: 30px;">Why Dual Languages?</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px;">
+                <div style="padding: 25px; background: rgba(0, 0, 0, 0.5); border: 1px solid #00ff7f;">
+                    <h3 style="color: #00ff7f; margin-bottom: 15px; font-size: 1.3em;">🚀 Raw Performance</h3>
+                    <p style="line-height: 1.6;">Zig compiles to native machine code with zero runtime overhead. Combined with Raylib's efficient rendering, you get maximum frame rates and minimal latency—perfect for fast-paced zombie action.</p>
+                </div>
+                <div style="padding: 25px; background: rgba(0, 0, 0, 0.5); border: 1px solid #ba55d3;">
+                    <h3 style="color: #ba55d3; margin-bottom: 15px; font-size: 1.3em;">🌐 Universal Access</h3>
+                    <p style="line-height: 1.6;">Java's "write once, run anywhere" philosophy means the game works on any platform with a JVM—no recompilation needed. Ideal for quick testing and broad distribution.</p>
+                </div>
+                <div style="padding: 25px; background: rgba(0, 0, 0, 0.5); border: 1px solid #ff0064;">
+                    <h3 style="color: #ff0064; margin-bottom: 15px; font-size: 1.3em;">🎓 Learning Lab</h3>
+                    <p style="line-height: 1.6;">Comparing two implementations side-by-side teaches valuable lessons about language design, memory management, and graphics APIs. Great for students and curious developers.</p>
+                </div>
             </div>
         </div>
         
@@ -589,14 +864,17 @@
             <p style="font-size: 1.2em; margin-bottom: 20px;">
                 A personal zombie survival game composed of blocks.
             </p>
+            <p style="color: #00ff7f; margin: 10px 0; font-size: 1.1em;">
+                Now with dual Zig + Raylib & Java + Swing implementations
+            </p>
             <p style="color: #666; margin: 10px 0;">
                 Developed by cjRem44x
             </p>
             <div class="license-badge">
                 Licensed under Apache License 2.0
             </div>
-            <p style="margin-top: 30px; color: #ff3333;">
-                <a href="https://github.com/cjRem44x/JZBlock" style="color: #ff0000; text-decoration: none;">
+            <p style="margin-top: 30px; color: #ff69b4;">
+                <a href="https://github.com/cjRem44x/JZBlock" style="color: #ff69b4; text-decoration: none; text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);">
                     View on GitHub ▶
                 </a>
             </p>
@@ -604,7 +882,7 @@
     </div>
     
     <script>
-        // Particle system for background effect
+        // Enhanced particle system with multi-color particles
         const canvas = document.createElement('canvas');
         canvas.style.position = 'fixed';
         canvas.style.top = '0';
@@ -620,14 +898,16 @@
         canvas.height = window.innerHeight;
         
         const particles = [];
+        const colors = ['#ff69b4', '#ba55d3', '#da70d6', '#e0b3ff', '#ff0064', '#00ff7f'];
         
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 80; i++) {
             particles.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5,
-                size: Math.random() * 2
+                vx: (Math.random() - 0.5) * 0.6,
+                vy: (Math.random() - 0.5) * 0.6,
+                size: Math.random() * 2.5 + 0.5,
+                color: colors[Math.floor(Math.random() * colors.length)]
             });
         }
         
@@ -636,8 +916,11 @@
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             particles.forEach(p => {
-                ctx.fillStyle = Math.random() > 0.5 ? '#00ff41' : '#ff0000';
+                ctx.fillStyle = p.color;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = p.color;
                 ctx.fillRect(p.x, p.y, p.size, p.size);
+                ctx.shadowBlur = 0;
                 
                 p.x += p.vx;
                 p.y += p.vy;
