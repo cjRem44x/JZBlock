@@ -1,70 +1,302 @@
-# JZBlock ϫⲍⲃⲗⲟⲕ
+# JZBlock
 
-A Java-based zombie survival game featuring laser combat and wave-based gameplay.
+**A personal zombie survival game composed of blocks**
 
-## Overview
+## 🎮 Overview
 
-JZBlock is a top-down zombie survival game where players fight off waves of zombies using laser weapons. The game is undergoing a major rewrite for version 0.5, with the original game code archived while core systems are being rebuilt.
+JZBlock is a top-down zombie survival game where players fight off waves of zombies using laser weapons. Version 0.5 represents a complete architectural rewrite, now featuring **dual language implementations** in both Java and Zig, giving developers the choice between JVM portability and native performance.
 
-## Current Status (v0.5)
+## ✨ Features
 
-This version focuses on rebuilding the core infrastructure:
-- Cross-platform window management using Swing/AWT
-- System detection and utilities
-- Basic 2D entity framework for game objects
-- Foundation for the rebuilt zombie survival game
+### Gameplay (Archived Version)
+- 🔫 **Laser Combat System** - High-tech weaponry with visual effects
+- 🧟 **Wave-Based Survival** - Increasingly difficult zombie hordes
+- 🎯 **Top-Down Tactical Gameplay** - Strategic positioning matters
+- 💊 **Health & Ammo Management** - Resource management mechanics
+- 🎮 **Game States** - Menu, playing, game over, and paused states
+- ⚙️ **Configurable Controls** - Customizable graphics and control settings
 
-## Project Structure
+### Technical Architecture
+- ⚡ **Dual Language Support** - Choose between Zig (performance) or Java (portability)
+- 🎨 **Raylib Graphics** (Zig) - Modern, lightweight graphics framework
+- 🖼️ **Swing/AWT** (Java) - Classic cross-platform windowing
+- 🧩 **Modular Design** - Clean separation of concerns
+- 🔄 **Cross-Platform** - Windows, Linux, and more
 
-### Active Development
-- **Main Entry Point**: `src/main/java/Main.java` - Application entry point
-- **Window Management**: `src/main/java/Window.java` - Cross-platform window creation and management
-- **System Utilities**: `src/main/java/LocalSys.java` - OS detection and system information
-- **Game Framework**: `src/main/java/K2DBody.java` - Basic 2D entity/body class
+## 🏗️ Architecture
 
-### Archived Code
-The original zombie survival game implementation (featuring player movement, laser combat, zombie AI, wave system, and game states) has been moved to `src/main/archived/` for reference while the codebase is being restructured.
+### Version 0.5 Rewrite
 
-## Build and Run
+The current v0.5 branch is a **complete rewrite** focusing on:
+- Building dual Zig and Java implementations side-by-side
+- Establishing a clean, modular foundation
+- Integrating Raylib for modern graphics (Zig)
+- Maintaining backward compatibility with Java
 
-### Prerequisites
-- Java Development Kit (JDK) 8 or later
-- Apache License 2.0 compliance
+### Implementation Comparison
 
-### Building
-Use the provided build scripts:
-```bash
-# Windows
-build.bat
+| Feature | Zig Implementation | Java Implementation |
+|---------|-------------------|---------------------|
+| **Graphics** | Raylib | Swing/AWT |
+| **Performance** | Native, zero-cost abstractions | JVM runtime |
+| **Memory** | Manual management | Automatic GC |
+| **Platform** | Compiled binaries | Cross-platform JVM |
+| **Build** | `build.zig` | Standard Java build |
 
-# Create JAR package
-jar.bat
+## 📁 Project Structure
+
+```
+JZBlock/
+├── LICENSE                    # Apache 2.0 License
+├── README.md                  # This file
+├── docs/
+│   └── index.html            # Project landing page
+├── res/                       # Resources & assets
+│   ├── gimp/                 # Source graphics files
+│   └── img/                  # Game images
+│       ├── icon.png
+│       └── main_menu_img.png
+├── scripts/                   # Build automation
+│   ├── winbuild.bat          # Windows: Choose Zig or Java
+│   ├── lxbuild.sh            # Linux: Choose Zig or Java
+│   └── archived/             # Legacy build scripts
+├── bin/                       # Compiled output
+│   └── main/                 # Compiled classes/binaries
+├── build/                     # Build artifacts
+│   └── archived/
+│       └── JZBlock.jar       # Archived JAR
+├── src/
+│   ├── main/
+│   │   ├── java/             # Java implementation
+│   │   │   ├── Main.java     # Entry point
+│   │   │   ├── Window.java   # Window management
+│   │   │   ├── LocalSys.java # System utilities
+│   │   │   └── K2DBody.java  # 2D entity framework
+│   │   ├── zig/              # Zig implementation (Raylib)
+│   │   │   ├── build.zig     # Zig build configuration
+│   │   │   ├── build.zig.zon # Zig package manifest
+│   │   │   └── src/
+│   │   │       ├── main.zig  # Entry point
+│   │   │       ├── root.zig  # Root module
+│   │   │       ├── player.zig # Player entity
+│   │   │       └── util.zig  # Utilities
+│   │   └── archived/         # Original game implementation
+│   │       ├── java/         # Complete original Java game
+│   │       │   ├── Main.java
+│   │       │   ├── game/     # Game engine
+│   │       │   │   ├── GameLauncher.java
+│   │       │   │   ├── core/
+│   │       │   │   │   └── Engine.java
+│   │       │   │   ├── dat/  # Game entities
+│   │       │   │   │   ├── Player.java
+│   │       │   │   │   ├── Lazar.java  # Laser projectile
+│   │       │   │   │   └── Zomb.java   # Zombie entity
+│   │       │   │   ├── graphics/
+│   │       │   │   │   ├── Render.java
+│   │       │   │   │   └── Window.java
+│   │       │   │   ├── input/
+│   │       │   │   │   └── Input.java
+│   │       │   │   ├── opt/
+│   │       │   │   │   └── Config.java
+│   │       │   │   └── ui/
+│   │       │   │       └── UI.java
+│   │       │   ├── menu/
+│   │       │   │   └── MainMenu.java
+│   │       │   └── states/
+│   │       │       └── GameStates.java
+│   │       ├── zig/          # Archived Zig experiments
+│   │       └── c/            # C prototype
+│   └── test/
+│       └── java/
+│           └── MainTest.java
+└── zig-out/                   # Zig build output
 ```
 
-## Development
+## 🚀 Getting Started
 
-### Architecture
-The v0.5 rewrite emphasizes:
-- **Modularity**: Clean separation of concerns for game systems
-- **Cross-platform compatibility**: Works on Windows, Linux, and other Java-supported platforms
-- **Rebuilt Foundation**: Core systems for the zombie survival game
-- **Simplicity**: Minimal dependencies, focusing on core Java libraries
+### Prerequisites
 
-### Key Features (v0.5)
-- **Window.o**: Singleton window manager with configurable dimensions and properties
-- **LocalSys.o**: System utilities including OS detection and directory management  
-- **K2DBody**: Foundation class for 2D game entities (players, zombies, projectiles)
+**For Java Build:**
+- Java Development Kit (JDK) 8 or later
+- Any Java-compatible platform (Windows, Linux, macOS)
 
-### Original Game Features (Archived)
-- Top-down zombie survival gameplay
-- Laser weapon combat system
-- Wave-based zombie spawning
-- Player health and ammunition management
-- Game states (menu, playing, game over, paused)
-- Configurable controls and graphics settings
+**For Zig Build:**
+- [Zig Compiler](https://ziglang.org/download/) (latest version)
+- Raylib (automatically managed by build.zig)
 
-## License
+### Building the Project
 
-This project is licensed under the Apache License 2.0. See the `LICENSE` file for details.
+#### Windows
 
-Enjoy playing JZBlock!
+```bash
+# Navigate to scripts directory
+cd scripts
+
+# Run the Windows build script (interactive menu)
+winbuild.bat
+```
+
+The script will prompt you to choose:
+1. **Java** - Build using Java/Swing
+2. **Zig** - Build using Zig/Raylib
+
+#### Linux
+
+```bash
+# Navigate to scripts directory
+cd scripts
+
+# Make script executable (first time only)
+chmod +x lxbuild.sh
+
+# Run the Linux build script (interactive menu)
+./lxbuild.sh
+```
+
+The script will prompt you to choose:
+1. **Java** - Build using Java/Swing
+2. **Zig** - Build using Zig/Raylib
+
+### Running the Archived Version
+
+To run the original complete game (from archived source):
+
+```bash
+cd scripts/archived
+
+# Windows
+winbuild.bat
+
+# Linux
+chmod +x lxbuild.sh
+./lxbuild.sh
+```
+
+## 🎯 Development Roadmap
+
+### Version 0.5 (Current - In Progress)
+- [x] Set up dual-language architecture
+- [x] Implement Zig build system with Raylib
+- [x] Create modular Java foundation
+- [x] Establish build scripts for both implementations
+- [ ] Port core game loop to both languages
+- [ ] Implement entity system in both languages
+- [ ] Add rendering pipeline (Raylib for Zig, Swing for Java)
+- [ ] Integrate input handling
+- [ ] Re-implement player mechanics
+
+### Version 0.6 (Planned)
+- [ ] Zombie AI and spawning
+- [ ] Laser weapon system
+- [ ] Wave management
+- [ ] UI and HUD
+- [ ] Sound effects and music
+
+### Version 1.0 (Future)
+- [ ] Complete feature parity with archived version
+- [ ] Performance optimizations
+- [ ] Additional weapons and enemies
+- [ ] Level system
+- [ ] Save/load functionality
+
+## 🛠️ Technology Stack
+
+### Zig Implementation
+- **Language:** [Zig](https://ziglang.org/)
+- **Graphics:** [Raylib](https://www.raylib.com/)
+- **Build System:** Zig build system
+- **Focus:** Performance, native execution
+
+### Java Implementation
+- **Language:** Java 8+
+- **Graphics:** Swing/AWT
+- **Build System:** Standard Java compilation
+- **Focus:** Cross-platform compatibility, ease of development
+
+### Archived Version (Original)
+- **Language:** Pure Java
+- **Graphics:** Custom Swing/AWT rendering
+- **Features:** Complete game with all mechanics
+
+## 📚 Code Examples
+
+### Running the Java Version
+
+```java
+// Main entry point - src/main/java/Main.java
+public class Main {
+    public static void main(String[] args) {
+        Window window = new Window();
+        // Game initialization
+    }
+}
+```
+
+### Running the Zig Version
+
+```zig
+// Main entry point - src/main/zig/src/main.zig
+const std = @import("std");
+const rl = @import("raylib");
+
+pub fn main() !void {
+    rl.InitWindow(800, 600, "JZBlock");
+    defer rl.CloseWindow();
+    
+    // Game loop
+    while (!rl.WindowShouldClose()) {
+        // Update and render
+    }
+}
+```
+
+## 🤝 Contributing
+
+This is a personal project, but feedback and suggestions are welcome! If you'd like to contribute:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📜 License
+
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
+
+## 🎮 Game Controls (Archived Version)
+
+| Action | Key |
+|--------|-----|
+| Move Up | W |
+| Move Down | S |
+| Move Left | A |
+| Move Right | D |
+| Shoot | Left Mouse Button |
+| Pause | ESC |
+
+## 🐛 Known Issues
+
+- v0.5 is currently in active development - game loop not yet implemented
+- Archived version may have platform-specific rendering quirks
+- Zig implementation requires manual Raylib setup on some platforms
+
+## 📧 Contact
+
+**Developer:** cjRem44x  
+**Repository:** [github.com/cjRem44x/JZBlock](https://github.com/cjRem44x/JZBlock)
+
+## 🙏 Acknowledgments
+
+- [Raylib](https://www.raylib.com/) - Amazing graphics library for Zig
+- [Zig Programming Language](https://ziglang.org/) - Modern systems programming
+- Java Community - For the robust JVM ecosystem
+
+---
+
+**Status:** 🚧 In Development (v0.5 Rewrite)  
+**Language:** Java & Zig  
+**Platform:** Cross-platform (Windows, Linux, macOS)  
+**Graphics:** Raylib (Zig) | Swing/AWT (Java)
+
+**Enjoy playing JZBlock!** 🎮🧟‍♂️⚡
