@@ -46,70 +46,68 @@ The current v0.5 branch is a **complete rewrite** focusing on:
 ## 📁 Project Structure
 
 ```
+```
+```
 JZBlock/
-├── LICENSE                    # Apache 2.0 License
-├── README.md                  # This file
-├── docs/
-│   └── index.html            # Project landing page
-├── res/                       # Resources & assets
-│   ├── gimp/                 # Source graphics files
-│   └── img/                  # Game images
-│       ├── icon.png
-│       └── main_menu_img.png
-├── scripts/                   # Build automation
-│   ├── winbuild.bat          # Windows: Choose Zig or Java
-│   ├── lxbuild.sh            # Linux: Choose Zig or Java
-│   └── archived/             # Legacy build scripts
-├── bin/                       # Compiled output
-│   └── main/                 # Compiled classes/binaries
-├── build/                     # Build artifacts
-│   └── archived/
-│       └── JZBlock.jar       # Archived JAR
-├── src/
-│   ├── main/
-│   │   ├── java/             # Java implementation
-│   │   │   ├── Main.java     # Entry point
-│   │   │   ├── Window.java   # Window management
-│   │   │   ├── LocalSys.java # System utilities
-│   │   │   └── K2DBody.java  # 2D entity framework
-│   │   ├── zig/              # Zig implementation (Raylib)
-│   │   │   ├── build.zig     # Zig build configuration
-│   │   │   ├── build.zig.zon # Zig package manifest
-│   │   │   └── src/
-│   │   │       ├── main.zig  # Entry point
-│   │   │       ├── root.zig  # Root module
-│   │   │       ├── player.zig # Player entity
-│   │   │       └── util.zig  # Utilities
-│   │   └── archived/         # Original game implementation
-│   │       ├── java/         # Complete original Java game
-│   │       │   ├── Main.java
-│   │       │   ├── game/     # Game engine
-│   │       │   │   ├── GameLauncher.java
-│   │       │   │   ├── core/
-│   │       │   │   │   └── Engine.java
-│   │       │   │   ├── dat/  # Game entities
-│   │       │   │   │   ├── Player.java
-│   │       │   │   │   ├── Lazar.java  # Laser projectile
-│   │       │   │   │   └── Zomb.java   # Zombie entity
-│   │       │   │   ├── graphics/
-│   │       │   │   │   ├── Render.java
-│   │       │   │   │   └── Window.java
-│   │       │   │   ├── input/
-│   │       │   │   │   └── Input.java
-│   │       │   │   ├── opt/
-│   │       │   │   │   └── Config.java
-│   │       │   │   └── ui/
-│   │       │   │       └── UI.java
-│   │       │   ├── menu/
-│   │       │   │   └── MainMenu.java
-│   │       │   └── states/
-│   │       │       └── GameStates.java
-│   │       ├── zig/          # Archived Zig experiments
-│   │       └── c/            # C prototype
-│   └── test/
-│       └── java/
-│           └── MainTest.java
-└── zig-out/                   # Zig build output
+|
++---bin
++---build
+|   \---archived
+|           JZBlock.jar
+|
++---docs
+|       index.html
+|
++---res
+|   +---gimp
+|   |       res.xcf
+|   |
+|   \---img
+|           icon.png
+|           main_menu_img.png
+|
++---scripts
+|   |   lxbuild.sh
+|   |   winbuild.bat
+|   |
+|   \---archived
+|           jar.bat
+|           lxbuild.sh
+|           winbuild.bat
+|
+\---src
+    +---main
+    |   +---archived
+    |   +---java
+    |   |   |   Main.java
+    |   |   |
+    |   |   +---launcher
+    |   |   |       GameLauncher.java
+    |   |   |
+    |   |   \---util
+    |   |           LocalSys.java
+    |   |           Logging.java
+    |   |
+    |   \---zig
+    |       |   build.zig
+    |       |   build.zig.zon
+    |       |
+    |       +---.zig-cache
+    |       +---src
+    |       |       main.zig
+    |       |       player.zig
+    |       |       root.zig
+    |       |       util.zig
+    |       |
+    |       \---zig-out
+    |           \---bin
+    |                   zig.exe
+    |                   zig.pdb
+    |
+    \---test
+        \---java
+                MainTest.java
+
 ```
 
 ## 🚀 Getting Started
