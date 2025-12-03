@@ -794,32 +794,42 @@
         
         <div style="background: rgba(0,0,0,0.7); border: 2px solid #ba55d3; padding: 40px; margin: 60px 0; box-shadow: 0 0 30px rgba(138, 43, 226, 0.3);">
             <h2 style="text-align: center; margin-bottom: 30px;">Project Structure</h2>
-            <div style="background: #000; padding: 30px; font-family: 'Share Tech Mono', monospace; line-height: 2; font-size: 0.9em;">
+            <div style="background: #000; padding: 30px; font-family: 'Share Tech Mono', monospace; line-height: 2.5; font-size: 1em;">
                 <div style="color: #ff69b4;">JZBlock/</div>
-                <div style="color: #ba55d3;">├── LICENSE <span style="color: #666;">// Apache 2.0</span></div>
-                <div style="color: #ba55d3;">├── README.md <span style="color: #666;">// Documentation</span></div>
+                <div style="color: #ba55d3;">├── LICENSE</div>
+                <div style="color: #ba55d3;">├── README.md</div>
                 <div style="color: #ff69b4;">├── docs/ <span style="color: #666;">// Project webpage</span></div>
-                <div style="padding-left: 20px; color: #e0b3ff;">│   └── index.html</div>
-                <div style="color: #ff69b4;">├── res/ <span style="color: #666;">// Game assets</span></div>
-                <div style="padding-left: 20px; color: #e0b3ff;">│   ├── gimp/ <span style="color: #666;">// Source graphics</span></div>
-                <div style="padding-left: 20px; color: #e0b3ff;">│   └── img/ <span style="color: #666;">// Icons & menu images</span></div>
+                <div style="color: #ff69b4;">├── res/ <span style="color: #666;">// Game assets & resources</span></div>
+                <div style="padding-left: 20px; color: #e0b3ff;">│   ├── gimp/</div>
+                <div style="padding-left: 20px; color: #e0b3ff;">│   └── img/</div>
                 <div style="color: #ff69b4;">├── scripts/ <span style="color: #666;">// Build automation</span></div>
-                <div style="color: #ff69b4;">├── bin/ <span style="color: #666;">// Compiled output</span></div>
+                <div style="padding-left: 20px; color: #00ff7f;">│   ├── winbuild.bat</div>
+                <div style="padding-left: 20px; color: #00ff7f;">│   ├── lxbuild.sh</div>
+                <div style="padding-left: 20px; color: #e0b3ff;">│   └── archived/</div>
+                <div style="color: #ff69b4;">├── bin/ <span style="color: #666;">// Compiled classes</span></div>
                 <div style="color: #ff69b4;">├── build/ <span style="color: #666;">// Build artifacts</span></div>
-                <div style="padding-left: 20px; color: #e0b3ff;">│   └── archived/JZBlock.jar</div>
                 <div style="color: #ff69b4;">├── src/</div>
                 <div style="padding-left: 20px; color: #ba55d3;">│   ├── main/</div>
-                <div style="padding-left: 40px; color: #00ff7f;">│   │   ├── java/ <span style="color: #666;">// Java + Swing</span></div>
-                 <div style="padding-left: 40px; color: #00ff7f;">│   │   ├── zig/ <span style="color: #666;">// Zig + Raylib</span></div>
-                <div style="padding-left: 60px; color: #e0b3ff;">│   │   │   ├── build.zig</div>
-                <div style="padding-left: 60px; color: #e0b3ff;">│   │   │   ├── build.zig.zon</div>
+                <div style="padding-left: 40px; color: #00ff7f;">│   │   ├── java/ <span style="color: #666;">// Java + Swing implementation</span></div>
+                <div style="padding-left: 40px; color: #00ff7f;">│   │   ├── zig/ <span style="color: #666;">// Zig + Raylib implementation</span></div>
                 <div style="padding-left: 60px; color: #e0b3ff;">│   │   │   └── src/</div>
-                    <div style="padding-left: 40px; color: #ff0064;">│   │   └── archived/ <span style="color: #666;">// Original complete game</span></div>
-                <div style="padding-left: 60px; color: #e0b3ff;">│   │       ├── java/ <span style="color: #666;">// Full Java game</span></div>
-                <div style="padding-left: 60px; color: #e0b3ff;">│   │       ├── zig/ <span style="color: #666;">// Archived Zig experiments</span></div>
-                <div style="padding-left: 60px; color: #e0b3ff;">│   │       └── c/ <span style="color: #666;">// C prototype</span></div>
-                <div style="padding-left: 20px; color: #ba55d3;">│   └── test/ <span style="color: #666;">// Unit tests</span></div>
+                <div style="padding-left: 40px; color: #ff0064;">│   │   └── archived/ <span style="color: #666;">// Original complete game</span></div>
+                <div style="padding-left: 60px; color: #e0b3ff;">│   │       ├── java/</div>
+                <div style="padding-left: 60px; color: #e0b3ff;">│   │       ├── zig/</div>
+                <div style="padding-left: 60px; color: #e0b3ff;">│   │       └── c/</div>
+                <div style="padding-left: 20px; color: #ba55d3;">│   └── test/</div>
                 <div style="padding-left: 40px; color: #e0b3ff;">│       └── java/</div>
+            </div>
+            <div style="margin-top: 30px; padding: 20px; background: rgba(138, 43, 226, 0.1); border-left: 3px solid #00ff7f;">
+                <h3 style="color: #00ff7f; margin-bottom: 10px; font-size: 1.2em;">📁 Key Directories</h3>
+                <p style="line-height: 1.8; color: #e0b3ff;">
+                    <strong style="color: #ff69b4;">src/main/java/</strong> - New Java foundation (v0.5 rewrite)<br>
+                    <strong style="color: #ff69b4;">src/main/zig/</strong> - New Zig + Raylib implementation (v0.5 rewrite)<br>
+                    <strong style="color: #ff0064;">src/main/archived/java/</strong> - Original complete game (fully playable)<br>
+                    <strong style="color: #00ff7f;">scripts/</strong> - Interactive build scripts (winbuild.bat, lxbuild.sh)<br>
+                    <strong style="color: #ba55d3;">res/</strong> - Game assets and resources (images, graphics)<br>
+                    <strong style="color: #da70d6;">bin/, build/, zig-out/</strong> - Compiled outputs (auto-generated)
+                </p>
             </div>
         </div>
         
