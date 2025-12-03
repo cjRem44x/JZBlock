@@ -157,8 +157,7 @@ chmod +x lxbuild.sh
 // Main entry point - src/main/java/Main.java
 public class Main {
     public static void main(String[] args) {
-        Window window = new Window();
-        // Game initialization
+        //...
     }
 }
 ```
@@ -167,17 +166,8 @@ public class Main {
 
 ```zig
 // Main entry point - src/main/zig/src/main.zig
-const std = @import("std");
-const rl = @import("raylib");
-
 pub fn main() !void {
-    rl.InitWindow(800, 600, "JZBlock");
-    defer rl.CloseWindow();
-    
-    // Game loop
-    while (!rl.WindowShouldClose()) {
-        // Update and render
-    }
+    //...
 }
 ```
 
