@@ -26,7 +26,7 @@ public class Main
 {
     public static void main(final String[] args) 
     {
-        System.out.println(LocalSys.o.os_tag());
-        Window.o.init_Window(800, 600, "Hello World!");
+        var gameLauncher = new main.java.launcher.GameLauncher();
+        gameLauncher.run_GameLauncher();
     }
 }

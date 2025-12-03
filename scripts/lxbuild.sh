@@ -42,7 +42,10 @@ if [ "$choice" = "1" ]; then
     echo ""
     echo "=== Building Java version ==="
     cd "$src"
-    javac -d "$bin" *.java
+    javac -d "$bin" \
+        util/*.java \
+        launcher/*.java \
+        *.java
     if [ $? -ne 0 ]; then
         echo "Java build failed!"
         exit 1

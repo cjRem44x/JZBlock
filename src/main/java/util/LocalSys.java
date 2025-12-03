@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package main.java;
+package main.java.util;
 
 /**
  * Local system utilities for JZBlock v0.5

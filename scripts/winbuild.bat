@@ -39,7 +39,10 @@ if "%choice%"=="1" (
     echo.
     echo === Building Java version ===
     pushd "%src%"
-    javac -d "%bin%" *.java
+    javac -d "%bin%" ^
+        util/*.java ^
+        launcher/*.java ^
+        *.java
     if %errorlevel% neq 0 (
         echo Java build failed!
         exit /b 1
