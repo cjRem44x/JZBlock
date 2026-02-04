@@ -26,7 +26,11 @@ public class Main
 {
     public static void main(final String[] args) 
     {
-        var gameLauncher = new main.java.launcher.GameLauncher();
-        gameLauncher.run_GameLauncher();
+        System.out.println("****************************");
+        System.out.println("Welcome to JZBlock!");
+        System.out.println("----");
+        System.out.println("As of right now (Jan 2026) the Java version of JZBlock is being developed. If you wish to contribute, please visit our GitHub page at. AND IF YOU WISH TO PLAY JZBlock, PLEASE RUN THE Zig VERSION OF JZBlock, AS IT IS MORE OPTIMIZED AND BETTER MAINTAINED.");
+        //var gameLauncher = new main.java.launcher.GameLauncher();
+        //gameLauncher.run_GameLauncher();
     }
 }
