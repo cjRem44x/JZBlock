@@ -1,176 +1,222 @@
 //  AUTHOR: cjRem44x //
 //
+// ============================================================================
+// Window.java - Game Window Management
+// ============================================================================
+// Manages the main game window using Java Swing. This class extends JPanel
+// to provide a custom drawing surface and wraps a JFrame for the window.
+//
+// Responsibilities:
+//   - Window creation and configuration (size, title, icon)
+//   - Custom painting via paintComponent() -> delegates to Render
+//   - Screen refresh coordination with UI updates
+//   - Mouse handling (hides cursor when clicked)
+//   - Dependency injection hub for Engine, UI, Render, and Config
+//
+// Window Features:
+//   - Fixed size: 1400x900 (from Config), minimum 800x800
+//   - Non-resizable, always on top
+//   - Custom dark background color
+//   - Invisible cursor during gameplay
+//
+// Rendering Pipeline:
+//   Window.ref() -> UI.update() + repaint() -> paintComponent() -> Render.update()
+// ============================================================================
+//
 package game.graphics;
 
-import java.awt.*; // Import AWT library
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.security.SecureRandom; // Import SecureRandom
-import javax.swing.*; // Import Swing library
+import java.security.SecureRandom;
+import javax.swing.*;
 //
-import game.core.*; // Import core package
-import game.opt.*; // Import Settings class
-import game.ui.UI; // Import UI class
+import game.core.*;
+import game.opt.*;
+import game.ui.UI;
 
-public class Window 
-extends JPanel 
+public class Window
+extends JPanel
 {
     // FIELDS //
     //
-    private SecureRandom rand = new SecureRandom(); // Create a new SecureRandom instance for random number generation
-    private JFrame       f    = new JFrame(); // Create a new JFrame to represent the application window
-    private Render       rend = null; // Render object for handling graphics rendering
-    private Engine       e; // Engine object for game logic
-    private UI           ui; // UI object for user interface management
-    private Config     set; // Settings object for application configuration
+    private SecureRandom rand = new SecureRandom();  // Random generator (unused but available)
+    private JFrame       f    = new JFrame();        // Main application window frame
+    private Render       rend = null;                // Graphics renderer for game entities
+    private Engine       e;                          // Game engine reference
+    private UI           ui;                         // UI system reference
+    private Config       set;                        // Configuration/settings reference
     //
-    // displaying stats
-    private JLabel p_health_lbl, go_lbl, 
-                   zkill_lbl, zwave_lbl, 
-                   reload_lbl, ZZZ_lbl, 
-                   stats_lbl; // Labels for displaying various stats
+    // Legacy labels (now managed by UI class)
+    private JLabel p_health_lbl, go_lbl,
+                   zkill_lbl, zwave_lbl,
+                   reload_lbl, ZZZ_lbl,
+                   stats_lbl;
     //
-    // timer to cycle through round_lbl colors
-    private Timer rainbow_t; // Timer for cycling through colors
+    private Timer rainbow_t;  // Timer for color cycling effects (unused)
   
     
-    // RENDER //
+    // ===========================
+    // RENDERING METHODS
+    // ===========================
     //
-    // paint
-    @Override public 
-    void paintComponent(Graphics g) 
+    // Override paintComponent to render game graphics
+    // Called automatically by Swing when repaint() is invoked
+    @Override public
+    void paintComponent(Graphics g)
     {
-        super.paintComponent(g);
+        super.paintComponent(g);  // Clear background
 
-        // render graphics
-        if (rend != null) rend.update(g); // Update graphics using the Render object
-        else System.out.println("RENDER is NULL"); // Log if Render object is null
+        // Delegate rendering to Render class
+        if (rend != null) rend.update(g);
+        else System.out.println("RENDER is NULL");  // Debug warning
     }
     //
-    // add render
-    public 
-    void rend(Render rend) 
+    // Inject render dependency
+    public
+    void rend(Render rend)
     {
-        this.rend = rend; // Set the Render object
+        this.rend = rend;
     }
     //
-    // window refresh
-    public 
-    void ref() 
+    // Refresh the window - called every frame from game loop
+    // Updates UI elements first, then triggers a repaint
+    public
+    void ref()
     {
-        ui.update(); // Update the UI
-        this.repaint(); // Refresh the window
+        ui.update();    // Update HUD labels (health, kills, wave, etc.)
+        this.repaint(); // Request Swing to repaint the window
     }
     //
-    // access to screen width
-    public 
-    int width() 
+    // Get current window content width (may differ from initial if resized)
+    public
+    int width()
     {
-        return f.getContentPane().getWidth(); // Get the width of the window's content pane
+        return f.getContentPane().getWidth();
     }
     //
-    // access to screen height
-    public 
-    int height() 
+    // Get current window content height
+    public
+    int height()
     {
-        return f.getContentPane().getHeight(); // Get the height of the window's content pane
+        return f.getContentPane().getHeight();
     }
     //
-    // set title
-    public 
+    // Set window title bar text
+    public
     void title(String title)
     {
-        f.setTitle(title); // Set the title of the window
+        f.setTitle(title);
     }
-
-    public 
+    //
+    // Get window icon image from config
+    public
     Image icon() {
         return set.get_icon().getImage();
     }
 
-    // INIT //
+    // ===========================
+    // WINDOW INITIALIZATION
+    // ===========================
     //
-    // build window
-    public 
-    void build() 
+    // Build and display the game window with all configurations
+    public
+    void build()
     {
+        // Set window icon from resources
         f.setIconImage(icon());
-        this.setLayout(null); // Set layout to null
-        f.add(this); // Add this JPanel to the JFrame
-        f.pack(); // Pack the JFrame
-        f.setVisible(true); // Make the JFrame visible
-        f.setLocationRelativeTo(null); // Center the JFrame on the screen
-        // f.setExtendedState(JFrame.MAXIMIZED_BOTH); // Uncomment to maximize the window
-        f.setMinimumSize( new Dimension(800, 800) ); // Set minimum size for the window
-        f.setResizable(false); // Disable resizing of the window
-        f.setAlwaysOnTop(true);
 
-        // Setiing up Invisible cursor when
-        // screen is clicked on.
+        // Use null layout for absolute positioning of UI elements
+        this.setLayout(null);
+
+        // Add this JPanel as the window's content
+        f.add(this);
+        f.pack();
+        f.setVisible(true);
+
+        // Center window on screen
+        f.setLocationRelativeTo(null);
+
+        // Window constraints
+        // f.setExtendedState(JFrame.MAXIMIZED_BOTH); // Uncomment for fullscreen
+        f.setMinimumSize( new Dimension(800, 800) );
+        f.setResizable(false);   // Fixed size window
+        f.setAlwaysOnTop(true);  // Keep game visible
+
+        // ===========================
+        // CURSOR HIDING
+        // ===========================
+        // Create an invisible cursor to hide mouse during gameplay
+        // Activates when user clicks on the game window
         BufferedImage cursimg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
         Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-            cursimg, new Point(0, 0), 
+            cursimg, new Point(0, 0),
             "blank cursor"
         );
         f.addMouseListener(
             new MouseAdapter() {
-                @Override public 
-                void mouseClicked(MouseEvent e) 
+                @Override public
+                void mouseClicked(MouseEvent e)
                 {
                     f.getContentPane().setCursor(blankCursor);
                 }
             }
         );
 
-        // background color
-        this.setBackground(set.window_bg); // Set the background color using settings
+        // Set dark background color from config
+        this.setBackground(set.window_bg);
     }
     //
-    // set size
-    public 
-    void size(int x, int y) 
+    // Set window size (called before build)
+    public
+    void size(int x, int y)
     {
-        this.setPreferredSize( new Dimension(x, y) ); // Set preferred size of the JPanel
+        this.setPreferredSize( new Dimension(x, y) );
     }
     //
-    // clear elems from screen
-    public 
-    void clear() 
+    // Clear all UI components from window (used on restart)
+    public
+    void clear()
     {
-        this.removeAll(); // Remove all components from the JPanel
-        this.setBackground(set.window_bg); // Reset the background color
+        this.removeAll();
+        this.setBackground(set.window_bg);
     }
 
 
-    // ACCESS //
+    // ===========================
+    // DEPENDENCY INJECTION
+    // ===========================
     //
-    // get frame
-    public 
-    JFrame get() 
+    // Get underlying JFrame (used by Input for adding listeners)
+    public
+    JFrame get()
     {
-        return this.f; // Return the JFrame object
+        return this.f;
     }
     //
-    public 
-    void engine(Engine e) 
+    // Inject Engine dependency and sync screen color
+    public
+    void engine(Engine e)
     {
-        this.e = e; // Set the Engine object
-        e.screen_color = set.window_bg; // Set the screen color in the Engine
+        this.e = e;
+        e.screen_color = set.window_bg;  // Engine needs background color for dead zombie effect
     }
     //
-    public 
-    void ui(UI ui) 
+    // Inject UI dependency and establish bidirectional links
+    public
+    void ui(UI ui)
     {
-        this.ui = ui; // Set the UI object
-        ui.window(this); // Link the UI to this window
-        ui.engine(e); // Link the UI to the Engine
+        this.ui = ui;
+        ui.window(this);  // UI needs window reference to add labels
+        ui.engine(e);     // UI needs engine for game state data
     }
     //
-    public 
-    void config(Config set) 
+    // Inject Config dependency
+    public
+    void config(Config set)
     {
-        this.set = set; // Set the Settings object
-    } 
+        this.set = set;
+    }
 }

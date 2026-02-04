@@ -1,103 +1,161 @@
 // AUTHOR: cjRem44x //
 //
+// ============================================================================
+// Input.java - Keyboard Input Handler
+// ============================================================================
+// Handles all keyboard input for player movement, shooting, and game controls.
+// Implements KeyListener for keyboard events and WindowListener for close events.
+//
+// Control Scheme (Default):
+//   Movement:       W/A/S/D keys
+//   Shooting:       Arrow keys (direction of shot)
+//   Speed Boost:    SPACE (hold for boost, 5s duration, 5s recharge)
+//   Reload:         CTRL (reloads lazar ammo, 2s delay)
+//   Upgrade:        U (upgrade blaster if enough currency)
+//   Pause/Resume:   ESC
+//   Restart:        R (only when dead)
+//
+// Alternate Control Scheme (Config.switch_controls = true):
+//   Movement:       Arrow keys
+//   Shooting:       W/A/S/D keys
+//
+// Input Processing:
+//   - Uses keyPressed/keyReleased for state tracking
+//   - Movement timer polls key states at p_throt interval (120ms)
+//   - Allows diagonal movement (multiple keys held)
+//   - Speed boost has cooldown system with duration and recharge timers
+//
+// Speed Boost System:
+//   - Hold SPACE to activate (doubles player speed)
+//   - Lasts 5 seconds or until released
+//   - 5 second recharge before can use again
+// ============================================================================
+//
 package game.input;
 
-import java.awt.event.*; // Import AWT event package
-import javax.swing.Timer; // Import Swing Timer
+import java.awt.event.*;
+import javax.swing.Timer;
 //
-import game.core.*; // Import core package
-import game.dat.*; // Import dat package
-import game.graphics.*; // Import graphics package
-import game.opt.*; // Import opt package
+import game.core.*;
+import game.dat.*;
+import game.graphics.*;
+import game.opt.*;
 
-public class Input 
-implements KeyListener, WindowListener 
+public class Input
+implements KeyListener, WindowListener
 {
-    // FIELDS //
-    //
-    private Window win; // Window object
-    private Engine e; // Engine object
-    private Config set; // Settings object
-    protected Timer set_t; // Timer object
-    //
-    // Movement keys
-    private int       W     = KeyEvent.VK_W, // W key
-                      A     = KeyEvent.VK_A, // A key
-                      S     = KeyEvent.VK_S, // S key
-                      D     = KeyEvent.VK_D, // D key
-                      SPACE = KeyEvent.VK_SPACE, // Space key
-                      RARR  = KeyEvent.VK_RIGHT, // Right arrow key
-                      LARR  = KeyEvent.VK_LEFT, // Left arrow key
-                      UARR  = KeyEvent.VK_UP, // Up arrow key
-                      DARR  = KeyEvent.VK_DOWN, // Down arrow key
-                      U     = KeyEvent.VK_U, // U key
-                      ESC   = KeyEvent.VK_ESCAPE, // Escape key
-                      CTRL  = KeyEvent.VK_CONTROL; // Control key
-    //
-    // Key states
-    private boolean up_press    = false, // Up key pressed
-                    dwn_press   = false, // Down key pressed
-                    right_press = false, // Right key pressed
-                    left_press  = false, // Left key pressed
-                    space_press = false, // Space key pressed
-                    speed_boost = false, // Speed boost active
-                    rarr_press  = false, // Right arrow key pressed
-                    larr_pres   = false, // Left arrow key pressed
-                    uarr_press  = false, // Up arrow key pressed
-                    darr_press  = false; // Down arrow key pressed
+    // ===========================
+    // FIELDS
+    // ===========================
+    private Window win;       // Window reference for attaching listeners
+    private Engine e;         // Engine reference for game actions
+    private Config set;       // Config reference for control scheme
+    protected Timer set_t;    // Unused timer (legacy)
 
-    // Speed boost logic variables
-    private long boostStartTime = 0; // Timestamp when the speed boost was activated
-    private final long BOOST_DURATION = 5000; // Duration of the speed boost (5 seconds)
-    private final long RECHARGE_TIME = 5000; // Recharge time (5 seconds)
-    private boolean canUseBoost = true; // Flag to indicate if the boost can be used
+    // ===========================
+    // KEY BINDINGS
+    // ===========================
+    // Movement keys (default: WASD)
+    private int W     = KeyEvent.VK_W;
+    private int A     = KeyEvent.VK_A;
+    private int S     = KeyEvent.VK_S;
+    private int D     = KeyEvent.VK_D;
+    // Shooting keys (default: Arrow keys)
+    private int RARR  = KeyEvent.VK_RIGHT;
+    private int LARR  = KeyEvent.VK_LEFT;
+    private int UARR  = KeyEvent.VK_UP;
+    private int DARR  = KeyEvent.VK_DOWN;
+    // Action keys
+    private int SPACE = KeyEvent.VK_SPACE;    // Speed boost
+    private int U     = KeyEvent.VK_U;        // Upgrade weapon
+    private int ESC   = KeyEvent.VK_ESCAPE;   // Pause/resume
+    private int CTRL  = KeyEvent.VK_CONTROL;  // Reload
 
-    private boolean energyDepleted = false; // Flag to check if energy is depleted
+    // ===========================
+    // KEY STATES
+    // ===========================
+    // Movement state flags (true while held)
+    private boolean up_press    = false;
+    private boolean dwn_press   = false;
+    private boolean right_press = false;
+    private boolean left_press  = false;
+    // Shooting state flags
+    private boolean rarr_press  = false;
+    private boolean larr_pres   = false;
+    private boolean uarr_press  = false;
+    private boolean darr_press  = false;
+    // Boost state
+    private boolean space_press = false;
+    private boolean speed_boost = false;  // Currently boosting
+
+    // ===========================
+    // SPEED BOOST SYSTEM
+    // ===========================
+    private long boostStartTime = 0;            // When boost was activated
+    private final long BOOST_DURATION = 5000;   // Max boost duration: 5 seconds
+    private final long RECHARGE_TIME = 5000;    // Cooldown after boost: 5 seconds
+    private boolean canUseBoost = true;         // True if boost is available
+    private boolean energyDepleted = false;     // True during recharge period
 
 
-    // ACCESS //
+    // ===========================
+    // DEPENDENCY INJECTION
+    // ===========================
     //
-    // Set the window
-    public void win(Window win) 
+    // Attach this input handler to the window
+    public void win(Window win)
     {
-        this.win = win; // Assign window object
-        this.win.get().addKeyListener(this); // Add key listener to window
-        this.win.get().addWindowListener(this); // Add window listener to window
+        this.win = win;
+        this.win.get().addKeyListener(this);    // Listen for keyboard events
+        this.win.get().addWindowListener(this); // Listen for window close
     }
     //
-    // Set the engine
-    public void engine(Engine e) 
+    // Inject engine dependency and start the movement polling timer
+    public void engine(Engine e)
     {
-        this.e = e; // Assign engine object
-        startMovementLoop(); // Start the movement loop
+        this.e = e;
+        startMovementLoop();  // Start timer that polls key states
     }
     //
-    // Set the settings
-    public void config(Config set) 
+    // Inject config and apply control scheme
+    public void config(Config set)
     {
-        this.set = set; // Assign settings object
-        if (set.switch_controls) 
+        this.set = set;
+        // If switch_controls is true, swap movement and shooting keys
+        // Default: WASD = move, Arrows = shoot
+        // Switched: Arrows = move, WASD = shoot
+        if (set.switch_controls)
         {
+            // Shooting becomes WASD
             UARR  = KeyEvent.VK_W;
             LARR  = KeyEvent.VK_A;
             DARR  = KeyEvent.VK_S;
             RARR  = KeyEvent.VK_D;
-            SPACE = KeyEvent.VK_SPACE;
-            D     = KeyEvent.VK_RIGHT;
-            A     = KeyEvent.VK_LEFT;
+            // Movement becomes Arrow keys
             W     = KeyEvent.VK_UP;
+            A     = KeyEvent.VK_LEFT;
             S     = KeyEvent.VK_DOWN;
+            D     = KeyEvent.VK_RIGHT;
+            // SPACE stays the same
+            SPACE = KeyEvent.VK_SPACE;
         }
     }
 
 
-    // MOVEMENT //
+    // ===========================
+    // KEY EVENT HANDLERS
+    // ===========================
     //
-    // Handle key presses
-    @Override public void keyPressed(KeyEvent e) 
+    // Handle key press events - set state flags and trigger instant actions
+    @Override public void keyPressed(KeyEvent e)
     {
         int n = e.getKeyCode();
 
+        // ===========================
+        // INSTANT ACTIONS (not polled)
+        // ===========================
+
+        // ESC - Toggle pause/resume
         if (n == ESC)
         {
             if (this.e.is_paused)
@@ -111,113 +169,144 @@ implements KeyListener, WindowListener
             }
         }
 
+        // CTRL - Reload lazar ammo
         if (n == CTRL)
         {
             this.e.reload_lazar();
         }
 
-        if (n == KeyEvent.VK_R && 
-            !this.e.is_p_alive) 
+        // R - Restart game (only when dead)
+        if (n == KeyEvent.VK_R && !this.e.is_p_alive)
         {
             this.e.restart();
-            this.win.clear();
+            this.win.clear();  // Clear UI elements for fresh start
         }
 
+        // U - Upgrade blaster (if enough currency)
         if (n == U) {
             this.e.upgrade_blaster();
         }
 
+        // ===========================
+        // STATE FLAGS (polled by movement loop)
+        // ===========================
+
+        // Movement keys
         if (n == W) up_press      = true;
-        if (n == S) dwn_press    = true;
+        if (n == S) dwn_press     = true;
         if (n == A) left_press    = true;
         if (n == D) right_press   = true;
+
+        // Boost key
         if (n == SPACE) space_press = true;
 
+        // Shooting keys
         if (n == RARR) rarr_press = true;
-        if (n == LARR) larr_pres = true;
+        if (n == LARR) larr_pres  = true;
         if (n == UARR) uarr_press = true;
         if (n == DARR) darr_press = true;
     }
     //
-    // Handle key releases
-    @Override public void keyReleased(KeyEvent e) 
+    // Handle key release events - clear state flags
+    @Override public void keyReleased(KeyEvent e)
     {
         int n = e.getKeyCode();
+
+        // Movement keys
         if (n == W) up_press      = false;
-        if (n == S) dwn_press    = false;
+        if (n == S) dwn_press     = false;
         if (n == A) left_press    = false;
         if (n == D) right_press   = false;
+
+        // Boost key - special handling to end boost early
         if (n == SPACE) {
             space_press = false;
-            // End the speed boost when the spacebar is released
+            // If boost was active, end it early and start recharge
             if (speed_boost) {
-                // End the speed boost and trigger recharge
-                this.e.p.speed /= 2; // Reset speed to normal
+                this.e.p.speed /= 2;      // Reset speed to normal
                 speed_boost = false;
-                energyDepleted = true; // Energy is now depleted, trigger recharge
+                energyDepleted = true;    // Start recharge timer
             }
         }
 
-        
+        // Shooting keys
         if (n == RARR) rarr_press = false;
-        if (n == LARR) larr_pres = false;
+        if (n == LARR) larr_pres  = false;
         if (n == UARR) uarr_press = false;
         if (n == DARR) darr_press = false;
     }
-    //
-    // Continuous movement loop
-    private void startMovementLoop() 
+    // ===========================
+    // MOVEMENT POLLING LOOP
+    // ===========================
+    // Timer that runs at p_throt interval (120ms) to process held keys
+    // This allows smooth continuous movement and shooting while keys are held
+    private void startMovementLoop()
     {
         new javax.swing.Timer(e.p_throt, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                // Handle movement
-                if (up_press)    e.p.y -= e.p.speed;
-                if (dwn_press)   e.p.y += e.p.speed;
-                if (left_press)  e.p.x -= e.p.speed;
-                if (right_press) e.p.x += e.p.speed;
 
-                // Handle blasts
+                // ===========================
+                // PROCESS MOVEMENT
+                // ===========================
+                // Apply movement based on which keys are held
+                // Multiple keys can be held for diagonal movement
+                if (up_press)    e.p.y -= e.p.speed;  // Move up
+                if (dwn_press)   e.p.y += e.p.speed;  // Move down
+                if (left_press)  e.p.x -= e.p.speed;  // Move left
+                if (right_press) e.p.x += e.p.speed;  // Move right
+
+                // ===========================
+                // PROCESS SHOOTING
+                // ===========================
+                // Fire lazars in direction of held arrow keys
                 if (rarr_press) e.blast("right");
                 if (larr_pres)  e.blast("left");
                 if (uarr_press) e.blast("up");
                 if (darr_press) e.blast("down");
 
-                // Speed Boost Logic
+                // ===========================
+                // SPEED BOOST SYSTEM
+                // ===========================
+
+                // Activate boost when SPACE held and boost is available
                 if (space_press && canUseBoost && !speed_boost) {
-                    e.p.speed *= 2;
+                    e.p.speed *= 2;              // Double speed
                     speed_boost = true;
-                    boostStartTime = System.currentTimeMillis(); // Record the time when boost was activated
-                    canUseBoost = false; // Disable using boost until it's recharged
+                    boostStartTime = System.currentTimeMillis();
+                    canUseBoost = false;         // Can't use again until recharged
                 }
 
-                // Check if the speed boost has lasted long enough to end
+                // Auto-end boost after BOOST_DURATION (5 seconds)
                 if (speed_boost && System.currentTimeMillis() - boostStartTime >= BOOST_DURATION) {
-                    e.p.speed /= 2; // Reset speed to normal
+                    e.p.speed /= 2;              // Reset to normal speed
                     speed_boost = false;
-                    energyDepleted = true; // Energy is now depleted, trigger recharge
+                    energyDepleted = true;       // Start recharge period
                 }
 
-                // Check if the speed boost is done and we are in the recharge period
+                // Re-enable boost after recharge period completes
                 if (energyDepleted && System.currentTimeMillis() - boostStartTime >= BOOST_DURATION + RECHARGE_TIME) {
-                    canUseBoost = true; // Enable using the boost again after recharge time
-                    energyDepleted = false; // Reset the energy depletion flag
+                    canUseBoost = true;          // Boost available again
+                    energyDepleted = false;
                 }
             }
         }).start();
     }
 
 
-    // WINDOW //
-    //
-    @Override public void windowClosing(WindowEvent e) 
+    // ===========================
+    // WINDOW LISTENER
+    // ===========================
+    // Handle window close event - exit application
+    @Override public void windowClosing(WindowEvent e)
     {
         System.exit(0);
     }
 
-
-    // UNUSED //
-    //
+    // ===========================
+    // UNUSED LISTENER METHODS
+    // ===========================
+    // Required by interfaces but not used
     @Override public void windowOpened(WindowEvent e) {}
     @Override public void windowClosed(WindowEvent e) {}
     @Override public void windowIconified(WindowEvent e) {}

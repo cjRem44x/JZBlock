@@ -1,152 +1,228 @@
 package game;
 
-import game.core.*; // Import core package
-import game.graphics.*; // Import graphics package
-import game.dat.*; // Import dat package
-import game.opt.*; // Import opt package
-import game.input.*; // Import input package
-import game.ui.*; // Import ui package
+// ============================================================================
+// GameLauncher.java - Game Initialization and Main Loop Controller
+// ============================================================================
+// Central coordinator that initializes all game systems and runs the main
+// game loop. This class is called from MainMenu when the player clicks "Play".
+//
+// Responsibilities:
+//   1. Create and wire together all game subsystems (dependency injection)
+//   2. Start the game loop in a separate thread
+//   3. Coordinate frame timing for consistent FPS
+//   4. Call engine.update() and window.ref() each frame
+//
+// Game Loop Architecture:
+//   - Runs in dedicated thread to not block UI
+//   - Uses millisecond timing for FPS throttling
+//   - Default: 60 FPS (configurable in Config)
+//
+// Subsystem Wiring (init_game):
+//   Input -> Window, Engine, Config
+//   Render -> Engine
+//   Engine -> Player, Config
+//   UI -> Config
+//   Window -> Config, Render, Engine, UI
+//
+// Frame Timing:
+//   - Tracks elapsed time since last frame
+//   - Only refreshes window when enough time has passed (1000ms / FPS)
+//   - Includes 1ms sleep to prevent CPU spinning
+// ============================================================================
+
+import game.core.*;
+import game.graphics.*;
+import game.dat.*;
+import game.opt.*;
+import game.input.*;
+import game.ui.*;
 ///
 import states.*;
 //
 import java.awt.Image;
 
 public class GameLauncher {
-    /// FIELDS ///   
+    /// FIELDS ///
     ///
-    static final Window    WIN     = new Window(); // Create a new window
-    static final UI        UI      = new UI(); // Create a new UI
-    static final Input     INP     = new Input(); // Create a new input
-    static final Render    REND    = new Render(); // Create a new render
-    static final Config    CONFG     = new Config(); // Create a new settings
-    static final Engine    ENGINE  = new Engine(); // Create a new engine
-    static final Player    PLAYER  = new Player(); // Create a new Player
+    // Singleton instances of all game subsystems
+    static final Window    WIN     = new Window();   // Game window/display
+    static final UI        UI      = new UI();       // HUD and UI elements
+    static final Input     INP     = new Input();    // Keyboard input handler
+    static final Render    REND    = new Render();   // Graphics renderer
+    static final Config    CONFG   = new Config();   // Game configuration
+    static final Engine    ENGINE  = new Engine();   // Core game logic
+    static final Player    PLAYER  = new Player();   // Player entity
     ///
-    // vars to keep track of looping time
-    private static long fps_start = 0, fps_prev, fps_steps = 0;
+    // Frame timing variables for FPS control
+    private static long fps_start = 0;   // Timestamp of current frame
+    private static long fps_prev;         // Timestamp of previous frame
+    private static long fps_steps = 0;   // Accumulated time since last render
     private static GameStates game_state;
 
-    private Thread game_thrd;
+    private Thread game_thrd;  // Dedicated game loop thread
 
-    public 
+    // ===========================
+    // ACCESSORS FOR MAIN MENU
+    // ===========================
+    // Get game icon for window
+    public
     Image icon() {
         return CONFG.get_icon().getImage();
     }
 
-    public 
+    // Get game title for window
+    public
     String title()
     {
         return CONFG.GAME_TITLE;
     }
 
-    public 
+    // ===========================
+    // GAME START
+    // ===========================
+    // Called by MainMenu when "Play Game" is clicked
+    // Launches game loop in a dedicated thread
+    public
     void start(GameStates game_state) {
-        
+
         game_thrd = new Thread(() ->
         {
             this.game_state = game_state;
-            init();
-            loop();
+            init();   // Initialize all subsystems
+            loop();   // Enter main game loop (infinite)
         });
         game_thrd.start();
     }
 
     /// PROGRAM DRIVER ///
-    /// 
-    private static 
-    void init() 
+    ///
+    // Initialize all game subsystems
+    private static
+    void init()
     {
         init_game();
     }
     ///
-    private static 
-    void loop() 
+    // Main game loop - runs forever until window closes
+    private static
+    void loop()
     {
-        
-        // core game loop
-        while (true) 
+        // Core game loop - runs continuously
+        while (true)
         {
-            loop_game();
-            // let system brake to
-            // prevent resource eating.  
-            brake(); // Pause the thread
+            loop_game();  // Update game state and render
+            brake();      // Sleep to prevent CPU spinning
         }
     }
 
 
-    /// GAME DRIVER ///   
+    /// GAME DRIVER ///
     ///
-    static 
-    void init_game() 
+    // Wire up all game subsystems via dependency injection
+    // Order matters - some systems depend on others being set first
+    static
+    void init_game()
     {
-        // optional (start) settings:
-        //
-        // CONFG.switch_controls = true;
-        // CONFG.fps = 120;
+        // ===========================
+        // OPTIONAL SETTINGS (uncomment to customize)
+        // ===========================
+        // CONFG.switch_controls = true;  // Swap WASD and arrow keys
+        // CONFG.fps = 120;               // Higher frame rate
 
-        INP.win(WIN); // Set the window for input
-        INP.engine(ENGINE); // Set the engine for input
-        REND.engine(ENGINE); // Set the engine for render
-        ENGINE.player(PLAYER); // Set the player for engine
-        ENGINE.config(CONFG); // Set the config for engine
-        UI.config(CONFG); // Set the config for UI
-        WIN.config(CONFG); // Set the config for window
-        WIN.rend(REND); // Set the render for window
-        WIN.size(CONFG.screen_width, CONFG.screen_height); // Set the size of the window
-        WIN.build(); // Build the window
-        WIN.engine(ENGINE); // Set the engine for window
-        INP.config(CONFG); // Set the config for input
+        // ===========================
+        // DEPENDENCY INJECTION
+        // ===========================
+        // Wire Input to Window and Engine for keyboard handling
+        INP.win(WIN);
+        INP.engine(ENGINE);
 
-        ENGINE.screen_width = WIN.width(); // Set the screen width for engine
-        ENGINE.screen_height = WIN.height(); // Set the screen height for engine
-        ENGINE.start(); // Start the engine
+        // Wire Render to Engine for access to game entities
+        REND.engine(ENGINE);
 
-        WIN.title(CONFG.GAME_TITLE); // Set the title of the window
-        WIN.ui(UI); // Set the UI for window
+        // Wire Engine to Player and Config
+        ENGINE.player(PLAYER);
+        ENGINE.config(CONFG);
+
+        // Wire UI to Config for colors
+        UI.config(CONFG);
+
+        // Wire Window to Config and Render
+        WIN.config(CONFG);
+        WIN.rend(REND);
+
+        // ===========================
+        // WINDOW SETUP
+        // ===========================
+        WIN.size(CONFG.screen_width, CONFG.screen_height);
+        WIN.build();          // Create and show window
+        WIN.engine(ENGINE);   // Link engine after build
+        INP.config(CONFG);    // Input needs config for control scheme
+
+        // ===========================
+        // ENGINE STARTUP
+        // ===========================
+        ENGINE.screen_width = WIN.width();
+        ENGINE.screen_height = WIN.height();
+        ENGINE.start();  // Initialize player, zombies, and start timers
+
+        // Final window setup
+        WIN.title(CONFG.GAME_TITLE);
+        WIN.ui(UI);  // Link UI system
     }
     ///
-    static 
-    void loop_game() 
+    // Called every iteration of the game loop
+    // Updates game state and renders frame (if enough time has passed)
+    static
+    void loop_game()
     {
-        // update engine
-        ENGINE.update(); // Update the engine
-        ENGINE.screen_width = WIN.width(); // Update the screen width for engine
-        ENGINE.screen_height = WIN.height(); // Update the screen height for engine
+        // ===========================
+        // UPDATE GAME STATE
+        // ===========================
+        ENGINE.update();  // Process collisions, spawning, health, etc.
 
-        // window refresh;
-        // loop-time calculation
+        // Keep engine in sync with window size (for bounds checking)
+        ENGINE.screen_width = WIN.width();
+        ENGINE.screen_height = WIN.height();
+
+        // ===========================
+        // FPS-CONTROLLED RENDERING
+        // ===========================
+        // Calculate time elapsed since last frame
         fps_prev = fps_start;
         fps_start = System.currentTimeMillis();
-        fps_steps += (fps_start-fps_prev);
-        
-        if (CONFG.fps > 0) 
+        fps_steps += (fps_start - fps_prev);
+
+        // Only render when enough time has passed for target FPS
+        // Formula: 1000ms / FPS = milliseconds per frame
+        // Example: 1000 / 60 = 16.67ms per frame
+        if (CONFG.fps > 0)
         {
-            if (fps_steps >= (int)(1000.0/CONFG.fps)) 
+            if (fps_steps >= (int)(1000.0/CONFG.fps))
             {
-                WIN.ref(); // Refresh the window
-                // System.out.println("winref @"+fps_steps);
-                fps_steps = 0;
+                WIN.ref();     // Refresh window (updates UI + repaints)
+                fps_steps = 0; // Reset accumulator
             }
-        } else {WIN.ref();}
+        } else {
+            WIN.ref();  // Unlimited FPS mode - render every loop
+        }
     }
 
 
 
     /// SYSTEM SLEEP ///
     ///
-    private static 
-    void brake() 
+    // Brief sleep to prevent CPU spinning
+    // Without this, the loop would consume 100% CPU
+    private static
+    void brake()
     {
-        try 
+        try
         {
-            Thread.sleep(1); // Pause the thread for 1 millisecond
-            // System.out.println("sleeping");
-        } catch (InterruptedException ex) 
+            Thread.sleep(1);  // 1ms pause - enough to yield CPU
+        } catch (InterruptedException ex)
         {
             ex.printStackTrace();
         }
     }
-
-
 
 }

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(wc -l \"C:\\\\Users\\\\Carrick Remillard\\\\Prog\\\\Proj\\\\JZBlock\\\\src\\\\main\\\\archived\\\\java\"/**/*.java)",
+      "Bash(git -C \"C:\\\\Users\\\\Carrick Remillard\\\\Prog\\\\Proj\\\\JZBlock\" log --oneline -10)",
+      "Bash(zig build:*)",
+      "Bash(zig version:*)"
+    ]
+  }
+}
