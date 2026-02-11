@@ -8,13 +8,15 @@ JZBlock is a top-down zombie survival game where players fight off waves of zomb
 
 ## ✨ Features
 
-### Gameplay (Archived Version)
-- 🔫 **Laser Combat System** - High-tech weaponry with visual effects
-- 🧟 **Wave-Based Survival** - Increasingly difficult zombie hordes
+### Gameplay (Zig Version - Fully Playable)
+- 🔫 **Laser Combat System** - Neon projectiles with glow effects and fire rate upgrades
+- 🧟 **Wave-Based Survival** - Increasingly difficult zombie hordes (health scales per wave)
 - 🎯 **Top-Down Tactical Gameplay** - Strategic positioning matters
-- 💊 **Health & Ammo Management** - Resource management mechanics
-- 🎮 **Game States** - Menu, playing, game over, and paused states
-- ⚙️ **Configurable Controls** - Customizable graphics and control settings
+- 💊 **Health & Ammo Management** - Magazine reloading, periodic healing drops
+- 🎮 **Game States** - Main menu, settings, in-game, paused, and game over
+- 💰 **Economy & Upgrades** - Earn currency from kills, upgrade fire rate and damage
+- ⚡ **Speed Boost** - Rechargeable speed boost system
+- 🎨 **Visual Effects** - Entity shadows, ambient lighting, grid backgrounds, glow effects
 
 ### Technical Architecture
 - ⚡ **Dual Language Support** - Choose between Zig (performance) or Java (portability)
@@ -25,23 +27,24 @@ JZBlock is a top-down zombie survival game where players fight off waves of zomb
 
 ## 🏗️ Architecture
 
-### Version 0.5 Rewrite
+### Version 0.5
 
-The current v0.5 branch is a **complete rewrite** focusing on:
-- Building dual Zig and Java implementations side-by-side
-- Establishing a clean, modular foundation
-- Integrating Raylib for modern graphics (Zig)
-- Maintaining backward compatibility with Java
+The v0.5 release is a **complete rewrite** with:
+- **Zig + Raylib** as the primary, fully playable implementation
+- **Java + Swing** as a secondary implementation (currently a stub, in development)
+- Clean, modular architecture with centralized configuration
+- Archived original Java implementation preserved at `src/main/archived/`
 
 ### Implementation Comparison
 
 | Feature | Zig Implementation | Java Implementation |
 |---------|-------------------|---------------------|
-| **Graphics** | Raylib | Swing/AWT |
+| **Status** | Fully playable | Stub (in development) |
+| **Graphics** | Raylib | Swing/AWT (planned) |
 | **Performance** | Native, zero-cost abstractions | JVM runtime |
 | **Memory** | Manual management | Automatic GC |
 | **Platform** | Compiled binaries | Cross-platform JVM |
-| **Build** | `build.zig` | Standard Java build |
+| **Build** | `build.zig` | Standard `javac` |
 
 ## 🚀 Getting Started
 
@@ -105,30 +108,43 @@ chmod +x lxbuild.sh
 
 ## 🎯 Development Roadmap
 
-### Version 0.5 (Current - In Progress)
+### Version 0.5 (Current)
+
+**Zig Implementation (Fully Playable):**
 - [x] Set up dual-language architecture
 - [x] Implement Zig build system with Raylib
-- [x] Create modular Java foundation
 - [x] Establish build scripts for both implementations
-- [ ] Port core game loop to both languages
-- [ ] Implement entity system in both languages
-- [ ] Add rendering pipeline (Raylib for Zig, Swing for Java)
-- [ ] Integrate input handling
-- [ ] Re-implement player mechanics
+- [x] Core game loop with state management
+- [x] Entity system (Player, Zombie, Lazar)
+- [x] Raylib rendering pipeline with visual effects
+- [x] Input handling (WASD movement, arrow key shooting)
+- [x] Player mechanics with speed boost system
+- [x] Zombie AI with chase behavior and separation
+- [x] Laser weapon system with ammo and reloading
+- [x] Wave management with scaling difficulty
+- [x] UI and HUD (health, ammo, kills, wave, currency, upgrades)
+- [x] Menu system (main menu, settings, pause)
+- [x] Economy system (kill rewards, weapon upgrades)
+- [x] Countdown system between waves
+
+**Java Implementation (Stub):**
+- [x] Create modular Java foundation
+- [x] OS detection utilities
+- [x] Logging utility
+- [ ] Port game loop from Zig
+- [ ] Implement entity system
+- [ ] Add Swing/AWT rendering pipeline
 
 ### Version 0.6 (Planned)
-- [ ] Zombie AI and spawning
-- [ ] Laser weapon system
-- [ ] Wave management
-- [ ] UI and HUD
 - [ ] Sound effects and music
+- [ ] Settings screen implementation (currently placeholder)
+- [ ] Java implementation feature parity with Zig
 
 ### Version 1.0 (Future)
-- [ ] Complete feature parity with archived version
-- [ ] Performance optimizations
 - [ ] Additional weapons and enemies
 - [ ] Level system
 - [ ] Save/load functionality
+- [ ] Performance optimizations
 
 ## 🛠️ Technology Stack
 
@@ -185,7 +201,7 @@ This is a personal project, but feedback and suggestions are welcome! If you'd l
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
-## 🎮 Game Controls (Archived Version)
+## 🎮 Game Controls (Zig Version)
 
 | Action | Key |
 |--------|-----|
@@ -193,14 +209,21 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 | Move Down | S |
 | Move Left | A |
 | Move Right | D |
-| Shoot | Left Mouse Button |
-| Pause | ESC |
+| Shoot Up | Up Arrow |
+| Shoot Down | Down Arrow |
+| Shoot Left | Left Arrow |
+| Shoot Right | Right Arrow |
+| Reload | CTRL |
+| Upgrade Weapon | U |
+| Speed Boost | SPACE |
+| Pause / Resume | ESC |
+| Restart (Game Over) | R |
 
 ## 🐛 Known Issues
 
-- v0.5 is currently in active development - game loop not yet implemented
+- Java v0.5 implementation is a stub — run the Zig version for the full game experience
+- Settings screen is a placeholder (controls display only)
 - Archived version may have platform-specific rendering quirks
-- Zig implementation requires manual Raylib setup on some platforms
 
 ## 📧 Contact
 
@@ -215,9 +238,9 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ---
 
-**Status:** 🚧 In Development (v0.5 Rewrite)  
-**Language:** Java & Zig  
-**Platform:** Cross-platform (Windows, Linux, macOS)  
-**Graphics:** Raylib (Zig) | Swing/AWT (Java)
+**Status:** 🎮 Zig version playable | Java version in development (v0.5)
+**Language:** Zig (primary) & Java (in progress)
+**Platform:** Cross-platform (Windows, Linux)
+**Graphics:** Raylib (Zig) | Swing/AWT (Java — planned)
 
 **Enjoy playing JZBlock!** 🎮🧟‍♂️⚡

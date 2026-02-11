@@ -655,12 +655,12 @@
                 <div class="info-block">
                     <h2>Core Features</h2>
                     <ul class="feature-list">
-                        <li>Laser Combat System - High-tech weaponry with visual effects</li>
-                        <li>Wave-Based Survival - Increasingly difficult zombie hordes</li>
-                        <li>Top-Down Tactical Gameplay - Strategic positioning matters</li>
-                        <li>Dual Implementation - Choose Zig/Raylib or Java/Swing</li>
-                        <li>Cross-Platform Compatible - Windows & Linux build scripts</li>
-                        <li>Modular Architecture - Clean, maintainable codebase</li>
+                        <li>Laser Combat System - Neon projectiles with glow and fire rate upgrades</li>
+                        <li>Wave-Based Survival - Zombie hordes with scaling health per wave</li>
+                        <li>Economy & Upgrades - Earn currency from kills, upgrade weapons</li>
+                        <li>Speed Boost - Rechargeable boost system for tactical escapes</li>
+                        <li>Full HUD - Health, ammo, wave, kills, currency, and upgrade stats</li>
+                        <li>Cross-Platform - Windows & Linux build scripts (Zig version playable now)</li>
                     </ul>
                 </div>
             </div>
@@ -696,27 +696,27 @@
             
             <div class="implementation-grid">
                 <div class="impl-card">
-                    <h3>⚡ Zig Implementation</h3>
+                    <h3>⚡ Zig Implementation (Fully Playable)</h3>
                     <ul>
                         <li>Raylib graphics framework - Modern & lightweight</li>
-                        <li>High-performance native execution</li>
-                        <li>Zero-cost abstractions</li>
-                        <li>Manual memory management</li>
-                        <li>Compile-time optimizations</li>
-                        <li>Direct system access</li>
+                        <li>Complete game loop with state management</li>
+                        <li>Entity system: Player, Zombies, Lasers</li>
+                        <li>Wave-based combat with scaling difficulty</li>
+                        <li>Economy, upgrades, and ammo system</li>
+                        <li>Full UI/HUD with visual effects</li>
                         <li>Located: src/main/zig/</li>
                     </ul>
                 </div>
-                
+
                 <div class="impl-card">
-                    <h3>☕ Java Implementation</h3>
+                    <h3>☕ Java Implementation (In Development)</h3>
                     <ul>
                         <li>Swing/AWT windowing - Classic & reliable</li>
                         <li>Cross-platform JVM runtime</li>
-                        <li>Automatic memory management</li>
-                        <li>Mature ecosystem</li>
-                        <li>Easy debugging</li>
+                        <li>OS detection and logging utilities</li>
+                        <li>Foundation for future game port</li>
                         <li>Familiar Java tooling</li>
+                        <li>Currently a stub - run Zig version to play</li>
                         <li>Located: src/main/java/</li>
                     </ul>
                 </div>
@@ -727,9 +727,9 @@
                 <div class="tech-badge highlight">Java 8+</div>
                 <div class="tech-badge highlight">Raylib</div>
                 <div class="tech-badge">Swing/AWT</div>
-                <div class="tech-badge">K2DBody</div>
-                <div class="tech-badge">LocalSys</div>
-                <div class="tech-badge">Window.o</div>
+                <div class="tech-badge">Engine</div>
+                <div class="tech-badge">Raylib-Zig</div>
+                <div class="tech-badge">GameState</div>
                 <div class="tech-badge">Apache 2.0</div>
             </div>
             
@@ -823,8 +823,8 @@
             <div style="margin-top: 30px; padding: 20px; background: rgba(138, 43, 226, 0.1); border-left: 3px solid #00ff7f;">
                 <h3 style="color: #00ff7f; margin-bottom: 10px; font-size: 1.2em;">📁 Key Directories</h3>
                 <p style="line-height: 1.8; color: #e0b3ff;">
-                    <strong style="color: #ff69b4;">src/main/java/</strong> - New Java foundation (v0.5 rewrite)<br>
-                    <strong style="color: #ff69b4;">src/main/zig/</strong> - New Zig + Raylib implementation (v0.5 rewrite)<br>
+                    <strong style="color: #ff69b4;">src/main/zig/</strong> - Zig + Raylib implementation (fully playable)<br>
+                    <strong style="color: #ff69b4;">src/main/java/</strong> - Java foundation (stub, in development)<br>
                     <strong style="color: #ff0064;">src/main/archived/java/</strong> - Original complete game (fully playable)<br>
                     <strong style="color: #00ff7f;">scripts/</strong> - Interactive build scripts (winbuild.bat, lxbuild.sh)<br>
                     <strong style="color: #ba55d3;">res/</strong> - Game assets and resources (images, graphics)<br>
@@ -856,7 +856,7 @@
                 A personal zombie survival game composed of blocks.
             </p>
             <p style="color: #00ff7f; margin: 10px 0; font-size: 1.1em;">
-                Now with dual Zig + Raylib & Java + Swing implementations
+                Zig + Raylib version fully playable | Java version in development
             </p>
             <p style="color: #666; margin: 10px 0;">
                 Developed by cjRem44x
