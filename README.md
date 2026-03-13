@@ -1,4 +1,4 @@
-# JZBlock
+# 🧟 JZBlock 🔫
 
 **A personal zombie survival game composed of blocks**
 
