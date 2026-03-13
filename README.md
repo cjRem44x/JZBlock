@@ -6,6 +6,12 @@
 
 JZBlock is a top-down zombie survival game where players fight off waves of zombies using laser weapons. Version 0.5 represents a complete architectural rewrite, now featuring **dual language implementations** in both Java and Zig, giving developers the choice between JVM portability and native performance.
 
+<p align="center">
+  <img src="res/readme/readme3.png" width="1389">
+  <br>
+  <em>Project Logo</em>
+</p>
+
 ## ✨ Features
 
 ### Gameplay (Zig Version - Fully Playable)
