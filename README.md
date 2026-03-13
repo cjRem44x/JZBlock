@@ -9,7 +9,6 @@ JZBlock is a top-down zombie survival game where players fight off waves of zomb
 <p align="center">
   <img src="res/readme/readme3.png" width="1389">
   <br>
-  <em>Project Logo</em>
 </p>
 
 ## ✨ Features
