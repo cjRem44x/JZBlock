@@ -14,16 +14,25 @@ JZBlock is a top-down zombie survival game where players fight off waves of zomb
 ## ✨ Features
 
 ### Gameplay (Zig Version - Fully Playable)
+
 - 🔫 **Laser Combat System** - Neon projectiles with glow effects and fire rate upgrades
 - 🧟 **Wave-Based Survival** - Increasingly difficult zombie hordes (health scales per wave)
+- 💀 **Boss Tier System** - Three boss tiers with unique pixel-art faces, HP bars, and scaling rewards
+  - 🟢 **Basic Boss** (wave 8+) — green, angular eyes, jagged grin
+  - 🟣 **Medium Boss** (wave 15+) — purple, diamond eyes, fanged mouth
+  - 🔴 **Hard Boss** (wave 20+) — near-black skull with red X-eyes and glow border
+- 🎰 **Rando Racing** - Gambling minigame accessible from the pause screen; bet currency on 8-lane rainbow races for multiplied payouts
+- 🩸 **Blood Effects** - Splatter particles on hit, persistent fading blood pools on death
 - 🎯 **Top-Down Tactical Gameplay** - Strategic positioning matters
-- 💊 **Health & Ammo Management** - Magazine reloading, periodic healing drops
+- 💊 **Health & Ammo Management** - Magazine reloading, periodic healing
 - 🎮 **Game States** - Main menu, settings, in-game, paused, and game over
 - 💰 **Economy & Upgrades** - Earn currency from kills, upgrade fire rate and damage
 - ⚡ **Speed Boost** - Rechargeable speed boost system
-- 🎨 **Visual Effects** - Entity shadows, ambient lighting, grid backgrounds, glow effects
+- 🖥️ **Full Resolution Scaling** - All entities, UI, and effects scale to any monitor at runtime; launches fullscreen
+- 🎨 **Visual Effects** - Entity shadows, ambient lighting, grid backgrounds, neon glow effects
 
 ### Technical Architecture
+
 - ⚡ **Dual Language Support** - Choose between Zig (performance) or Java (portability)
 - 🎨 **Raylib Graphics** (Zig) - Modern, lightweight graphics framework
 - 🖼️ **Swing/AWT** (Java) - Classic cross-platform windowing
@@ -35,6 +44,7 @@ JZBlock is a top-down zombie survival game where players fight off waves of zomb
 ### Version 0.5
 
 The v0.5 release is a **complete rewrite** with:
+
 - **Zig + Raylib** as the primary, fully playable implementation
 - **Java + Swing** as a secondary implementation (currently a stub, in development)
 - Clean, modular architecture with centralized configuration
@@ -42,24 +52,26 @@ The v0.5 release is a **complete rewrite** with:
 
 ### Implementation Comparison
 
-| Feature | Zig Implementation | Java Implementation |
-|---------|-------------------|---------------------|
-| **Status** | Fully playable | Stub (in development) |
-| **Graphics** | Raylib | Swing/AWT (planned) |
-| **Performance** | Native, zero-cost abstractions | JVM runtime |
-| **Memory** | Manual management | Automatic GC |
-| **Platform** | Compiled binaries | Cross-platform JVM |
-| **Build** | `build.zig` | Standard `javac` |
+| Feature         | Zig Implementation             | Java Implementation   |
+| --------------- | ------------------------------ | --------------------- |
+| **Status**      | Fully playable                 | Stub (in development) |
+| **Graphics**    | Raylib                         | Swing/AWT (planned)   |
+| **Performance** | Native, zero-cost abstractions | JVM runtime           |
+| **Memory**      | Manual management              | Automatic GC          |
+| **Platform**    | Compiled binaries              | Cross-platform JVM    |
+| **Build**       | `build.zig`                    | Standard `javac`      |
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
 **For Java Build:**
+
 - Java Development Kit (JDK) 8 or later
 - Any Java-compatible platform (Windows, Linux, macOS)
 
 **For Zig Build:**
+
 - [Zig Compiler](https://ziglang.org/download/) (latest version)
 - Raylib (automatically managed by build.zig)
 
@@ -76,6 +88,7 @@ winbuild.bat
 ```
 
 The script will prompt you to choose:
+
 1. **Java** - Build using Java/Swing
 2. **Zig** - Build using Zig/Raylib
 
@@ -93,6 +106,7 @@ chmod +x lxbuild.sh
 ```
 
 The script will prompt you to choose:
+
 1. **Java** - Build using Java/Swing
 2. **Zig** - Build using Zig/Raylib
 
@@ -116,6 +130,7 @@ chmod +x lxbuild.sh
 ### Version 0.5 (Current)
 
 **Zig Implementation (Fully Playable):**
+
 - [x] Set up dual-language architecture
 - [x] Implement Zig build system with Raylib
 - [x] Establish build scripts for both implementations
@@ -131,8 +146,14 @@ chmod +x lxbuild.sh
 - [x] Menu system (main menu, settings, pause)
 - [x] Economy system (kill rewards, weapon upgrades)
 - [x] Countdown system between waves
+- [x] Three-tier boss system with unique faces, HP bars, and scaled rewards
+- [x] Blood particle and pool effects
+- [x] Rando Racing gambling minigame (pause screen)
+- [x] Full resolution scaling — all entities, UI, and effects adapt to monitor size
+- [x] Fullscreen launch with `--log` CLI debug flag
 
 **Java Implementation (Stub):**
+
 - [x] Create modular Java foundation
 - [x] OS detection utilities
 - [x] Logging utility
@@ -141,11 +162,13 @@ chmod +x lxbuild.sh
 - [ ] Add Swing/AWT rendering pipeline
 
 ### Version 0.6 (Planned)
+
 - [ ] Sound effects and music
 - [ ] Settings screen implementation (currently placeholder)
 - [ ] Java implementation feature parity with Zig
 
 ### Version 1.0 (Future)
+
 - [ ] Additional weapons and enemies
 - [ ] Level system
 - [ ] Save/load functionality
@@ -154,18 +177,21 @@ chmod +x lxbuild.sh
 ## 🛠️ Technology Stack
 
 ### Zig Implementation
+
 - **Language:** [Zig](https://ziglang.org/)
 - **Graphics:** [Raylib](https://www.raylib.com/)
 - **Build System:** Zig build system
 - **Focus:** Performance, native execution
 
 ### Java Implementation
+
 - **Language:** Java 8+
 - **Graphics:** Swing/AWT
 - **Build System:** Standard Java compilation
 - **Focus:** Cross-platform compatibility, ease of development
 
 ### Archived Version (Original)
+
 - **Language:** Pure Java
 - **Graphics:** Custom Swing/AWT rendering
 - **Features:** Complete game with all mechanics
@@ -208,31 +234,33 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ## 🎮 Game Controls (Zig Version)
 
-| Action | Key |
-|--------|-----|
-| Move Up | W |
-| Move Down | S |
-| Move Left | A |
-| Move Right | D |
-| Shoot Up | Up Arrow |
-| Shoot Down | Down Arrow |
-| Shoot Left | Left Arrow |
-| Shoot Right | Right Arrow |
-| Reload | CTRL |
-| Upgrade Weapon | U |
-| Speed Boost | SPACE |
-| Pause / Resume | ESC |
-| Restart (Game Over) | R |
+| Action                     | Key         |
+| -------------------------- | ----------- |
+| Move Up                    | W           |
+| Move Down                  | S           |
+| Move Left                  | A           |
+| Move Right                 | D           |
+| Shoot Up                   | Up Arrow    |
+| Shoot Down                 | Down Arrow  |
+| Shoot Left                 | Left Arrow  |
+| Shoot Right                | Right Arrow |
+| Reload                     | CTRL        |
+| Upgrade Weapon             | U           |
+| Speed Boost                | SPACE       |
+| Pause / Resume             | ESC         |
+| Restart (Game Over)        | R           |
+| Open Rando Racing (Paused) | B           |
 
 ## 🐛 Known Issues
 
 - Java v0.5 implementation is a stub — run the Zig version for the full game experience
 - Settings screen is a placeholder (controls display only)
 - Archived version may have platform-specific rendering quirks
+- `--log` flag must be passed at launch; there is no in-game toggle yet
 
 ## 📧 Contact
 
-**Developer:** cjRem44x  
+**Developer:** cjRem44x
 **Repository:** [github.com/cjRem44x/JZBlock](https://github.com/cjRem44x/JZBlock)
 
 ## 🙏 Acknowledgments
@@ -243,7 +271,7 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENS
 
 ---
 
-**Status:** 🎮 Zig version playable | Java version in development (v0.5)
+**Status:** 🎮 Zig version playable | Java version in development (v0.5) | Bosses, blood, and gambling added
 **Language:** Zig (primary) & Java (in progress)
 **Platform:** Cross-platform (Windows, Linux)
 **Graphics:** Raylib (Zig) | Swing/AWT (Java — planned)
