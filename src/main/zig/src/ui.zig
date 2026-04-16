@@ -407,6 +407,13 @@ pub const UI = struct {
         // Draw buttons
         self.resume_button.draw();
         self.menu_button.draw();
+
+        // Rando Racing hint
+        const rando_hint = "[B] Rando Racing";
+        const rando_width = rl.measureText(rando_hint, 22);
+        rl.drawText(rando_hint,
+            @divTrunc(config.SCREEN_WIDTH - rando_width, 2),
+            config.SCREEN_HEIGHT - 60, 22, config.CURRENCY_COLOR);
     }
 
     fn drawAmbientGlow(self: *UI) void {

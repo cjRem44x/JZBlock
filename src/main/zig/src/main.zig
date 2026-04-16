@@ -27,6 +27,7 @@ const Menu = @import("menu.zig").Menu;
 const Settings = @import("menu.zig").Settings;
 const UI = @import("ui.zig").UI;
 const drawBackgroundEffects = @import("ui.zig").drawBackgroundEffects;
+const RandoRacing = @import("rando_racing.zig").RandoRacing;
 
 pub fn main() !void {
     // Initialize Raylib window
@@ -71,6 +72,9 @@ pub fn main() !void {
         }
     }
 
+    // Rando Racing gambling minigame (available from pause screen)
+    var rando = RandoRacing.init();
+
     // Main game loop
     while (!rl.windowShouldClose()) {
         const delta = rl.getFrameTime();
@@ -103,8 +107,12 @@ pub fn main() !void {
             },
 
             .paused => {
-                // Handle pause menu buttons (Resume, Main Menu)
-                ui.updatePaused(&game_state);
+                if (rando.isOpen()) {
+                    if (engine) |*e| rando.update(delta, &e.currency);
+                } else {
+                    ui.updatePaused(&game_state);
+                    if (rl.isKeyPressed(.b)) rando.open();
+                }
             },
 
             .game_over => {
@@ -149,6 +157,7 @@ pub fn main() !void {
                 }
 
                 ui.drawPaused();
+                rando.draw(config.SCREEN_WIDTH, config.SCREEN_HEIGHT);
             },
 
             .game_over => {
