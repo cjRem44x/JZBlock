@@ -2,8 +2,9 @@
 // Blood splatter particles (on hit) and blood pools (on death).
 // Both are fixed-size arrays — no allocator needed.
 
-const std = @import("std");
-const rl  = @import("raylib");
+const std    = @import("std");
+const rl     = @import("raylib");
+const config = @import("config.zig");
 
 // ── Tunables ──────────────────────────────────────────────────────────────────
 
@@ -66,7 +67,7 @@ pub const BloodSystem = struct {
             if (!p.active) continue;
             p.x  += p.vx * delta;
             p.y  += p.vy * delta;
-            p.vy += GRAVITY * delta;
+            p.vy += config.phf(GRAVITY) * delta;
             p.life -= delta;
             if (p.life <= 0) p.active = false;
         }
@@ -84,15 +85,17 @@ pub const BloodSystem = struct {
         var spawned: u8 = 0;
         for (&self.particles) |*p| {
             if (p.active or spawned >= count) continue;
-            const angle = rand.float(f32) * std.math.pi * 2.0;
-            const speed = PARTICLE_SPEED_MIN + rand.float(f32) * (PARTICLE_SPEED_MAX - PARTICLE_SPEED_MIN);
-            const life  = PARTICLE_LIFE_MIN  + rand.float(f32) * (PARTICLE_LIFE_MAX  - PARTICLE_LIFE_MIN);
+            const angle   = rand.float(f32) * std.math.pi * 2.0;
+            const spd_min = config.pwf(PARTICLE_SPEED_MIN);
+            const spd_max = config.pwf(PARTICLE_SPEED_MAX);
+            const speed   = spd_min + rand.float(f32) * (spd_max - spd_min);
+            const life    = PARTICLE_LIFE_MIN + rand.float(f32) * (PARTICLE_LIFE_MAX - PARTICLE_LIFE_MIN);
             p.* = .{
-                .x        = cx + (rand.float(f32) - 0.5) * 10.0,
-                .y        = cy + (rand.float(f32) - 0.5) * 10.0,
+                .x        = cx + (rand.float(f32) - 0.5) * config.pwf(10.0),
+                .y        = cy + (rand.float(f32) - 0.5) * config.pwf(10.0),
                 .vx       = @cos(angle) * speed,
-                .vy       = @sin(angle) * speed - 40.0,  // slight upward bias
-                .size     = 2.0 + rand.float(f32) * 5.0,
+                .vy       = @sin(angle) * speed - config.phf(40.0),  // slight upward bias
+                .size     = config.pwf(2.0) + rand.float(f32) * config.pwf(5.0),
                 .life     = life,
                 .max_life = life,
                 .active   = true,

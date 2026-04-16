@@ -19,15 +19,21 @@
 // damage values, and balance parameters. ALL tweakable values live here.
 // ============================================================================
 
-const rl = @import("raylib");
+const std = @import("std");
+const rl  = @import("raylib");
 
 // ===========================
 // WINDOW SETTINGS
 // ===========================
 pub const GAME_TITLE = "JZBlock";
-pub const SCREEN_WIDTH: i32 = 1400;
-pub const SCREEN_HEIGHT: i32 = 900;
+/// Runtime vars — set from monitor at startup, then used by pw/ph everywhere.
+pub var SCREEN_WIDTH:  i32 = 1400;
+pub var SCREEN_HEIGHT: i32 = 900;
 pub const FPS: i32 = 60;
+
+/// Design baseline (original 1400×900 window).
+pub const BASE_W: f32 = 1400.0;
+pub const BASE_H: f32 = 900.0;
 
 // ===========================
 // ENTITY SIZES
@@ -265,7 +271,18 @@ pub const BOSS_HP_FILL   = rl.Color{ .r = 255, .g = 55, .b = 0,  .a = 255 };
 pub const BOSS_HP_BORDER = rl.Color{ .r = 90,  .g = 10, .b = 0,  .a = 200 };
 
 // =============================================================================
-// SCALE HELPERS (1920x1080 baseline)
+// SCALE HELPERS  (all sizes expressed at the 1400×900 design baseline)
 // =============================================================================
-pub fn pw(n: f32) i32 { return @intFromFloat(n * 1400.0 / 1920.0); }
-pub fn ph(n: f32) i32 { return @intFromFloat(n * 900.0  / 1080.0); }
+pub fn pwf(n: f32) f32 { return n * @as(f32, @floatFromInt(SCREEN_WIDTH))  / BASE_W; }
+pub fn phf(n: f32) f32 { return n * @as(f32, @floatFromInt(SCREEN_HEIGHT)) / BASE_H; }
+pub fn pw(n: f32)  i32 { return @intFromFloat(pwf(n)); }
+pub fn ph(n: f32)  i32 { return @intFromFloat(phf(n)); }
+
+// =============================================================================
+// LOGGING TOGGLE
+// =============================================================================
+pub var log_enabled: bool = false;
+
+pub fn log(comptime fmt: []const u8, args: anytype) void {
+    if (log_enabled) std.debug.print(fmt, args);
+}

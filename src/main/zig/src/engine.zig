@@ -345,7 +345,7 @@ pub const Engine = struct {
     }
 
     fn drawShadows(self: *const Engine) void {
-        const shadow_offset: i32 = 6;
+        const shadow_offset: i32 = config.pw(6);
         const shadow_color = config.ENTITY_SHADOW;
 
         rl.drawRectangle(
@@ -367,7 +367,7 @@ pub const Engine = struct {
     }
 
     fn drawPlayerGlow(self: *const Engine) void {
-        const glow_size: i32 = 4;
+        const glow_size: i32 = config.pw(4);
         rl.drawRectangle(
             @as(i32, @intFromFloat(self.player.x)) - glow_size,
             @as(i32, @intFromFloat(self.player.y)) - glow_size,

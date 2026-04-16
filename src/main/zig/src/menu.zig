@@ -60,20 +60,22 @@ pub const Button = struct {
         rl.drawRectangle(self.x, self.y, self.width, self.height, bg_color);
 
         // Draw button border with glow when hovered
+        const gp = config.pw(2);
         if (self.hovered) {
-            rl.drawRectangle(self.x - 2, self.y - 2, self.width + 4, self.height + 4, config.MENU_BUTTON_GLOW);
+            rl.drawRectangle(self.x - gp, self.y - gp, self.width + gp * 2, self.height + gp * 2, config.MENU_BUTTON_GLOW);
         }
         rl.drawRectangleLines(self.x, self.y, self.width, self.height, config.MENU_TEXT_COLOR);
 
         // Draw button text (centered)
-        const text_width = rl.measureText(self.text, 30);
+        const fsz = config.ph(30);
+        const text_width = rl.measureText(self.text, fsz);
         const text_x = self.x + @divTrunc(self.width - text_width, 2);
-        const text_y = self.y + @divTrunc(self.height - 30, 2);
+        const text_y = self.y + @divTrunc(self.height - fsz, 2);
 
         // Shadow
-        rl.drawText(self.text, text_x + 2, text_y + 2, 30, config.SHADOW_COLOR);
+        rl.drawText(self.text, text_x + 2, text_y + 2, fsz, config.SHADOW_COLOR);
         // Main text
-        rl.drawText(self.text, text_x, text_y, 30, config.MENU_TEXT_COLOR);
+        rl.drawText(self.text, text_x, text_y, fsz, config.MENU_TEXT_COLOR);
     }
 };
 
@@ -85,11 +87,11 @@ pub const Menu = struct {
     texture_loaded: bool,
 
     pub fn init() Menu {
-        const button_width: i32 = 250;
-        const button_height: i32 = 55;
+        const button_width: i32 = config.pw(250);
+        const button_height: i32 = config.ph(55);
         const center_x = @divTrunc(config.SCREEN_WIDTH - button_width, 2);
-        const button_spacing: i32 = 70;
-        const start_y: i32 = 450;
+        const button_spacing: i32 = config.ph(70);
+        const start_y: i32 = config.ph(450);
 
         // Try to load the background image
         const texture = rl.loadTexture("../../../res/img/main_menu_img.png") catch {
@@ -158,23 +160,25 @@ pub const Menu = struct {
         }
 
         // Title with glow effect
+        const t_fsz = config.ph(120);
         const title = "JZBlock";
-        const title_width = rl.measureText(title, 120);
+        const title_width = rl.measureText(title, t_fsz);
         const title_x = @divTrunc(config.SCREEN_WIDTH - title_width, 2);
-        const title_y: i32 = 100;
+        const title_y: i32 = config.ph(100);
 
         // Glow layers
-        rl.drawText(title, title_x - 3, title_y - 3, 120, config.MENU_TITLE_GLOW);
-        rl.drawText(title, title_x + 3, title_y + 3, 120, config.SHADOW_COLOR);
+        rl.drawText(title, title_x - 3, title_y - 3, t_fsz, config.MENU_TITLE_GLOW);
+        rl.drawText(title, title_x + 3, title_y + 3, t_fsz, config.SHADOW_COLOR);
         // Main title
-        rl.drawText(title, title_x, title_y, 120, config.PLAYER_COLOR);
+        rl.drawText(title, title_x, title_y, t_fsz, config.PLAYER_COLOR);
 
         // Subtitle
+        const s_fsz = config.ph(35);
         const subtitle = "Zombie Survival";
-        const subtitle_width = rl.measureText(subtitle, 35);
+        const subtitle_width = rl.measureText(subtitle, s_fsz);
         const sub_x = @divTrunc(config.SCREEN_WIDTH - subtitle_width, 2);
-        rl.drawText(subtitle, sub_x + 2, 232, 35, config.SHADOW_COLOR);
-        rl.drawText(subtitle, sub_x, 230, 35, config.ZOMBIE_COLOR);
+        rl.drawText(subtitle, sub_x + 2, config.ph(232), s_fsz, config.SHADOW_COLOR);
+        rl.drawText(subtitle, sub_x, config.ph(230), s_fsz, config.ZOMBIE_COLOR);
 
         // Draw buttons
         self.play_button.draw();
@@ -182,9 +186,10 @@ pub const Menu = struct {
         self.quit_button.draw();
 
         // Version/credits at bottom
+        const v_fsz = config.ph(18);
         const version = "v0.5 - Zig Edition";
-        const ver_width = rl.measureText(version, 18);
-        rl.drawText(version, @divTrunc(config.SCREEN_WIDTH - ver_width, 2), config.SCREEN_HEIGHT - 30, 18, config.MENU_VERSION_COLOR);
+        const ver_width = rl.measureText(version, v_fsz);
+        rl.drawText(version, @divTrunc(config.SCREEN_WIDTH - ver_width, 2), config.SCREEN_HEIGHT - config.ph(30), v_fsz, config.MENU_VERSION_COLOR);
     }
 };
 
@@ -193,11 +198,11 @@ pub const Settings = struct {
     back_button: Button,
 
     pub fn init() Settings {
-        const button_width: i32 = 200;
-        const button_height: i32 = 50;
+        const button_width: i32 = config.pw(200);
+        const button_height: i32 = config.ph(50);
 
         return .{
-            .back_button = Button.init(50, config.SCREEN_HEIGHT - 80, button_width, button_height, "Back"),
+            .back_button = Button.init(config.pw(50), config.SCREEN_HEIGHT - config.ph(80), button_width, button_height, "Back"),
         };
     }
 
@@ -211,19 +216,22 @@ pub const Settings = struct {
         rl.clearBackground(config.MENU_BG);
 
         // Title
+        const t_fsz = config.ph(80);
         const title = "Settings";
-        const title_width = rl.measureText(title, 80);
-        rl.drawText(title, @divTrunc(config.SCREEN_WIDTH - title_width, 2), 60, 80, config.MENU_TEXT_COLOR);
+        const title_width = rl.measureText(title, t_fsz);
+        rl.drawText(title, @divTrunc(config.SCREEN_WIDTH - title_width, 2), config.ph(60), t_fsz, config.MENU_TEXT_COLOR);
 
         // Placeholder text
+        const p_fsz = config.ph(30);
         const placeholder = "Settings coming soon...";
-        const ph_width = rl.measureText(placeholder, 30);
-        rl.drawText(placeholder, @divTrunc(config.SCREEN_WIDTH - ph_width, 2), @divTrunc(config.SCREEN_HEIGHT, 2), 30, config.KEYBINDS_COLOR);
+        const ph_width = rl.measureText(placeholder, p_fsz);
+        rl.drawText(placeholder, @divTrunc(config.SCREEN_WIDTH - ph_width, 2), @divTrunc(config.SCREEN_HEIGHT, 2), p_fsz, config.KEYBINDS_COLOR);
 
         // Controls info
+        const ct_fsz = config.ph(25);
         const controls_title = "Current Controls:";
-        const ct_width = rl.measureText(controls_title, 25);
-        rl.drawText(controls_title, @divTrunc(config.SCREEN_WIDTH - ct_width, 2), 250, 25, config.MENU_TEXT_COLOR);
+        const ct_width = rl.measureText(controls_title, ct_fsz);
+        rl.drawText(controls_title, @divTrunc(config.SCREEN_WIDTH - ct_width, 2), config.ph(250), ct_fsz, config.MENU_TEXT_COLOR);
 
         const controls = [_][:0]const u8{
             "Move: [W][A][S][D]",
@@ -234,11 +242,12 @@ pub const Settings = struct {
             "Pause: [ESC]",
         };
 
+        const c_fsz = config.ph(22);
         for (controls, 0..) |text, i| {
-            const text_width = rl.measureText(text, 22);
+            const text_width = rl.measureText(text, c_fsz);
             const x = @divTrunc(config.SCREEN_WIDTH - text_width, 2);
-            const y: i32 = 290 + @as(i32, @intCast(i)) * 30;
-            rl.drawText(text, x, y, 22, config.KEYBINDS_COLOR);
+            const y: i32 = config.ph(290) + @as(i32, @intCast(i)) * config.ph(30);
+            rl.drawText(text, x, y, c_fsz, config.KEYBINDS_COLOR);
         }
 
         self.back_button.draw();

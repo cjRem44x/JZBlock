@@ -27,13 +27,14 @@ pub const Zombie = struct {
     pub fn init(rand: std.Random) Zombie {
         const screen_w: f32 = @floatFromInt(config.SCREEN_WIDTH);
         const screen_h: f32 = @floatFromInt(config.SCREEN_HEIGHT);
+        const sz = config.pwf(config.ZOMBIE_SIZE);
         return .{
-            .x             = rand.float(f32) * (screen_w - config.ZOMBIE_SIZE),
-            .y             = rand.float(f32) * (screen_h - config.ZOMBIE_SIZE),
-            .size          = config.ZOMBIE_SIZE,
+            .x             = rand.float(f32) * (screen_w - sz),
+            .y             = rand.float(f32) * (screen_h - sz),
+            .size          = sz,
             .health        = config.ZOMBIE_HEALTH,
             .max_health    = config.ZOMBIE_HEALTH,
-            .speed         = config.ZOMBIE_SPEED,
+            .speed         = config.pwf(config.ZOMBIE_SPEED),
             .color         = config.ZOMBIE_COLOR,
             .is_dead       = false,
             .last_hit_time = config.ZOMBIE_HIT_COOLDOWN,
@@ -58,24 +59,24 @@ pub const Zombie = struct {
                 z.health      = config.ZOMBIE_HEALTH * config.BOSS_BASIC_HP_MUL + extra_health;
                 z.damage      = @intFromFloat(@as(f32, config.ZOMBIE_DAMAGE) * config.BOSS_BASIC_DMG_MUL);
                 z.kill_reward = config.KILL_REWARD * config.BOSS_BASIC_CASH_MUL;
-                z.size        = config.BOSS_BASIC_SIZE;
-                z.speed       = config.BOSS_BASIC_SPEED;
+                z.size        = config.pwf(config.BOSS_BASIC_SIZE);
+                z.speed       = config.pwf(config.BOSS_BASIC_SPEED);
                 z.color       = config.BOSS_BASIC_COLOR;
             },
             .medium => {
                 z.health      = config.ZOMBIE_HEALTH * config.BOSS_MED_HP_MUL + extra_health;
                 z.damage      = @intFromFloat(@as(f32, config.ZOMBIE_DAMAGE) * config.BOSS_MED_DMG_MUL);
                 z.kill_reward = config.KILL_REWARD * config.BOSS_MED_CASH_MUL;
-                z.size        = config.BOSS_MED_SIZE;
-                z.speed       = config.BOSS_MED_SPEED;
+                z.size        = config.pwf(config.BOSS_MED_SIZE);
+                z.speed       = config.pwf(config.BOSS_MED_SPEED);
                 z.color       = config.BOSS_MED_COLOR;
             },
             .hard => {
                 z.health      = config.ZOMBIE_HEALTH * config.BOSS_HARD_HP_MUL + extra_health;
                 z.damage      = @intFromFloat(@as(f32, config.ZOMBIE_DAMAGE) * config.BOSS_HARD_DMG_MUL);
                 z.kill_reward = config.KILL_REWARD * config.BOSS_HARD_CASH_MUL;
-                z.size        = config.BOSS_HARD_SIZE;
-                z.speed       = config.BOSS_HARD_SPEED;
+                z.size        = config.pwf(config.BOSS_HARD_SIZE);
+                z.speed       = config.pwf(config.BOSS_HARD_SPEED);
                 z.color       = config.BOSS_HARD_COLOR;
             },
             .none => {},
@@ -144,10 +145,10 @@ pub const Zombie = struct {
                 .hard   => config.BOSS_HARD_GLOW,
             };
             const g: i32 = switch (self.boss_tier) {
-                .none   => 3,
-                .basic  => 7,
-                .medium => 11,
-                .hard   => 16,
+                .none   => config.pw(3),
+                .basic  => config.pw(7),
+                .medium => config.pw(11),
+                .hard   => config.pw(16),
             };
             rl.drawRectangle(x - g, y - g, sz + g * 2, sz + g * 2, glow_col);
         }
@@ -156,8 +157,8 @@ pub const Zombie = struct {
 
         if (!self.is_dead) {
             // Highlight bevel
-            rl.drawRectangle(x, y, sz, 3, config.ZOMBIE_HIGHLIGHT);
-            rl.drawRectangle(x, y, 3, sz, config.ZOMBIE_HIGHLIGHT);
+            rl.drawRectangle(x, y, sz, config.ph(3), config.ZOMBIE_HIGHLIGHT);
+            rl.drawRectangle(x, y, config.pw(3), sz, config.ZOMBIE_HIGHLIGHT);
 
             // Boss border
             if (self.boss_tier != .none) {
@@ -352,8 +353,8 @@ pub const Zombie = struct {
     }
 
     fn drawHpBar(self: *const Zombie, x: i32, y: i32, sz: i32) void {
-        const bar_y   = y - 12;
-        const bar_h   = 6;
+        const bar_y   = y - config.ph(12);
+        const bar_h   = config.ph(6);
         const frac    = @max(0.0, @as(f32, @floatFromInt(self.health)) /
                                    @as(f32, @floatFromInt(self.max_health)));
         const filled: i32 = @intFromFloat(@as(f32, @floatFromInt(sz)) * frac);
