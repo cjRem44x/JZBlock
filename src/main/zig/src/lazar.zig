@@ -52,8 +52,8 @@ pub const Lazar = struct {
         return .{
             .x = start_x,
             .y = start_y,
-            .size = config.LAZAR_SIZE,
-            .speed = config.LAZAR_SPEED,
+            .size = config.pwf(config.LAZAR_SIZE),
+            .speed = config.pwf(config.LAZAR_SPEED),
             .direction = dir,
             .color = config.LAZAR_COLOR,
             .shadow_color = config.LAZAR_SHADOW,
@@ -79,19 +79,19 @@ pub const Lazar = struct {
 
         // Neon glow - multiple layers for intense effect
         // Outer glow (largest, most transparent)
-        const glow1: i32 = 12;
+        const glow1: i32 = config.pw(12);
         rl.drawRectangle(x - glow1, y - glow1, sz + glow1 * 2, sz + glow1 * 2, config.LAZAR_GLOW_OUTER);
 
         // Middle glow
-        const glow2: i32 = 8;
+        const glow2: i32 = config.pw(8);
         rl.drawRectangle(x - glow2, y - glow2, sz + glow2 * 2, sz + glow2 * 2, config.LAZAR_GLOW_MID);
 
         // Inner glow
-        const glow3: i32 = 4;
+        const glow3: i32 = config.pw(4);
         rl.drawRectangle(x - glow3, y - glow3, sz + glow3 * 2, sz + glow3 * 2, config.LAZAR_GLOW_INNER);
 
         // Draw neon trail based on direction
-        const trail_length: i32 = 20;
+        const trail_length: i32 = config.pw(20);
         const trail_width: i32 = sz - 2;
         switch (self.direction) {
             .up => {

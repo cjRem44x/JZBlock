@@ -19,15 +19,21 @@
 // damage values, and balance parameters. ALL tweakable values live here.
 // ============================================================================
 
-const rl = @import("raylib");
+const std = @import("std");
+const rl  = @import("raylib");
 
 // ===========================
 // WINDOW SETTINGS
 // ===========================
 pub const GAME_TITLE = "JZBlock";
-pub const SCREEN_WIDTH: i32 = 1400;
-pub const SCREEN_HEIGHT: i32 = 900;
+/// Runtime vars — set from monitor at startup, then used by pw/ph everywhere.
+pub var SCREEN_WIDTH:  i32 = 1400;
+pub var SCREEN_HEIGHT: i32 = 900;
 pub const FPS: i32 = 60;
+
+/// Design baseline (original 1400×900 window).
+pub const BASE_W: f32 = 1400.0;
+pub const BASE_H: f32 = 900.0;
 
 // ===========================
 // ENTITY SIZES
@@ -217,3 +223,66 @@ pub const RELOAD_GLOW = rl.Color{ .r = 200, .g = 255, .b = 200, .a = 50 };
 // UTILITY - Transparent black (for gradients)
 // =============================================================================
 pub const TRANSPARENT = rl.Color{ .r = 0, .g = 0, .b = 0, .a = 0 };
+
+// =============================================================================
+// BOSS TIERS
+// =============================================================================
+pub const BOSS_BASIC_START_WAVE: i32 = 8;
+pub const BOSS_BASIC_MAX:        i32 = 5;
+pub const BOSS_BASIC_HP_MUL:     i32 = 2;
+pub const BOSS_BASIC_DMG_MUL:    f32 = 1.5;
+pub const BOSS_BASIC_CASH_MUL:   i32 = 2;
+pub const BOSS_BASIC_SIZE:       f32 = 80.0;
+pub const BOSS_BASIC_SPEED:      f32 = 200.0;
+
+pub const BOSS_MED_START_WAVE:   i32 = 15;
+pub const BOSS_MED_MAX:          i32 = 3;
+pub const BOSS_MED_HP_MUL:       i32 = 4;
+pub const BOSS_MED_DMG_MUL:      f32 = 2.0;
+pub const BOSS_MED_CASH_MUL:     i32 = 4;
+pub const BOSS_MED_SIZE:         f32 = 100.0;
+pub const BOSS_MED_SPEED:        f32 = 170.0;
+
+pub const BOSS_HARD_START_WAVE:  i32 = 20;
+pub const BOSS_HARD_MAX:         i32 = 2;
+pub const BOSS_HARD_HP_MUL:      i32 = 8;
+pub const BOSS_HARD_DMG_MUL:     f32 = 4.0;
+pub const BOSS_HARD_CASH_MUL:    i32 = 8;
+pub const BOSS_HARD_SIZE:        f32 = 120.0;
+pub const BOSS_HARD_SPEED:       f32 = 140.0;
+
+// Boss colors
+pub const BOSS_BASIC_COLOR  = rl.Color{ .r = 30,  .g = 160, .b = 30,  .a = 255 }; // green
+pub const BOSS_BASIC_DEAD   = rl.Color{ .r = 10,  .g = 50,  .b = 10,  .a = 255 };
+pub const BOSS_BASIC_GLOW   = rl.Color{ .r = 40,  .g = 200, .b = 40,  .a = 45  };
+
+pub const BOSS_MED_COLOR    = rl.Color{ .r = 110, .g = 0,   .b = 180, .a = 255 }; // purple
+pub const BOSS_MED_DEAD     = rl.Color{ .r = 35,  .g = 0,   .b = 55,  .a = 255 };
+pub const BOSS_MED_GLOW     = rl.Color{ .r = 150, .g = 0,   .b = 240, .a = 55  };
+
+pub const BOSS_HARD_COLOR   = rl.Color{ .r = 8,   .g = 0,   .b = 0,   .a = 255 }; // near-black
+pub const BOSS_HARD_DEAD    = rl.Color{ .r = 4,   .g = 0,   .b = 0,   .a = 255 };
+pub const BOSS_HARD_GLOW    = rl.Color{ .r = 220, .g = 0,   .b = 0,   .a = 65  };
+pub const BOSS_HARD_OUTLINE = rl.Color{ .r = 220, .g = 0,   .b = 0,   .a = 255 }; // red border
+
+// Boss HP bar
+pub const BOSS_HP_BG     = rl.Color{ .r = 15,  .g = 0,  .b = 0,  .a = 220 };
+pub const BOSS_HP_FILL   = rl.Color{ .r = 255, .g = 55, .b = 0,  .a = 255 };
+pub const BOSS_HP_BORDER = rl.Color{ .r = 90,  .g = 10, .b = 0,  .a = 200 };
+
+// =============================================================================
+// SCALE HELPERS  (all sizes expressed at the 1400×900 design baseline)
+// =============================================================================
+pub fn pwf(n: f32) f32 { return n * @as(f32, @floatFromInt(SCREEN_WIDTH))  / BASE_W; }
+pub fn phf(n: f32) f32 { return n * @as(f32, @floatFromInt(SCREEN_HEIGHT)) / BASE_H; }
+pub fn pw(n: f32)  i32 { return @intFromFloat(pwf(n)); }
+pub fn ph(n: f32)  i32 { return @intFromFloat(phf(n)); }
+
+// =============================================================================
+// LOGGING TOGGLE
+// =============================================================================
+pub var log_enabled: bool = false;
+
+pub fn log(comptime fmt: []const u8, args: anytype) void {
+    if (log_enabled) std.debug.print(fmt, args);
+}

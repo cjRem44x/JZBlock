@@ -46,14 +46,15 @@ pub const Player = struct {
     pub fn init() Player {
         const screen_w: f32 = @floatFromInt(config.SCREEN_WIDTH);
         const screen_h: f32 = @floatFromInt(config.SCREEN_HEIGHT);
+        const sz = config.pwf(config.PLAYER_SIZE);
 
         return .{
-            .x = (screen_w / 2.0) - (config.PLAYER_SIZE / 2.0),
-            .y = (screen_h / 2.0) - (config.PLAYER_SIZE / 2.0),
-            .size = config.PLAYER_SIZE,
+            .x = (screen_w / 2.0) - (sz / 2.0),
+            .y = (screen_h / 2.0) - (sz / 2.0),
+            .size = sz,
             .health = config.PLAYER_HEALTH,
-            .speed = config.PLAYER_SPEED,
-            .base_speed = config.PLAYER_SPEED,
+            .speed = config.pwf(config.PLAYER_SPEED),
+            .base_speed = config.pwf(config.PLAYER_SPEED),
             .color = config.PLAYER_COLOR,
             .boost_active = false,
             .boost_timer = 0.0,
@@ -65,12 +66,13 @@ pub const Player = struct {
     pub fn reset(self: *Player) void {
         const screen_w: f32 = @floatFromInt(config.SCREEN_WIDTH);
         const screen_h: f32 = @floatFromInt(config.SCREEN_HEIGHT);
+        const sz = config.pwf(config.PLAYER_SIZE);
 
-        self.x = (screen_w / 2.0) - (config.PLAYER_SIZE / 2.0);
-        self.y = (screen_h / 2.0) - (config.PLAYER_SIZE / 2.0);
+        self.x = (screen_w / 2.0) - (sz / 2.0);
+        self.y = (screen_h / 2.0) - (sz / 2.0);
         self.health = config.PLAYER_HEALTH;
-        self.speed = config.PLAYER_SPEED;
-        self.base_speed = config.PLAYER_SPEED;
+        self.speed = config.pwf(config.PLAYER_SPEED);
+        self.base_speed = config.pwf(config.PLAYER_SPEED);
         self.boost_active = false;
         self.boost_timer = 0.0;
         self.recharge_timer = 0.0;
@@ -155,12 +157,13 @@ pub const Player = struct {
         rl.drawRectangle(x, y, sz, sz, self.color);
 
         // Draw highlight (top-left edge for 3D effect)
-        rl.drawRectangle(x, y, sz, 4, config.PLAYER_HIGHLIGHT);
-        rl.drawRectangle(x, y, 4, sz, config.PLAYER_HIGHLIGHT);
+        const b: i32 = config.pw(4);
+        rl.drawRectangle(x, y, sz, b, config.PLAYER_HIGHLIGHT);
+        rl.drawRectangle(x, y, b, sz, config.PLAYER_HIGHLIGHT);
 
         // Draw darker edge (bottom-right for 3D depth)
-        rl.drawRectangle(x, y + sz - 4, sz, 4, config.PLAYER_SHADOW);
-        rl.drawRectangle(x + sz - 4, y, 4, sz, config.PLAYER_SHADOW);
+        rl.drawRectangle(x, y + sz - b, sz, b, config.PLAYER_SHADOW);
+        rl.drawRectangle(x + sz - b, y, b, sz, config.PLAYER_SHADOW);
 
         // Draw face
         const eye_color = config.PLAYER_EYE_WHITE;

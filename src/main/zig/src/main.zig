@@ -27,12 +27,28 @@ const Menu = @import("menu.zig").Menu;
 const Settings = @import("menu.zig").Settings;
 const UI = @import("ui.zig").UI;
 const drawBackgroundEffects = @import("ui.zig").drawBackgroundEffects;
+const RandoRacing = @import("rando_racing.zig").RandoRacing;
 
 pub fn main() !void {
-    // Initialize Raylib window
+    // ── Window + resolution setup ─────────────────────────────────────────────
+    // Create a minimal window first so we can query the monitor, then resize.
     rl.initWindow(config.SCREEN_WIDTH, config.SCREEN_HEIGHT, config.GAME_TITLE);
     defer rl.closeWindow();
     rl.setTargetFPS(config.FPS);
+
+    {
+        const mon = rl.getCurrentMonitor();
+        const mw  = rl.getMonitorWidth(mon);
+        const mh  = rl.getMonitorHeight(mon);
+        if (mw > 0 and mh > 0) {
+            config.SCREEN_WIDTH  = mw;
+            config.SCREEN_HEIGHT = mh;
+            rl.setWindowSize(mw, mh);
+            rl.setWindowPosition(0, 0);
+            rl.toggleFullscreen();
+            config.log("window: {}×{}\n", .{ mw, mh });
+        }
+    }
 
     // Set window icon
     if (rl.loadImage("../../../res/img/icon.png")) |icon| {
@@ -45,6 +61,13 @@ pub fn main() !void {
     // Disable ESC closing the window (we use ESC for pause)
     rl.setExitKey(.null);
 
+    // ── Toggle logging from command line: --log ───────────────────────────────
+    for (std.os.argv[1..]) |arg| {
+        if (std.mem.eql(u8, std.mem.span(arg), "--log")) {
+            config.log_enabled = true;
+        }
+    }
+
     // Initialize allocator
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
@@ -53,7 +76,7 @@ pub fn main() !void {
     // Initialize game state
     var game_state: GameState = .main_menu;
 
-    // Initialize menu
+    // Initialize menu  (AFTER config.SCREEN_WIDTH/HEIGHT are set)
     var menu = Menu.init();
     defer menu.deinit();
 
@@ -70,6 +93,9 @@ pub fn main() !void {
             e.deinit();
         }
     }
+
+    // Rando Racing gambling minigame (available from pause screen)
+    var rando = RandoRacing.init();
 
     // Main game loop
     while (!rl.windowShouldClose()) {
@@ -103,8 +129,12 @@ pub fn main() !void {
             },
 
             .paused => {
-                // Handle pause menu buttons (Resume, Main Menu)
-                ui.updatePaused(&game_state);
+                if (rando.isOpen()) {
+                    if (engine) |*e| rando.update(delta, &e.currency);
+                } else {
+                    ui.updatePaused(&game_state);
+                    if (rl.isKeyPressed(.b)) rando.open();
+                }
             },
 
             .game_over => {
@@ -149,6 +179,7 @@ pub fn main() !void {
                 }
 
                 ui.drawPaused();
+                rando.draw(config.SCREEN_WIDTH, config.SCREEN_HEIGHT);
             },
 
             .game_over => {
